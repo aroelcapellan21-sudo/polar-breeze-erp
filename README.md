@@ -20,7 +20,9 @@ Todo desarrollo del ERP **debe basarse en estos documentos**. El código del sis
 ```
 polar-breeze-erp/
 ├── README.md
+├── CLAUDE.md
 ├── DECISIONES-ARQUITECTURALES.md
+├── resumenes/
 └── docs/
     ├── 00-MANIFIESTO-DEL-ERP.md
     ├── 00-PRINCIPIOS-DEL-ERP.md

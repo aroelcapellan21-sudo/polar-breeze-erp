@@ -16,7 +16,7 @@ Contenido:
 
 | Tipo | Descripción |
 |---|---|
-| Código | Texto corto, identificador de negocio único dentro de su alcance (empresa). Nunca se reutiliza una vez retirado (Artículo 1.3 de la Constitución). |
+| Código | Texto corto, identificador de negocio único dentro de su alcance (empresa). Nunca se reutiliza una vez retirado (Artículo 9.3 de la Constitución). |
 | Texto corto | Cadena breve (nombres, descripciones cortas). |
 | Texto largo | Cadena extensa (motivos, justificaciones, observaciones). |
 | Número entero | Cantidad sin decimales (unidades de producto, versión). |
@@ -261,7 +261,7 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 
 | Campo | Tipo | Obligatorio | Descripción |
 |---|---|---|---|
-| `código` (número de factura) | Código | Sí | Nunca reutilizable, incluso si la factura se anula (Artículo 1.3). |
+| `código` (número de factura) | Código | Sí | Nunca reutilizable, incluso si la factura se anula (Artículo 9.3). |
 | `vendedor` | Referencia (a Vendedor) | Sí | Vendedor asociado. |
 | `líneas` | Lista de (Referencia a Producto + cantidad + precio) | Sí, al menos una línea | Detalle de la venta. |
 | `total` | Monto | Sí | Suma de las líneas. |

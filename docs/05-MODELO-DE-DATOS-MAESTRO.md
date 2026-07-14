@@ -18,7 +18,7 @@ Toda entidad de este modelo respeta:
 
 - **`empresaId`** — obligatorio en toda entidad, salvo el catálogo de Empresas y la Configuración de Plataforma (Artículo 2.2 de la Constitución).
 - **`sucursalId`** — obligatorio en toda entidad que opera a nivel de sede física, cuarto frío, vehículo o punto de despacho (Artículo 2.3).
-- **Código como clave de negocio** — nunca el nombre (Principio 1 de `00-PRINCIPIOS-DEL-ERP.md`). Un código, una vez asignado, no se reutiliza (Artículo 1.3 de la Constitución).
+- **Código como clave de negocio** — nunca el nombre (Principio 1 de `00-PRINCIPIOS-DEL-ERP.md`). Un código, una vez asignado, no se reutiliza (Artículo 9.3 de la Constitución).
 - **Soft delete** — ninguna entidad se elimina físicamente; se marca inactiva/anulada y se conserva (Artículo 9 de la Constitución).
 - **Auditoría implícita** — toda entidad hereda los campos mínimos de trazabilidad: usuario creador, timestamp de creación, último evento aplicado (Artículo 7 y 8 de la Constitución).
 - **Versión** — toda entidad configurable o normativa (catálogos de reglas, clasificaciones) lleva número de versión (Artículo 11 de la Constitución).
@@ -174,7 +174,7 @@ Dos entidades distintas y ambas obligatorias (Artículo 21.3 de la Constitución
 
 Documento inmutable una vez aprobado (Artículo 14.1 de la Constitución).
 
-- Campos conceptuales: código (número de factura, nunca reutilizable — Artículo 1.3), `empresaId`, `sucursalId`, `Vendedor`, líneas de `Producto` + cantidad + precio, total, estado (aprobada / anulada por nota de crédito).
+- Campos conceptuales: código (número de factura, nunca reutilizable — Artículo 9.3), `empresaId`, `sucursalId`, `Vendedor`, líneas de `Producto` + cantidad + precio, total, estado (aprobada / anulada por nota de crédito).
 
 ### NotaCredito
 

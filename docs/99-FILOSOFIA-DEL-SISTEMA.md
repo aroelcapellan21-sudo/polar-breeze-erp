@@ -32,7 +32,7 @@ Un equipo de desarrollo —humano o asistido por IA— olvida. Las personas rota
 
 La decisión de nacer multiempresa (`02-CONSTITUCION-ERP.md`, Artículo 2) no es una preferencia técnica: es una postura filosófica sobre el tiempo. Un sistema que asume que siempre será pequeño, tarde o temprano, traiciona esa asunción — y el costo de esa traición lo paga quien tenga que reescribirlo bajo presión, con datos reales de por medio.
 
-Diseñar para el tamaño futuro no significa sobre-construir para escenarios improbables (ver la regla de no añadir abstracción prematura en `09-ESTANDARES-DE-DESARROLLO.md`). Significa identificar las pocas decisiones —como la partición por `empresaId`— que son baratas de tomar hoy y extremadamente caras de deshacer después, y tomarlas bien desde la primera línea de documentación.
+Diseñar para el tamaño futuro no significa sobre-construir para escenarios improbables. Significa identificar las pocas decisiones —como la partición por `empresaId`— que son baratas de tomar hoy y extremadamente caras de deshacer después, y tomarlas bien desde la primera línea de documentación.
 
 ## 5. Humildad Arquitectónica
 

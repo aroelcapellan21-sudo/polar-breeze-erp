@@ -76,7 +76,7 @@ Contenido:
 
 6.1. El sistema modela tres flujos patrimoniales centrales: **flujo de capital** (efectivo), **flujo de mercancía** (inventario físico) y **flujo de información** (documentos, aprobaciones, decisiones). Todo módulo de negocio se ubica explícitamente dentro de uno o más de estos flujos.
 
-6.2. Ningún flujo patrimonial puede alterarse desde fuera de su propio motor de reglas (Artículo `04-MOTOR-DE-FLUJOS-PATRIMONIALES.md`). Por ejemplo, el inventario no se ajusta manualmente sin pasar por un evento de flujo de mercancía.
+6.2. Ningún flujo patrimonial puede alterarse desde fuera de su propio motor de reglas (ver `04-MOTOR-DE-FLUJOS-PATRIMONIALES.md`). Por ejemplo, el inventario no se ajusta manualmente sin pasar por un evento de flujo de mercancía.
 
 6.3. Todo movimiento patrimonial debe balancear: no puede "desaparecer" capital o mercancía sin un evento explícito que documente su destino (venta, merma, traslado, pérdida, devolución).
 
@@ -102,7 +102,7 @@ Contenido:
 
 9.2. Los registros con soft delete no aparecen en las operaciones normales del sistema, pero permanecen disponibles para auditoría, reportes históricos y reconstrucción de trazabilidad.
 
-9.3. Un registro con soft delete nunca se reutiliza como si fuera un nuevo registro; su clave de negocio queda retirada permanentemente (ver Artículo 1.2 y `10-PLAN-MAESTRO-DE-IMPLEMENTACION.md` sobre unicidad de claves).
+9.3. Un registro con soft delete nunca se reutiliza como si fuera un nuevo registro; su clave de negocio queda retirada permanentemente (ver Artículo 1.2 y `05-MODELO-DE-DATOS-MAESTRO.md`, sección 1, sobre unicidad de claves).
 
 ## Artículo 10 — Integridad Referencial
 

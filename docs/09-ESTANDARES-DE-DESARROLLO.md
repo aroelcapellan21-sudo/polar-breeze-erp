@@ -2,7 +2,7 @@
 
 Estado:
 
-> En construcción
+> Vigente — pendiente de revisión y aprobación formal
 
 Objetivo:
 
@@ -31,4 +31,4 @@ Contenido:
 
 Observaciones:
 
-(Espacio reservado)
+Las Reglas de Arquitectura (1-6) son una versión condensada, de consulta rápida, de lo ya desarrollado en detalle en `00-PRINCIPIOS-DEL-ERP.md` y fijado como ley en `02-CONSTITUCION-ERP.md`; ante cualquier diferencia de matiz, prevalece la Constitución. Las Reglas de Construcción (7-13) son el detalle operativo del Artículo 26.2 y 29.4 de la Constitución (reglas para IA y para nuevos módulos) aplicado a cualquier persona o IA que modifique código en el futuro repositorio del ERP.
