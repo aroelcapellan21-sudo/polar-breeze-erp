@@ -22,6 +22,7 @@ polar-breeze-erp/
 ├── README.md
 ├── DECISIONES-ARQUITECTURALES.md
 └── docs/
+    ├── 00-MANIFIESTO-DEL-ERP.md
     ├── 00-PRINCIPIOS-DEL-ERP.md
     ├── 01-VISION-ERP.md
     ├── 02-CONSTITUCION-ERP.md
@@ -47,7 +48,8 @@ polar-breeze-erp/
     │   ├── base-datos.drawio
     │   └── eventos.drawio
     └── anexos/
-        └── README.md
+        ├── README.md
+        └── 01-PENDIENTE-VALIDACION-CONTABLE.md
 ```
 
 ## Convención

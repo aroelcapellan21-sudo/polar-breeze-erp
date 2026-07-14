@@ -332,3 +332,19 @@ Ninguna: fue una instrucción directa del usuario sobre convención de nombres, 
 **Consecuencias:**
 - Cualquier anexo futuro en `docs/anexos/` debe seguir la misma convención de prefijo numérico (`02-...`, `03-...`, etc.) para mantener consistencia con este primer anexo.
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.22) reflejando el renombre.
+
+### [2026-07-14] Creado 00-MANIFIESTO-DEL-ERP.md — coexiste con 00-PRINCIPIOS-DEL-ERP.md bajo el mismo prefijo
+
+**Contexto:**
+El usuario pidió crear `docs/00-MANIFIESTO-DEL-ERP.md` con un párrafo de apertura provisto textualmente, y desarrollar un manifiesto completo a partir de toda la documentación existente. El repositorio ya tenía `docs/00-PRINCIPIOS-DEL-ERP.md` ocupando ese mismo prefijo numérico desde `721be71`.
+
+**Decisión:**
+Se creó `docs/00-MANIFIESTO-DEL-ERP.md` exactamente en la ruta solicitada, con el párrafo de apertura provisto por el usuario sin modificar, seguido de un manifiesto en tono declarativo (no operativo como `00-PRINCIPIOS`, ni articulado como `02-CONSTITUCION`, ni reflexivo como `99-FILOSOFIA`) que sintetiza: memoria/huella permanente, patrimonio demostrable vs. opinable, los tres flujos como una sola unidad, multiempresa desde el origen, offline-first, corrección hacia adelante sin borrar, documentación antes que código, el rol de la IA, y la naturaleza continua (nunca "terminada") del sistema. El documento se declara explícitamente como síntesis de la Constitución, no como fuente de reglas nuevas. Se actualizó `README.md` para reflejar ambos archivos `00-*` en la estructura. **No se resolvió la colisión de prefijo** — quedan dos documentos numerados `00` (`00-MANIFIESTO-DEL-ERP.md` y `00-PRINCIPIOS-DEL-ERP.md`), ordenados alfabéticamente entre sí (Manifiesto antes que Principios) en cualquier listado de archivos.
+
+**Alternativas consideradas:**
+Renumerar automáticamente uno de los dos documentos (por ejemplo, mover el manifiesto a un prefijo libre como `14`) para evitar la colisión. Se descartó sin consultar al usuario porque la ruta exacta fue parte explícita de su instrucción; la colisión se señaló en la respuesta al usuario en lugar de resolverse unilateralmente, dejando la decisión de renumerar (o mantener ambos bajo `00` como "nivel fundacional") en sus manos.
+
+**Consecuencias:**
+- Mientras no se decida lo contrario, `docs/` tiene dos archivos con prefijo `00`; cualquier herramienta o persona que asuma "un archivo por número" debe tratarlo como una excepción conocida y documentada aquí.
+- `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.23) y su tabla de completitud debe incluir la nueva fila para `00-MANIFIESTO-DEL-ERP.md`.
+- Si el usuario decide renumerar cualquiera de los dos archivos, ese cambio se registra como una nueva decisión, no como edición silenciosa de esta.
