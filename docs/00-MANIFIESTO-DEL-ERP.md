@@ -8,6 +8,8 @@ Objetivo:
 
 Declarar, en una sola voz y sin el aparato de artículos numerados o listas de campos, qué es este sistema y qué se niega a ser. Donde `01-VISION-ERP.md` explica el contexto de negocio, `02-CONSTITUCION-ERP.md` fija la ley, y `99-FILOSOFIA-DEL-SISTEMA.md` reflexiona sobre el porqué, este manifiesto **afirma**. Es el documento que se lee primero para sentir de qué trata el proyecto, antes de aprender cómo funciona.
 
+Este manifiesto describe al ERP como el **núcleo patrimonial** de un **Sistema Operativo Empresarial basado en Flujos Patrimoniales**: el ERP gobierna el patrimonio — capital, mercancía e información — y las aplicaciones operativas (de campo, de punto de venta, de cualquier frente donde ocurra el negocio) actúan como **puntos de entrada de eventos** hacia ese núcleo, nunca como dueñas independientes del estado patrimonial.
+
 Contenido:
 
 El ERP de Flujos Patrimoniales no administra módulos. Administra el patrimonio vivo de una organización. Cada movimiento de capital, mercancía e información forma parte de un ciclo continuo, donde ningún dato existe de manera aislada y ningún cambio ocurre sin dejar evidencia. El sistema no solo informa el estado actual; conserva la historia completa que permitió llegar a ese estado.
@@ -44,9 +46,19 @@ Aquí no se escribe código para después explicarlo. Se decide, se documenta, s
 
 Cualquier inteligencia artificial que trabaje en este proyecto —incluida la que redactó estas líneas— está sujeta a las mismas reglas que cualquier persona del equipo: no toca código sin mostrar el plan, no asume donde debería preguntar, y dejará su propia huella permanente en cada decisión automática que tome. La conveniencia de una respuesta rápida nunca vale más que la trazabilidad de cómo se llegó a ella.
 
+## Nada existe aislado.
+
+Nada existe aislado. Todo movimiento alimenta otro movimiento. El capital se transforma en mercancía, la mercancía vuelve a convertirse en capital y la información conecta ambos para que el patrimonio nunca pierda su historia. Mientras exista la empresa, el flujo continúa.
+
+## El patrimonio cambia de forma. Nunca aparece ni desaparece.
+
+En este ERP el patrimonio nunca aparece ni desaparece. Solo cambia de forma. El capital compra mercancía, la mercancía genera ventas, las ventas producen capital nuevamente. Cuando existe una pérdida, una merma, un daño o una condonación, el sistema no la oculta: la registra, la explica y la integra a la historia patrimonial de la empresa.
+
 ## Esto no termina. Se sostiene.
 
 No hay una versión final de este ERP, porque no hay una versión final de una empresa viva. Lo que este sistema promete no es llegar a un estado terminado — es que, en cualquier punto de ese crecimiento, alguien pueda preguntar "¿qué pasó aquí?" y el sistema tenga, siempre, una respuesta completa.
+
+No administramos datos. Administramos patrimonio. No registramos operaciones. Conservamos su historia. No mostramos únicamente el presente. Protegemos el pasado para comprender el futuro.
 
 Observaciones:
 

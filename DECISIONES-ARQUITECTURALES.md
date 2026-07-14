@@ -348,3 +348,18 @@ Renumerar automáticamente uno de los dos documentos (por ejemplo, mover el mani
 - Mientras no se decida lo contrario, `docs/` tiene dos archivos con prefijo `00`; cualquier herramienta o persona que asuma "un archivo por número" debe tratarlo como una excepción conocida y documentada aquí.
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.23) y su tabla de completitud debe incluir la nueva fila para `00-MANIFIESTO-DEL-ERP.md`.
 - Si el usuario decide renumerar cualquiera de los dos archivos, ese cambio se registra como una nueva decisión, no como edición silenciosa de esta.
+
+### [2026-07-14] Fortalecido 00-MANIFIESTO-DEL-ERP.md — marco de "Sistema Operativo Empresarial" y tres bloques nuevos
+
+**Contexto:**
+El usuario pidió ampliar `docs/00-MANIFIESTO-DEL-ERP.md` sin tocar lo ya redactado: (1) explicitar en el Objetivo que el manifiesto describe al ERP como el núcleo patrimonial de un **Sistema Operativo Empresarial basado en Flujos Patrimoniales**, donde el ERP gobierna el patrimonio y las aplicaciones operativas son puntos de entrada de eventos; (2) agregar un bloque sobre que nada existe aislado y el flujo continúa mientras exista la empresa; (3) agregar una sección nueva sobre que el patrimonio nunca aparece ni desaparece, solo cambia de forma, y que pérdidas/mermas/daños/condonaciones se registran y explican, nunca se ocultan; (4) cerrar el documento con una declaración final ("No administramos datos. Administramos patrimonio...").
+
+**Decisión:**
+Se agregó un párrafo al Objetivo introduciendo explícitamente el marco de "Sistema Operativo Empresarial basado en Flujos Patrimoniales" (ERP = núcleo patrimonial; aplicaciones operativas = puntos de entrada de eventos). Se agregaron dos secciones nuevas ("Nada existe aislado." y "El patrimonio cambia de forma. Nunca aparece ni desaparece.") antes de la sección de cierre ya existente ("Esto no termina. Se sostiene."), con el texto exacto provisto por el usuario como cuerpo de cada una. Se agregó la declaración de cierre final como párrafo adicional después de esa sección, sin reemplazarla. Ningún contenido previo se modificó ni se eliminó.
+
+**Alternativas consideradas:**
+Reescribir también `03-ARQUITECTURA-GENERAL.md` para introducir formalmente el término "Sistema Operativo Empresarial" en la descripción técnica de capas. Se descartó porque el usuario acotó explícitamente el pedido a `00-MANIFIESTO-DEL-ERP.md`; introducir ese marco en documentos técnicos sin que se pida es exactamente el tipo de extensión no solicitada que este proyecto busca evitar (ver `09-ESTANDARES-DE-DESARROLLO.md`, regla "una sola cosa a la vez").
+
+**Consecuencias:**
+- El término "Sistema Operativo Empresarial basado en Flujos Patrimoniales" queda introducido únicamente en el manifiesto por ahora; si se decide adoptarlo formalmente como marco arquitectónico en `01-VISION-ERP.md` o `03-ARQUITECTURA-GENERAL.md`, eso requiere su propia decisión y documentación, no se asume aquí.
+- `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.24) reflejando este cambio.

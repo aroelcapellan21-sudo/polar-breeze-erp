@@ -45,7 +45,8 @@ Cuando exista código de producto, ese repositorio llevará su propio esquema de
 | v0.20 | 2026-07-14 | `89302fb` | Se crea `CLAUDE.md` con la regla permanente de entrega de resúmenes largos (>20 líneas) vía archivo en `resumenes/` en lugar de mostrarse completos en terminal. Se crea la carpeta `resumenes/` con su primer inventario de archivos. |
 | v0.21 | 2026-07-14 | `27acb3b` | Se crea el primer anexo real, `docs/anexos/VALIDACIONES-PENDIENTES-CONTADOR.md` (checklist de 6 ítems contables pendientes de validación), y se actualiza `docs/anexos/README.md` para listarlo. |
 | v0.22 | 2026-07-14 | `dfc4a7e` | Se renombra el anexo a `docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md`, adoptando prefijo numérico para anexos. Se actualiza `docs/anexos/README.md`. |
-| v0.23 | 2026-07-14 | — (este commit) | Se crea `docs/00-MANIFIESTO-DEL-ERP.md`, síntesis declarativa de la Constitución. Coexiste con `docs/00-PRINCIPIOS-DEL-ERP.md` bajo el mismo prefijo `00` — colisión conocida y documentada, no resuelta a la espera de decisión del usuario. |
+| v0.23 | 2026-07-14 | `221f1dd` | Se crea `docs/00-MANIFIESTO-DEL-ERP.md`, síntesis declarativa de la Constitución. Coexiste con `docs/00-PRINCIPIOS-DEL-ERP.md` bajo el mismo prefijo `00` — colisión conocida y documentada, no resuelta a la espera de decisión del usuario. |
+| v0.24 | 2026-07-14 | — (este commit) | Se fortalece `docs/00-MANIFIESTO-DEL-ERP.md`: Objetivo ampliado con el marco de "Sistema Operativo Empresarial basado en Flujos Patrimoniales"; se agregan las secciones "Nada existe aislado." y "El patrimonio cambia de forma. Nunca aparece ni desaparece."; se agrega declaración de cierre final. Contenido previo sin cambios. |
 
 ## Estado de Completitud de la Documentación (a la fecha de la última entrada)
 
