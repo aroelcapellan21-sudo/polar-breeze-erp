@@ -206,11 +206,12 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 
 | Campo | Tipo | Obligatorio | Descripción |
 |---|---|---|---|
-| `tipo` | Enumeración (`cuarto_frío` / `dañado` / `roto` / `mal_estado` / `sobrante` / `faltante`) | Sí | Naturaleza de la novedad. |
+| `tipo` | Enumeración (`dañado` / `roto` / `mal_estado` / `sobrante` / `faltante` / `rotura_cadena_frio`) | Sí | La **condición** detectada en el producto (Artículo 22.2 de la Constitución, para `rotura_cadena_frio`). No codifica ubicación — ver la nota sobre `sucursalId` más abajo. |
 | `producto` | Referencia (a Producto) | Sí | Producto afectado. |
 | `cantidad` | Número entero | Sí | Cantidad afectada. |
 | `procesoOrigen` | Enumeración (`InventarioChofer` / `InventarioEncargado`) | Sí | Proceso donde se detectó (Artículo 17.2). |
-| `eventoOrigen` | Referencia (a Evento) | Sí | El evento que generó la novedad. |
+| `eventoOrigen` | Referencia (a Evento) | Sí | El evento que generó la novedad; su `tipoEvento` (`NovedadCuartoFrioRegistrada` o `NovedadInventarioRegistrada` — `12-GLOSARIO.md`, sección C) distingue si la novedad se originó en un cuarto frío. |
+| — | — | — | La **ubicación** de la novedad (cuarto frío, sede u otro punto) se determina por el `sucursalId` heredado (sección 2), referenciando a una `Sucursal` cuyo `tipo` sea `cuarto_frío`, `sede` o `punto_despacho` (Artículo 22.1) — nunca por el campo `tipo` de esta entidad. |
 
 ## 8. Módulo 3 — Despacho y Consignaciones
 

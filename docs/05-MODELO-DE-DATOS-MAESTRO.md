@@ -141,9 +141,10 @@ Dos entidades independientes, nunca fusionadas automáticamente (Artículo 17.1 
 
 ### NovedadInventario
 
-Cubre novedades del cuarto frío, dañados, rotos, en mal estado, sobrantes y faltantes.
+Cubre novedades de inventario: dañados, rotos, en mal estado, sobrantes, faltantes, y roturas de cadena de frío.
 
-- Campos conceptuales: `empresaId`, `sucursalId`, tipo de novedad (cuarto frío / dañado / roto / mal estado / sobrante / faltante), `Producto` referenciado, cantidad, proceso de origen (`InventarioChofer` o `InventarioEncargado` — Artículo 17.2), evento de origen.
+- Campos conceptuales: `empresaId`, `sucursalId`, tipo de novedad — la **condición** detectada en el producto: dañado / roto / mal estado / sobrante / faltante / rotura de cadena de frío (Artículo 22.2) —, `Producto` referenciado, cantidad, proceso de origen (`InventarioChofer` o `InventarioEncargado` — Artículo 17.2), evento de origen.
+- La **ubicación** de la novedad (si ocurrió en un cuarto frío, una sede u otro punto) no se codifica en el tipo de novedad: se determina por `sucursalId` (referenciando a una `Sucursal` de tipo cuarto frío, sede o punto de despacho — Artículo 22.1) y por el tipo de evento de origen (`NovedadCuartoFrioRegistrada` vs. `NovedadInventarioRegistrada` — `12-GLOSARIO.md`, sección C). Esto evita mezclar en un mismo valor una condición del producto (qué le pasó) con una ubicación (dónde pasó).
 
 ## 7. Entidades del Módulo 3 — Despacho y Consignaciones
 
