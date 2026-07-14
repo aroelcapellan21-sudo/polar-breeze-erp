@@ -109,12 +109,12 @@ Agrupación patrimonial de capital por propósito (`01-VISION-ERP.md`, sección 
 ### Cliente
 
 - Campos conceptuales: código, nombre, `empresaId`.
-- Catálogo maestro exigido explícitamente por el Artículo 16.1 de la Constitución ("productos, cuentas, vendedores, bancos, clientes, proveedores"). Queda disponible para su consumo por el Módulo 4 — Facturación y por el Módulo 1 — Flujo de Efectivo cuando el negocio registre ventas a crédito contra la Cuenta 3 — Cuentas por Cobrar (`06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 3).
+- Catálogo maestro exigido explícitamente por el Artículo 16.1 de la Constitución ("productos, cuentas, vendedores, bancos, clientes, proveedores"). Se crea desde el Módulo 4 — Facturación, igual que `Producto` y `Vendedor`. Queda disponible para su consumo por ese mismo módulo y por el Módulo 1 — Flujo de Efectivo cuando el negocio registre ventas a crédito contra la Cuenta 3 — Cuentas por Cobrar (`06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 3).
 
 ### Proveedor
 
 - Campos conceptuales: código, nombre, tipo (proveedor de mercancía / transportista / consignatario / otro), `empresaId`.
-- Catálogo maestro exigido explícitamente por el Artículo 16.1 de la Constitución. Representa a todo tercero con quien la empresa puede contraer una obligación de pago (Artículo 20.1: "proveedor, transportista, consignatario"). Es la contraparte que referencia toda `Obligacion` (sección 5).
+- Catálogo maestro exigido explícitamente por el Artículo 16.1 de la Constitución. Representa a todo tercero con quien la empresa puede contraer una obligación de pago (Artículo 20.1: "proveedor, transportista, consignatario"). Se crea desde el Módulo 1 — Flujo de Efectivo, como contraparte de las obligaciones que ese módulo administra. Es la contraparte que referencia toda `Obligacion` (sección 5).
 
 ## 5. Entidades del Módulo 1 — Flujo de Efectivo
 
