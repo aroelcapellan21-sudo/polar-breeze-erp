@@ -270,3 +270,18 @@ No se consideraron alternativas de contenido: el usuario proveyó el texto compl
 - 30.5 extiende explícitamente la obligación de trazabilidad a decisiones automáticas/IA, complementando al Artículo 26 (Reglas para IA) con un requisito de huella específico para algoritmos y modelos de decisión.
 - Las referencias a "29 artículos" en decisiones anteriores de este archivo y en `13-HISTORIAL-DE-VERSIONES.md` quedan como registro histórico válido de su momento y no se editan; a partir de esta entrada, la Constitución tiene 30 artículos.
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.18) reflejando este cambio como MAYOR (modifica la Constitución).
+
+### [2026-07-14] Contenido de docs/diagramas/README.md completado; anexos/README.md se deja sin cambios
+
+**Contexto:**
+El usuario pidió continuar redactando el contenido de todos los archivos que faltan. A esa fecha, todos los documentos numerados (`00`-`13`, `99`) ya tenían contenido completo; lo único con la sección "Contenido" todavía vacía eran los dos README de carpeta (`docs/diagramas/README.md` y `docs/anexos/README.md`) y los 6 archivos `.drawio`, estos últimos excluidos explícitamente por instrucción previa del usuario (deben quedar en blanco).
+
+**Decisión:**
+Se completó la sección "Contenido" de `docs/diagramas/README.md` con una tabla que lista los 6 diagramas ya creados, qué representa cada uno y qué documento(s) complementa. **No** se agregó contenido a `docs/anexos/README.md`: la carpeta `anexos/` no contiene ningún archivo todavía, así que su sección "Contenido" describiría documentos inexistentes si se llenara — se deja como está hasta que exista al menos un anexo real que listar.
+
+**Alternativas consideradas:**
+Inventar una lista de anexos previstos ("plantilla de próximos anexos") para no dejar la sección vacía. Se descartó por ser inconsistente con el principio de humildad arquitectónica de `99-FILOSOFIA-DEL-SISTEMA.md` (sección 5): declarar abiertamente que algo no existe todavía es preferible a simular contenido que no está respaldado por nada real.
+
+**Consecuencias:**
+- Con esta entrada, todo el contenido "redactable" con la información disponible queda completo. Lo único pendiente en el repositorio es: contenido visual de los 6 `.drawio` (fuera de alcance por instrucción del usuario) y el llenado de `anexos/README.md` cuando exista al menos un anexo real.
+- `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.19) reflejando este cambio.
