@@ -1,16 +1,19 @@
-# Polar Breeze ERP — Documentación Maestra
+# Polar Breeze ERP — Biblioteca de Arquitectura
 
-Este repositorio contiene **exclusivamente la arquitectura del ERP Polar Breeze**.
+Este repositorio es la **Biblioteca de Arquitectura oficial** del ERP Polar Breeze. Contiene **exclusivamente documentación** — no contiene código fuente, componentes, APIs, frontend ni librerías.
 
-No contiene código fuente, componentes ni APIs. Es la **Constitución Arquitectónica** del proyecto: la fuente de verdad sobre visión, arquitectura, modelo de datos, reglas contables y financieras, flujos de negocio, catálogo de módulos, estándares de desarrollo y plan de implementación.
+El proyecto está diseñado bajo una **arquitectura ERP multiempresa basada en flujos patrimoniales** (capital, mercancía e información). Polar Breeze es únicamente la **primera empresa** del ecosistema; el sistema nunca asume una sola empresa, y toda entidad de negocio contempla `empresaId` y, cuando aplica, `sucursalId` desde su diseño (ver `docs/02-CONSTITUCION-ERP.md`, Artículo 2).
+
+Es la **Constitución Arquitectónica** del proyecto: la fuente de verdad sobre visión, arquitectura, modelo de datos, reglas contables y financieras, flujos de negocio, catálogo de módulos, estándares de desarrollo y plan de implementación.
 
 Todo desarrollo del ERP **debe basarse en estos documentos**. El código del sistema vive en un repositorio distinto.
 
 ## Regla importante
 
-- Este repositorio nunca debe mezclarse con código fuente.
+- Este repositorio nunca debe mezclarse con código fuente. No se crean componentes, APIs, frontend ni se agregan librerías aquí.
 - Toda decisión importante de arquitectura debe documentarse aquí **antes** de implementarse.
 - Ningún módulo puede desarrollarse sin tener previamente su documentación aprobada.
+- Toda la documentación asume arquitectura multiempresa: ningún documento puede describir un flujo, módulo o entidad como si existiera una sola empresa.
 
 ## Estructura
 
