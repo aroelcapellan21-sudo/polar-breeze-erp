@@ -301,3 +301,19 @@ Mantener el comportamiento previo de publicar resúmenes largos como Artifact (e
 - `resumenes/` es una carpeta de trabajo/bitácora, explícitamente fuera de la biblioteca oficial de arquitectura (`docs/`); no sustituye a este archivo ni a `13-HISTORIAL-DE-VERSIONES.md`.
 - Cualquier resumen largo futuro generado en este repositorio debe seguir este mismo patrón: archivo en `resumenes/` + resumen de 5 líneas en terminal.
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.20) reflejando la creación de `CLAUDE.md` y la carpeta `resumenes/`.
+
+### [2026-07-14] Primer anexo real: VALIDACIONES-PENDIENTES-CONTADOR.md
+
+**Contexto:**
+`06-REGLAS-CONTABLES-Y-FINANCIERAS.md` quedó en estado Borrador porque su plan de cuentas (sección 3) y varias reglas asociadas (fondos, cuentas por pagar, cierre de periodos, arqueo) son propuestas de arquitectura sin validar por un contador. Esas menciones estaban dispersas en varios documentos (`06`, `10`, `11`, `99`, `13`) sin un único lugar accionable que las consolidara como tareas concretas. `docs/anexos/README.md` seguía sin contenido porque no existía ningún anexo real todavía.
+
+**Decisión:**
+Se creó el primer anexo real, `docs/anexos/VALIDACIONES-PENDIENTES-CONTADOR.md`, con un checklist de 6 ítems (plan de cuentas, clasificación de fondos, cuentas por pagar y pagos parciales, periodo contable y cierre, tolerancia de diferencias en arqueo, y correspondencia con el diccionario de datos), cada uno con su referencia exacta, qué debe confirmar el contador, y su estado (Pendiente/Validado). Se definió el procedimiento de cierre: cada ítem validado se registra como decisión aparte en este archivo antes de marcarse como Validado en el checklist. Se actualizó `docs/anexos/README.md` para listar este anexo, ahora que existe contenido real que describir.
+
+**Alternativas consideradas:**
+Dejar las menciones a validación contable dispersas en sus documentos originales, sin consolidarlas. Se descartó porque el propósito explícito de un anexo (`docs/anexos/README.md`) es reunir justamente este tipo de material de soporte, y un checklist único con estado por ítem es más accionable para un contador externo al proyecto que tener que leer cinco documentos distintos para encontrar qué falta validar.
+
+**Consecuencias:**
+- Cuando los 6 ítems del checklist pasen a Validado, `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` puede pasar de Borrador a Vigente, y la Fase 2 de `10-PLAN-MAESTRO-DE-IMPLEMENTACION.md` queda desbloqueada.
+- Cada validación de un ítem debe registrarse aquí como una nueva decisión antes de marcarse como Validado en el anexo — nunca editarse el checklist en silencio.
+- `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.21) reflejando este anexo y la actualización de `docs/anexos/README.md`.
