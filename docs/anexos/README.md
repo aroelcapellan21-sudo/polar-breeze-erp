@@ -12,7 +12,7 @@ Contenido:
 
 | Anexo | Descripción |
 |---|---|
-| `VALIDACIONES-PENDIENTES-CONTADOR.md` | Checklist de los ítems contables/financieros de `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` que requieren validación de un contador antes de que ese documento pase de Borrador a Vigente. |
+| `01-PENDIENTE-VALIDACION-CONTABLE.md` | Checklist de los ítems contables/financieros de `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` que requieren validación de un contador antes de que ese documento pase de Borrador a Vigente. |
 
 Observaciones:
 

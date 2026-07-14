@@ -43,7 +43,8 @@ Cuando exista código de producto, ese repositorio llevará su propio esquema de
 | v0.18 (MAYOR) | 2026-07-14 | `4861440` | Se agrega el **Artículo 30 — Principio de Huella Permanente** a `02-CONSTITUCION-ERP.md`: todo dato deja huella permanente e inmutable, con contenido mínimo definido, incluyendo decisiones automáticas de sistema o IA. La Constitución pasa de 29 a 30 artículos. |
 | v0.19 | 2026-07-14 | `89128be` | `docs/diagramas/README.md` completado con la lista y propósito de los 6 diagramas `.drawio`. `docs/anexos/README.md` se deja sin cambios deliberadamente: la carpeta no tiene anexos reales todavía. |
 | v0.20 | 2026-07-14 | `89302fb` | Se crea `CLAUDE.md` con la regla permanente de entrega de resúmenes largos (>20 líneas) vía archivo en `resumenes/` en lugar de mostrarse completos en terminal. Se crea la carpeta `resumenes/` con su primer inventario de archivos. |
-| v0.21 | 2026-07-14 | — (este commit) | Se crea el primer anexo real, `docs/anexos/VALIDACIONES-PENDIENTES-CONTADOR.md` (checklist de 6 ítems contables pendientes de validación), y se actualiza `docs/anexos/README.md` para listarlo. |
+| v0.21 | 2026-07-14 | `27acb3b` | Se crea el primer anexo real, `docs/anexos/VALIDACIONES-PENDIENTES-CONTADOR.md` (checklist de 6 ítems contables pendientes de validación), y se actualiza `docs/anexos/README.md` para listarlo. |
+| v0.22 | 2026-07-14 | — (este commit) | Se renombra el anexo a `docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md`, adoptando prefijo numérico para anexos. Se actualiza `docs/anexos/README.md`. |
 
 ## Estado de Completitud de la Documentación (a la fecha de la última entrada)
 
@@ -67,7 +68,7 @@ Cuando exista código de producto, ese repositorio llevará su propio esquema de
 | `13-HISTORIAL-DE-VERSIONES.md` | Vigente (este documento) |
 | `99-FILOSOFIA-DEL-SISTEMA.md` | Vigente |
 | `docs/diagramas/*.drawio` (6 archivos) | Creados vacíos; pendientes de contenido visual |
-| `docs/anexos/VALIDACIONES-PENDIENTES-CONTADOR.md` | Vigente — checklist con 6 ítems en estado Pendiente |
+| `docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md` | Vigente — checklist con 6 ítems en estado Pendiente |
 
 ## Relación con Otros Documentos
 

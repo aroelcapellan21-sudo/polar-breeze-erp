@@ -317,3 +317,18 @@ Dejar las menciones a validación contable dispersas en sus documentos originale
 - Cuando los 6 ítems del checklist pasen a Validado, `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` puede pasar de Borrador a Vigente, y la Fase 2 de `10-PLAN-MAESTRO-DE-IMPLEMENTACION.md` queda desbloqueada.
 - Cada validación de un ítem debe registrarse aquí como una nueva decisión antes de marcarse como Validado en el anexo — nunca editarse el checklist en silencio.
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.21) reflejando este anexo y la actualización de `docs/anexos/README.md`.
+
+### [2026-07-14] Renombrado el primer anexo a 01-PENDIENTE-VALIDACION-CONTABLE.md
+
+**Contexto:**
+El usuario pidió renombrar `docs/anexos/VALIDACIONES-PENDIENTES-CONTADOR.md` a `docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md`, adoptando un prefijo numérico para los anexos, consistente con la convención ya usada en `docs/` (`00` a `13`, `99`).
+
+**Decisión:**
+Se renombró el archivo con `git mv` (sin recrearlo, preservando su historial en `git`) y se actualizó la única referencia vigente a su nombre, en `docs/anexos/README.md`. Las referencias al nombre anterior en decisiones ya registradas de este archivo y en `13-HISTORIAL-DE-VERSIONES.md` **no se editaron**: son registro histórico válido de cómo se llamaba el archivo en el momento en que se creó (Artículo 14.3 de la Constitución).
+
+**Alternativas consideradas:**
+Ninguna: fue una instrucción directa del usuario sobre convención de nombres, sin ambigüedad de contenido.
+
+**Consecuencias:**
+- Cualquier anexo futuro en `docs/anexos/` debe seguir la misma convención de prefijo numérico (`02-...`, `03-...`, etc.) para mantener consistencia con este primer anexo.
+- `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.22) reflejando el renombre.
