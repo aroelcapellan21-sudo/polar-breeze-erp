@@ -221,3 +221,19 @@ Mantener el catálogo de eventos únicamente en `docs/diagramas/eventos.drawio` 
 - Los 20 eventos de la sección C son ahora los nombres oficiales; `07-FLUJOS-DE-NEGOCIO.md` queda consistente con ellos sin requerir cambios (los nombres no se alteraron, solo se formalizaron).
 - Cualquier evento nuevo que un módulo futuro necesite emitir debe agregarse primero a esta tabla (Artículo 15.3 de la Constitución) antes de usarse en desarrollo.
 - El diagrama `docs/diagramas/eventos.drawio` queda pendiente de elaborarse como representación visual de esta misma tabla, y debe mantenerse consistente con ella si se actualiza.
+
+### [2026-07-14] Redacción completa de 13-HISTORIAL-DE-VERSIONES.md y adopción de un esquema de versionado de documentación
+
+**Contexto:**
+`10-PLAN-MAESTRO-DE-IMPLEMENTACION.md` (sección 11) ya preveía que el avance se reflejaría en `13-HISTORIAL-DE-VERSIONES.md`, pero el documento seguía siendo un placeholder. Con 15 commits acumulados desde la creación del repositorio, ya no era trivial saber, sin revisar `git log`, qué contenido existía en cada momento.
+
+**Decisión:**
+Se redactó `13-HISTORIAL-DE-VERSIONES.md` adoptando un esquema `vMAYOR.MENOR` para la documentación (distinto del futuro versionado semántico del software, que se definirá cuando exista código): MAYOR para cambios que alteran una regla constitucional, reestructuran el modelo de datos o reemplazan una decisión previa; MENOR para contenido nuevo que no rompe lo existente. Se reconstruyó el historial completo desde `ab1f0f9` (v0.1) hasta el commit de esta misma entrada (v0.16) a partir de `git log`, y se agregó una tabla de estado de completitud de toda la documentación a la fecha.
+
+**Alternativas consideradas:**
+No adoptar un esquema de versión numerado y limitarse a un changelog de fechas y commits. Se descartó porque distinguir cambios MAYOR (como la reescritura completa de la Constitución en `1108020`) de cambios MENOR (como redactar un documento antes vacío) aporta señal real sobre el impacto de cada cambio, que una lista plana de commits no transmite por sí sola.
+
+**Consecuencias:**
+- Toda futura redacción o modificación sustantiva de un documento en `docs/` debe agregar una entrada nueva a este historial como parte del mismo commit.
+- El avance de las fases de `10-PLAN-MAESTRO-DE-IMPLEMENTACION.md`, cuando inicie la implementación de código, se registrará aquí como nuevas entradas de versión.
+- La tabla de estado de completitud debe actualizarse cada vez que un documento pase de "Pendiente"/"Borrador" a "Vigente", o viceversa.
