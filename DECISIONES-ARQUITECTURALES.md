@@ -157,3 +157,19 @@ Dejar la sección de plan de cuentas vacía ("pendiente de definición contable"
 - Ningún módulo puede implementar lógica dependiente del significado de las Cuentas 1-6 hasta que esta sección sea revisada y aprobada formalmente por un responsable financiero, y esa aprobación quede registrada aquí.
 - Si el plan de cuentas real difiere del propuesto, la actualización de la sección 3 debe registrarse como una nueva decisión de reemplazo (Artículo 14.3 de la Constitución), no como edición silenciosa.
 - El Estado de `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` debe pasar de "Borrador" a "Vigente" solo después de esa validación.
+
+### [2026-07-14] Redacción completa de 07-FLUJOS-DE-NEGOCIO.md como capa procedimental sobre el motor y el modelo de datos
+
+**Contexto:**
+`04-MOTOR-DE-FLUJOS-PATRIMONIALES.md` explica cómo el sistema procesa eventos y `05-MODELO-DE-DATOS-MAESTRO.md` define qué entidades existen, pero ningún documento describía, paso a paso, los procesos operativos reales (quién hace qué, en qué orden, con qué precondiciones) que un usuario de Polar Breeze ejecuta día a día.
+
+**Decisión:**
+Se redactó `07-FLUJOS-DE-NEGOCIO.md` con 12 flujos (F1 a F12) cubriendo el ciclo completo: ingreso de capital, compra y recepción de mercancía, conciliación chofer/encargado, novedades de cuarto frío, consignación y despacho, solicitud/justificación de retiro, facturación, alta de producto, nota de crédito, pago de cuentas por pagar, arqueo manual y exportación de reportes. Cada flujo sigue la misma estructura (Actores, Precondiciones, Pasos, Eventos generados, Reglas aplicables) y propone nombres de evento consistentes con el Artículo 15 de la Constitución.
+
+**Alternativas consideradas:**
+Integrar estos flujos como ejemplos dentro de `04-MOTOR-DE-FLUJOS-PATRIMONIALES.md` en lugar de un documento aparte. Se descartó porque el motor describe comportamiento general del sistema (aplicable a cualquier evento), mientras que los flujos de negocio son específicos del dominio operativo de Polar Breeze (chofer, encargado, cuarto frío, consignación); mezclar ambos niveles de abstracción en un mismo documento dificultaría mantener cada uno actualizado por separado.
+
+**Consecuencias:**
+- Los nombres de evento propuestos en este documento (`CapitalIngresado`, `MercanciaRecibida`, `ConsignacionCreada`, etc.) deben consolidarse formalmente en `docs/diagramas/eventos.drawio` y `12-GLOSARIO.md`; hasta entonces son un borrador de nomenclatura, no el catálogo oficial.
+- Cualquier flujo de negocio nuevo que se agregue en el futuro debe seguir la misma estructura (Actores, Precondiciones, Pasos, Eventos generados, Reglas aplicables) para mantener consistencia.
+- Los diagramas `flujo-capital.drawio`, `flujo-mercancia.drawio` y `flujo-informacion.drawio` quedan pendientes de elaborarse como representación visual de estos flujos.
