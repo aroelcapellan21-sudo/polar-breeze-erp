@@ -173,3 +173,19 @@ Integrar estos flujos como ejemplos dentro de `04-MOTOR-DE-FLUJOS-PATRIMONIALES.
 - Los nombres de evento propuestos en este documento (`CapitalIngresado`, `MercanciaRecibida`, `ConsignacionCreada`, etc.) deben consolidarse formalmente en `docs/diagramas/eventos.drawio` y `12-GLOSARIO.md`; hasta entonces son un borrador de nomenclatura, no el catálogo oficial.
 - Cualquier flujo de negocio nuevo que se agregue en el futuro debe seguir la misma estructura (Actores, Precondiciones, Pasos, Eventos generados, Reglas aplicables) para mantener consistencia.
 - Los diagramas `flujo-capital.drawio`, `flujo-mercancia.drawio` y `flujo-informacion.drawio` quedan pendientes de elaborarse como representación visual de estos flujos.
+
+### [2026-07-14] Redacción completa de 10-PLAN-MAESTRO-DE-IMPLEMENTACION.md en 9 fases
+
+**Contexto:**
+Con `00` a `09` ya redactados (principios, visión, constitución, arquitectura, motor, modelo de datos, reglas contables, flujos de negocio, catálogo de módulos, estándares), no existía un documento que definiera el **orden** de implementación: qué se construye primero, qué depende de qué, y cuándo se considera cada parte completa.
+
+**Decisión:**
+Se redactó `10-PLAN-MAESTRO-DE-IMPLEMENTACION.md` con 9 fases: Fase 0 (fundamentos arquitectónicos: multiempresa, motor de eventos, motor de permisos, offline-first probado de extremo a extremo, configuración de plataforma), Fase 1 (catálogos maestros compartidos), Fases 2-6 (un módulo del catálogo por fase, en el orden Flujo de Efectivo → Inventario → Despacho/Consignaciones → Facturación → Reportes, reflejando sus dependencias reales), Fase 7 (incorporación de una segunda empresa real como prueba de que el aislamiento multiempresa funciona en la práctica), y Fase 8 (crecimiento continuo, sin fin definido). Se documentó explícitamente que la Fase 2 (Flujo de Efectivo) está bloqueada hasta que el plan de cuentas Borrador de `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` sea validado formalmente.
+
+**Alternativas consideradas:**
+Ordenar las fases siguiendo la numeración de los módulos en `08-CATALOGO-DE-MODULOS.md` (Flujo de Efectivo primero por ser "Módulo 1") sin analizar dependencias reales. Se descartó porque el orden de un catálogo es solo de presentación; el orden real de construcción depende de qué catálogos y fundamentos necesita cada módulo (por ejemplo, Facturación depende de que Capital e Inventario ya existan), y ese análisis de dependencias es precisamente el valor que este documento debe aportar.
+
+**Consecuencias:**
+- Ningún equipo de desarrollo debe iniciar la implementación del Módulo 1 (Fase 2) hasta que el plan de cuentas de `06` deje de estar en estado Borrador.
+- La Fase 7 (segunda empresa real) es el hito formal que valida en producción la decisión de "Arquitectura multiempresa desde el origen" ya registrada anteriormente en este archivo; su resultado debe registrarse aquí como una nueva entrada cuando ocurra.
+- Cambios futuros al orden de fases o a sus criterios de salida deben registrarse como nueva decisión antes de aplicarse (regla que este mismo documento se autoimpone en su sección 11).
