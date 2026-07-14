@@ -194,6 +194,22 @@ Contenido:
 
 **Reglas aplicables:** Artículo 24 y 25 de la Constitución.
 
+## F13 — Baja de Mercancía por Merma, Pérdida o Condonación
+
+**Actores:** Encargado, Chofer, Administrador de inventario (quien autoriza la baja).
+
+**Precondiciones:** Existe una `NovedadInventario` o `NovedadDespacho` que motiva la baja (dañado, roto, mal estado, rotura de cadena de frío, faltante), o existe una decisión administrativa de condonar mercancía sin novedad previa.
+
+**Pasos:**
+1. Se determina que la mercancía afectada no puede reintegrarse al inventario vendible: deterioro irreversible, extravío confirmado, o decisión de condonarla.
+2. Se registra la `BajaInventario`: producto, cantidad, tipo (merma / pérdida / condonación), novedad de origen (si aplica), inventario o consignación de origen, motivo y usuario que autoriza.
+3. El motor reduce la existencia del `Producto` en el inventario o consignación de origen de forma atómica con el registro de la baja — la mercancía nunca "desaparece" sin este evento explícito (Artículo 6.3 de la Constitución).
+4. El tratamiento de capital asociado a la baja (si genera o no un gasto/pérdida contable, y contra qué `Fondo`/`Cuenta`) queda pendiente de validación contable (`docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md`, ítem 7). Mientras tanto, la baja se registra únicamente como evento de flujo de mercancía e información, sin generar un `MovimientoCapital`.
+
+**Eventos generados:** `BajaInventarioRegistrada`.
+
+**Reglas aplicables:** Artículo 6.3 de la Constitución (todo movimiento patrimonial debe balancear); Artículo 17.2 y 22.2 (novedades no se reclasifican retroactivamente sin dejar evidencia del cambio).
+
 ## Relación con Otros Documentos
 
 - `02-CONSTITUCION-ERP.md` — las reglas inquebrantables que cada flujo respeta.

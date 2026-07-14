@@ -48,7 +48,7 @@ Cada módulo se describe con la misma estructura, exigida por el Artículo 29.2 
 
 **Alcance multiempresa:** `InventarioChofer`, `InventarioEncargado` y `NovedadInventario` llevan `empresaId` y `sucursalId` obligatorios: cuarto frío, vehículo del chofer y punto de almacén son unidades `sucursalId` (Artículos 2.3 y 22.1). El Inventario del Chofer y el Inventario del Encargado son procesos independientes, nunca fusionados automáticamente (Artículo 17.1).
 
-**Eventos que emite:** `MercanciaRecibida` (F2, en unidad atómica con `ObligacionRegistrada` del Módulo 1), `MercanciaTransferida` (F3), `NovedadInventarioRegistrada` (F3), `ConciliacionInventarioRealizada` (F3), `NovedadCuartoFrioRegistrada` (F4).
+**Eventos que emite:** `MercanciaRecibida` (F2, en unidad atómica con `ObligacionRegistrada` del Módulo 1), `MercanciaTransferida` (F3), `NovedadInventarioRegistrada` (F3), `ConciliacionInventarioRealizada` (F3), `NovedadCuartoFrioRegistrada` (F4), `BajaInventarioRegistrada` (F13 — merma, pérdida o condonación; también aplica a mercancía de `Consignacion` del Módulo 3).
 
 **Eventos de otros módulos que le afectan:** `MercanciaVendida` (Módulo 4, F7) y `MercanciaDevuelta` (Módulo 4, F9) modifican las existencias de `InventarioChofer`/`InventarioEncargado` que este módulo proyecta, sin que este módulo los emita. `Despachado` (Módulo 3, F5) retira mercancía del inventario de origen que este módulo mantiene.
 
@@ -70,7 +70,7 @@ Cada módulo se describe con la misma estructura, exigida por el Artículo 29.2 
 
 **Eventos que emite:** `ConsignacionCreada`, `Despachado`, `NovedadDespachoRegistrada` (F5); `RetiroSolicitado`, `RetiroJustificado` (F6).
 
-**Eventos de otros módulos que le afectan:** consume la existencia proyectada de `InventarioEncargado`/`InventarioChofer` (Módulo 2) como origen de la mercancía a consignar o despachar; no emite eventos de inventario él mismo — es el `Despachado` que este módulo emite quien retira esa mercancía del origen.
+**Eventos de otros módulos que le afectan:** consume la existencia proyectada de `InventarioEncargado`/`InventarioChofer` (Módulo 2) como origen de la mercancía a consignar o despachar; no emite eventos de inventario él mismo — es el `Despachado` que este módulo emite quien retira esa mercancía del origen. `BajaInventarioRegistrada` (Módulo 2, F13) puede además reducir la existencia de una `Consignacion` cuando su mercancía sufre merma, pérdida o condonación.
 
 **Catálogos maestros que crea:** ninguno.
 
@@ -116,7 +116,7 @@ Cada módulo se describe con la misma estructura, exigida por el Artículo 29.2 
 - `02-CONSTITUCION-ERP.md` (Artículo 29.2) — la regla que exige esta declaración por módulo.
 - `05-MODELO-DE-DATOS-MAESTRO.md` — las entidades y catálogos maestros de cada módulo.
 - `07-FLUJOS-DE-NEGOCIO.md` — los flujos F1-F12 de donde provienen los eventos declarados aquí.
-- `12-GLOSARIO.md` (sección C) — el catálogo formal de los 20 eventos del sistema.
+- `12-GLOSARIO.md` (sección C) — el catálogo formal de los eventos del sistema.
 - `10-PLAN-MAESTRO-DE-IMPLEMENTACION.md` — el orden de implementación de estos módulos.
 
 Observaciones:

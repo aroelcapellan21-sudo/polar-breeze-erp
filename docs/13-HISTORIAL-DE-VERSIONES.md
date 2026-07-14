@@ -55,7 +55,8 @@ Cuando exista código de producto, ese repositorio llevará su propio esquema de
 | v0.30 | 2026-07-14 | `445d5dc` | Limpieza de referencias cruzadas: se corrigen 4 citas erróneas de "Artículo 1.3" a "Artículo 9.3" en `05` y `11` (no reutilización de claves); se corrige la referencia del Artículo 9.3 de la Constitución de `10-PLAN-MAESTRO` a `05-MODELO-DE-DATOS-MAESTRO.md`; se corrige el Artículo 6.2 (llamaba "Artículo" a un documento); se retira de `99-FILOSOFIA` una cita a una regla inexistente en `09`; se eleva el Estado de `09-ESTANDARES-DE-DESARROLLO.md` a "Vigente", alineándolo con la tabla de completitud; se actualiza el árbol de `README.md` con `CLAUDE.md` y `resumenes/`. Con esta entrada, ningún documento numerado (`00`-`13`, `99`) queda en Estado "En construcción". |
 | v0.31 | 2026-07-14 | `5e86e1f` | Revisión final: se sincroniza `10-PLAN-MAESTRO-DE-IMPLEMENTACION.md` (Fases 1 y 2) con los 7 catálogos maestros ya definidos en `05` (`Cliente` y `Proveedor` habían quedado fuera desde v0.25); se agrega a la Fase 2 la dependencia de `Proveedor` y el criterio de salida de `Obligacion`. Se retira de `05` la calificación obsoleta "(pendiente de redactar)" sobre `11-DICCIONARIO-DE-DATOS.md`, completo desde v0.14. |
 | v0.32 | 2026-07-14 | `2560181` | Se elimina el campo duplicado `número` de `Cuenta` en `11-DICCIONARIO-DE-DATOS.md`: el campo `código` heredado queda como única clave de negocio, con su rango acotado a "1"-"6". `05-MODELO-DE-DATOS-MAESTRO.md` ya no requería cambios, pues siempre describió a `Cuenta` con un único campo. |
-| v0.33 | 2026-07-14 | — (este commit) | Se corrige la enumeración `tipo` de `NovedadInventario` en `05` y `11`: el valor `cuarto_frío` (una ubicación) se reemplaza por `rotura_cadena_frio` (una condición, Artículo 22.2). La ubicación queda documentada como responsabilidad de `sucursalId` + `Sucursal.tipo` y del `tipoEvento` de origen, ya existentes — sin agregar campos nuevos. |
+| v0.33 | 2026-07-14 | `0f61a9c` | Se corrige la enumeración `tipo` de `NovedadInventario` en `05` y `11`: el valor `cuarto_frío` (una ubicación) se reemplaza por `rotura_cadena_frio` (una condición, Artículo 22.2). La ubicación queda documentada como responsabilidad de `sucursalId` + `Sucursal.tipo` y del `tipoEvento` de origen, ya existentes — sin agregar campos nuevos. |
+| v0.34 | 2026-07-14 | — (este commit) | Se agrega el flujo F13 (`07-FLUJOS-DE-NEGOCIO.md`) y la entidad `BajaInventario` (`05`, `11`) para mercancía dada de baja por merma, pérdida o condonación, respaldando estructuralmente el Artículo 6.3. Nuevo evento `BajaInventarioRegistrada` en `12-GLOSARIO.md` (20→21 eventos). El tratamiento de capital de una baja queda deliberadamente sin definir — ítem 7 nuevo en el anexo `01-PENDIENTE-VALIDACION-CONTABLE.md`, que no bloquea ninguna fase. Actualizados `08-CATALOGO-DE-MODULOS.md`, `10-PLAN-MAESTRO-DE-IMPLEMENTACION.md` (Fase 3) y `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` (referencia cruzada). |
 
 ## Estado de Completitud de la Documentación (a la fecha de la última entrada)
 
@@ -80,7 +81,7 @@ Cuando exista código de producto, ese repositorio llevará su propio esquema de
 | `13-HISTORIAL-DE-VERSIONES.md` | Vigente (este documento) |
 | `99-FILOSOFIA-DEL-SISTEMA.md` | Vigente |
 | `docs/diagramas/*.drawio` (6 archivos) | Creados vacíos; pendientes de contenido visual |
-| `docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md` | Vigente — checklist con 6 ítems en estado Pendiente |
+| `docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md` | Vigente — checklist con 7 ítems en estado Pendiente (ítem 7 agregado en v0.34, no bloquea ninguna fase) |
 
 ## Relación con Otros Documentos
 

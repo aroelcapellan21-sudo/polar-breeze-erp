@@ -58,7 +58,11 @@ Contenido:
 
 **Arqueo manual** — Proceso de conciliación entre el saldo/existencia proyectado por el sistema y un conteo físico real, registrando cualquier diferencia como evento propio (Artículo 25.3 de la Constitución).
 
+**Baja de inventario** — Salida definitiva de mercancía del inventario vendible por merma, pérdida o condonación, registrada como `BajaInventario` (Artículo 6.3 de la Constitución: ninguna mercancía desaparece sin un evento explícito que documente su destino).
+
 **Chofer** — Actor operativo responsable del `InventarioChofer`, la mercancía en tránsito en su vehículo.
+
+**Condonación** — Tipo de `BajaInventario` en que la empresa decide, por decisión administrativa, dar de baja mercancía sin que medie necesariamente una novedad detectada previamente.
 
 **Consignación** — Documento y proceso por el cual mercancía se entrega a un responsable en un destino, sujeta a cierre y a las reglas de retiro/justificación (Artículo 21 de la Constitución).
 
@@ -70,9 +74,13 @@ Contenido:
 
 **Justificación de retiro** — Documento que respalda una `Solicitud de retiro`; sin ella, el retiro no es válido (Artículo 21.3).
 
-**Novedad** — Registro de una condición anómala (dañado, roto, en mal estado, sobrante, faltante) detectada en inventario o despacho, vinculada al proceso donde ocurrió (Artículo 17.2 de la Constitución).
+**Merma** — Tipo de `BajaInventario` originado en un deterioro operativo del producto (dañado, roto, en mal estado, rotura de cadena de frío) que impide reintegrarlo al inventario vendible.
+
+**Novedad** — Registro de una condición anómala (dañado, roto, en mal estado, sobrante, faltante, rotura de cadena de frío) detectada en inventario o despacho, vinculada al proceso donde ocurrió (Artículo 17.2 de la Constitución). Distinta de una `Baja de inventario`: la novedad detecta la condición, la baja es la disposición patrimonial que puede seguirle.
 
 **Nota de crédito** — Documento que corrige una factura aprobada sin editarla, referenciándola obligatoriamente (Artículo 14.2).
+
+**Pérdida** — Tipo de `BajaInventario` originado en un extravío o siniestro confirmado, distinto del deterioro operativo de una merma.
 
 **Solicitud de retiro** — Petición formal de retirar mercancía de una consignación o despacho, que requiere justificación asociada para considerarse válida.
 
@@ -102,6 +110,7 @@ Formaliza, según el Artículo 15 de la Constitución, los eventos propuestos en
 | `PagoRegistrado` | Capital | Cuenta por Pagar (Cuenta 4) | F10 |
 | `ArqueoRealizado` | Capital / Mercancía, Información | `ArqueoManual` | F11 |
 | `ReporteExportado` | Información | `ExportacionReporte` | F12 |
+| `BajaInventarioRegistrada` | Mercancía, Información | `BajaInventario` | F13 |
 
 ## D. Relación con Otros Documentos
 

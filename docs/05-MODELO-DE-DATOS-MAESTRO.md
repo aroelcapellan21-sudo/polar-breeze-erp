@@ -146,6 +146,13 @@ Cubre novedades de inventario: dañados, rotos, en mal estado, sobrantes, faltan
 - Campos conceptuales: `empresaId`, `sucursalId`, tipo de novedad — la **condición** detectada en el producto: dañado / roto / mal estado / sobrante / faltante / rotura de cadena de frío (Artículo 22.2) —, `Producto` referenciado, cantidad, proceso de origen (`InventarioChofer` o `InventarioEncargado` — Artículo 17.2), evento de origen.
 - La **ubicación** de la novedad (si ocurrió en un cuarto frío, una sede u otro punto) no se codifica en el tipo de novedad: se determina por `sucursalId` (referenciando a una `Sucursal` de tipo cuarto frío, sede o punto de despacho — Artículo 22.1) y por el tipo de evento de origen (`NovedadCuartoFrioRegistrada` vs. `NovedadInventarioRegistrada` — `12-GLOSARIO.md`, sección C). Esto evita mezclar en un mismo valor una condición del producto (qué le pasó) con una ubicación (dónde pasó).
 
+### BajaInventario
+
+Registra la salida definitiva de mercancía del inventario vendible por merma, pérdida o condonación (Artículo 6.3 de la Constitución: todo movimiento patrimonial debe balancear, ninguna mercancía desaparece sin un evento explícito que documente su destino).
+
+- Campos conceptuales: `empresaId`, `sucursalId`, `Producto` referenciado, cantidad, tipo (merma / pérdida / condonación), novedad de origen (referencia opcional a `NovedadInventario` o `NovedadDespacho` — no toda baja proviene de una novedad detectada; una condonación administrativa puede no tener novedad previa), inventario o consignación de origen (`InventarioChofer`, `InventarioEncargado` o `Consignacion`), motivo, usuario que autoriza, evento de origen.
+- El tratamiento de capital de una baja (si genera un gasto/pérdida contable y contra qué `Fondo`/`Cuenta`) no está definido en este documento — queda pendiente de validación contable (`docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md`, ítem 7, y `06-REGLAS-CONTABLES-Y-FINANCIERAS.md`). Mientras tanto, `BajaInventario` es únicamente un evento de flujo de mercancía e información; no genera un `MovimientoCapital`.
+
 ## 7. Entidades del Módulo 3 — Despacho y Consignaciones
 
 ### Consignacion
@@ -205,6 +212,7 @@ Toda referencia entre entidades de este modelo respeta el Artículo 10 de la Con
 - Un `MovimientoCapital` siempre referencia una `Cuenta` y un `Fondo` existentes.
 - Una `Obligacion` siempre referencia un `Proveedor` existente de la misma `empresaId`.
 - Un `MovimientoCapital` que registra un pago siempre referencia una `Obligacion` existente de la misma `empresaId`.
+- Una `BajaInventario` siempre referencia un inventario o consignación de origen (`InventarioChofer`, `InventarioEncargado` o `Consignacion`) existente de la misma `empresaId`; cuando referencia una novedad de origen, esta debe existir (`NovedadInventario` o `NovedadDespacho`).
 - Ninguna entidad referencia a otra de una `empresaId` distinta a la propia.
 
 ## 11. Relación con Otros Documentos

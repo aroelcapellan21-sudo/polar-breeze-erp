@@ -53,11 +53,11 @@ El orden de implementación no es arbitrario: refleja las dependencias reales en
 
 ## 5. Fase 3 — Módulo 2: Inventario y Almacén
 
-**Objetivo:** implementar F3 (Conciliación Chofer/Encargado) y F4 (Novedades de Cuarto Frío).
+**Objetivo:** implementar F3 (Conciliación Chofer/Encargado), F4 (Novedades de Cuarto Frío) y F13 (Baja de Mercancía por Merma, Pérdida o Condonación).
 
 **Dependencia:** Fase 1 (requiere `Producto`).
 
-**Criterio de salida:** `InventarioChofer` e `InventarioEncargado` operan como procesos independientes (Artículo 17.1), con registro de novedades (dañados, rotos, mal estado, sobrantes, faltantes) y conciliación explícita entre ambos.
+**Criterio de salida:** `InventarioChofer` e `InventarioEncargado` operan como procesos independientes (Artículo 17.1), con registro de novedades (dañados, rotos, mal estado, sobrantes, faltantes, rotura de cadena de frío), conciliación explícita entre ambos, y capacidad de dar de baja mercancía (merma, pérdida o condonación) reduciendo la existencia proyectada de forma explícita (Artículo 6.3). El tratamiento de capital de una baja permanece pendiente de validación contable y no bloquea esta fase.
 
 ## 6. Fase 4 — Módulo 3: Despacho y Consignaciones
 

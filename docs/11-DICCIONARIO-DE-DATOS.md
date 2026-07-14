@@ -213,6 +213,20 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 | `eventoOrigen` | Referencia (a Evento) | Sí | El evento que generó la novedad; su `tipoEvento` (`NovedadCuartoFrioRegistrada` o `NovedadInventarioRegistrada` — `12-GLOSARIO.md`, sección C) distingue si la novedad se originó en un cuarto frío. |
 | — | — | — | La **ubicación** de la novedad (cuarto frío, sede u otro punto) se determina por el `sucursalId` heredado (sección 2), referenciando a una `Sucursal` cuyo `tipo` sea `cuarto_frío`, `sede` o `punto_despacho` (Artículo 22.1) — nunca por el campo `tipo` de esta entidad. |
 
+### BajaInventario
+
+| Campo | Tipo | Obligatorio | Descripción |
+|---|---|---|---|
+| `producto` | Referencia (a Producto) | Sí | Producto dado de baja. |
+| `cantidad` | Número entero | Sí | Cantidad dada de baja. |
+| `tipo` | Enumeración (`merma` / `pérdida` / `condonación`) | Sí | Naturaleza de la baja: deterioro operativo, extravío o siniestro, o decisión administrativa de no cobrar/perdonar. |
+| `novedadOrigen` | Referencia (a NovedadInventario o NovedadDespacho) | No, solo si la baja proviene de una novedad detectada previamente | Vincula la baja con la novedad que la motivó (Artículo 17.2/23.2: nunca suelta cuando existe una novedad previa). |
+| `inventarioOrigen` | Referencia (a InventarioChofer, InventarioEncargado o Consignacion) | Sí | De dónde se retira la mercancía dada de baja. |
+| `motivo` | Texto largo | Sí | Justificación de la baja. |
+| `usuarioAutoriza` | Referencia (a Usuario) | Sí | Quién autoriza la baja. |
+| `eventoOrigen` | Referencia (a Evento) | Sí | El evento `BajaInventarioRegistrada` que la originó. |
+| — | — | — | **No genera `MovimientoCapital`**: el tratamiento de capital de una baja (si genera un gasto/pérdida contable y contra qué `Fondo`/`Cuenta`) está pendiente de validación contable (`docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md`, ítem 7). |
+
 ## 8. Módulo 3 — Despacho y Consignaciones
 
 ### Consignacion

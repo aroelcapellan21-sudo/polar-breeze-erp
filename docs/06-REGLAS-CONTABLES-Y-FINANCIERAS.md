@@ -82,7 +82,10 @@ Todo movimiento de capital, toda clasificación de `Fondo`, toda cuenta por paga
 - `04-MOTOR-DE-FLUJOS-PATRIMONIALES.md` — quien aplica los eventos de capital descritos aquí.
 - `05-MODELO-DE-DATOS-MAESTRO.md` — las entidades `Fondo`, `Cuenta`, `CuentaBancaria` y `MovimientoCapital`.
 - `08-CATALOGO-DE-MODULOS.md` (Módulo 1) — el origen funcional de estas reglas.
+- `07-FLUJOS-DE-NEGOCIO.md` (F13) y `docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md` (ítem 7) — el tratamiento contable de bajas de inventario por merma, pérdida o condonación no está desarrollado en este documento; es una pregunta abierta, no una omisión de este documento.
 
 Observaciones:
 
 El plan de cuentas de la sección 3 es una **propuesta inicial de arquitectura**, no una definición contable validada. Antes de que cualquier módulo implemente lógica basada en la Cuenta 1-6 descrita aquí, un contador o responsable financiero de Polar Breeze debe revisar, ajustar y aprobar formalmente esta sección, dejando constancia en `DECISIONES-ARQUITECTURALES.md`.
+
+Este documento tampoco define si una `BajaInventario` (merma, pérdida o condonación — `05-MODELO-DE-DATOS-MAESTRO.md`, sección 6) genera un movimiento de capital y contra qué `Fondo`/`Cuenta`. Esa pregunta queda registrada como ítem 7 del anexo de validaciones contables pendientes, y no bloquea la implementación de `BajaInventario` en el flujo de mercancía (que puede operar sin efecto de capital hasta que se resuelva).
