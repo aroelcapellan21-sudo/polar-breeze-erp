@@ -483,3 +483,19 @@ Ninguna: son correcciones de sincronización directa entre documentos que ya se 
 **Consecuencias:**
 - No queda ningún documento del repositorio que enumere un número de catálogos maestros compartidos distinto a los siete definidos en `05-MODELO-DE-DATOS-MAESTRO.md`, sección 4.
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.31) reflejando este cambio como MENOR.
+
+### [2026-07-14] Eliminado el campo duplicado `número` de Cuenta en el diccionario de datos
+
+**Contexto:**
+La evaluación completa (`resumenes/2026-07-14-evaluacion-completa-documentacion.md`, sección 2.10) y la revisión final posterior (`resumenes/2026-07-14-revision-final-post-correcciones.md`, pendiente #3) señalaron que `11-DICCIONARIO-DE-DATOS.md` declaraba dos campos para identificar una `Cuenta`: el `código` heredado de los campos comunes (sección 2, tipo Código) y un `número` (Número entero, 1 a 6) agregado como campo específico adicional — sin ninguna regla que explicara la relación entre ambos. `05-MODELO-DE-DATOS-MAESTRO.md` nunca tuvo este problema: siempre describió a `Cuenta` con un único campo ("código de cuenta, 1 a 6"); la duplicación se introdujo solo en `11` al detallar campo por campo.
+
+**Decisión:**
+Se eliminó el campo `número` de la tabla de `Cuenta` en `11-DICCIONARIO-DE-DATOS.md`. El campo `código` heredado (ya presente por convención general) queda como la única clave de negocio de `Cuenta`, con una nota explícita de que su valor está restringido a "1" a "6" (a diferencia del resto de los catálogos, donde el código es arbitrario), y de que coincide con el número con el que el resto de la documentación ya se refiere a cada cuenta ("Cuenta 1", "Cuenta 4", etc.).
+
+**Alternativas consideradas:**
+Declarar `Cuenta` como una excepción a la convención general de campos comunes (sin `código` propio, usando únicamente `número` como su clave, de forma análoga a cómo `Evento` ya se documenta como excepción sin campo `estado`). Se descartó por requerir más aparato documental (una excepción a la regla general, más un ajuste a la definición del tipo `Referencia` en la sección 1, que dice "apunta a otra entidad por su código") para llegar al mismo resultado práctico. Mantener `código` como el campo único y simplemente acotar su rango de valores es la corrección más simple que resuelve la duplicación sin tocar ninguna otra regla del documento.
+
+**Consecuencias:**
+- `Cuenta` ya no tiene dos campos candidatos a clave de negocio; `código` es el único, consistente con el Principio 1 (`00-PRINCIPIOS-DEL-ERP.md`) y con cómo `05-MODELO-DE-DATOS-MAESTRO.md` ya la describía desde su redacción original.
+- Ninguna otra entidad del diccionario tenía este problema (se verificó mediante búsqueda dirigida): el campo `número` de `CuentaBancaria` es un campo distinto y legítimo (el número de cuenta bancaria real, Artículo 18.2), no relacionado con esta duplicación.
+- `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.32) reflejando este cambio como MENOR (corrige un campo duplicado sin alterar ninguna regla ni relación entre entidades).

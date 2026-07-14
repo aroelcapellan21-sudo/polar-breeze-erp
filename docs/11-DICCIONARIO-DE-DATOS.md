@@ -131,7 +131,7 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 
 | Campo | Tipo | Obligatorio | Descripción |
 |---|---|---|---|
-| `número` | Número entero (1 a 6) | Sí | Identificador de la cuenta dentro del plan de cuentas (`06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 3 — Borrador). |
+| `código` | Código (numérico, "1" a "6") | Sí | Identificador de la cuenta dentro del plan de cuentas (`06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 3 — Borrador); es el mismo número con el que el resto de la documentación ya se refiere a cada cuenta ("Cuenta 1", "Cuenta 4", etc.). Para esta entidad, el tipo `Código` genérico de la sección 1 queda restringido a los valores "1" a "6" — no es un código arbitrario como en el resto de los catálogos. |
 | `nombre` | Texto corto | Sí | Nombre descriptivo de la cuenta. |
 | `naturaleza` | Enumeración (`activo` / `pasivo` / `resultado`) | Sí | Clasificación contable de la cuenta. |
 
