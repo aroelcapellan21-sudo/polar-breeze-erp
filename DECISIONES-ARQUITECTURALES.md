@@ -253,3 +253,20 @@ Fusionar este contenido dentro de `00-PRINCIPIOS-DEL-ERP.md`, evitando un docume
 - Con esta entrada, todos los documentos numerados (`00` a `13`, `99`) del catálogo original tienen contenido completo; solo quedan pendientes los 6 diagramas `.drawio` (sin contenido visual) mencionados en `13-HISTORIAL-DE-VERSIONES.md`.
 - El "Mensaje a Quien Continúe Este Proyecto" (sección 8) queda como el punto de partida recomendado para cualquier persona o IA nueva en el proyecto, antes de profundizar en el detalle técnico.
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.17) reflejando este commit y marcando `99` como Vigente en su tabla de completitud.
+
+### [2026-07-14] Agregado el Artículo 30 — Principio de Huella Permanente a la Constitución
+
+**Contexto:**
+El usuario solicitó agregar un artículo nuevo a `02-CONSTITUCION-ERP.md` exigiendo que todo dato creado, modificado, aprobado, anulado o utilizado por el ERP deje una huella permanente e irreversible, incluyendo las decisiones automáticas tomadas por el propio sistema o por una IA.
+
+**Decisión:**
+Se agregó el **Artículo 30 — Principio de Huella Permanente** al final del cuerpo de artículos de la Constitución (después del Artículo 29, antes de la Convención de Cambios), con el texto exacto provisto por el usuario: 30.1 (todo dato deja huella permanente), 30.2 (ningún movimiento sin evidencia suficiente para reconstruir qué/quién/cuándo/dónde/por qué), 30.3 (contenido mínimo de la huella: id de evento, `empresaId`, `sucursalId`, usuario, fecha/hora, dispositivo/cliente de origen, entidad afectada, estado anterior y posterior, motivo, relación con otros eventos), 30.4 (la huella no se elimina ni modifica, solo se complementa con eventos de corrección) y 30.5 (las decisiones automáticas de sistema o IA también dejan huella, indicando la regla/algoritmo/modelo que las originó).
+
+**Alternativas consideradas:**
+No se consideraron alternativas de contenido: el usuario proveyó el texto completo del artículo a incorporar. La única decisión de arquitectura documental fue de ubicación (al final del cuerpo de artículos, manteniendo la Convención de Cambios como cierre del documento) y de no editar retroactivamente las referencias a "29 artículos" en decisiones e historial ya registrados (Artículo 14.3: las decisiones ya registradas no se editan, se complementan con una nueva).
+
+**Consecuencias:**
+- El Artículo 30 formaliza y refuerza, a nivel constitucional, lo que los Artículos 5, 7 y 8 ya establecían por separado (eventos inmutables, trazabilidad absoluta, auditoría obligatoria) — 30.3 en particular fija el contenido mínimo concreto de esa evidencia, más detallado que lo que tenían el Artículo 7.1 y 8.3 hasta ahora.
+- 30.5 extiende explícitamente la obligación de trazabilidad a decisiones automáticas/IA, complementando al Artículo 26 (Reglas para IA) con un requisito de huella específico para algoritmos y modelos de decisión.
+- Las referencias a "29 artículos" en decisiones anteriores de este archivo y en `13-HISTORIAL-DE-VERSIONES.md` quedan como registro histórico válido de su momento y no se editan; a partir de esta entrada, la Constitución tiene 30 artículos.
+- `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.18) reflejando este cambio como MAYOR (modifica la Constitución).

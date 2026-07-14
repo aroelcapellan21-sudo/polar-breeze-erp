@@ -258,6 +258,18 @@ Contenido:
 
 29.4. Ningún cambio de código se realiza sin mostrar el plan primero, sin prueba previa, y sin confirmar que no rompe funcionalidad existente. Ante ambigüedad, se pregunta — nunca se asume (detalle operativo en `09-ESTANDARES-DE-DESARROLLO.md`).
 
+## Artículo 30 — Principio de Huella Permanente
+
+30.1. Todo dato creado, modificado, aprobado, anulado o utilizado por el ERP deja una huella permanente dentro del sistema.
+
+30.2. Ningún movimiento de negocio podrá ejecutarse sin generar evidencia digital suficiente para reconstruir posteriormente qué ocurrió, quién lo realizó, cuándo ocurrió, dónde ocurrió y por qué ocurrió.
+
+30.3. La huella permanente incluirá como mínimo: identificador único del evento, `empresaId`, `sucursalId` cuando aplique, usuario responsable, fecha y hora, dispositivo o cliente de origen cuando sea relevante, entidad afectada, estado anterior, estado posterior, motivo de la operación y relación con otros eventos.
+
+30.4. La huella forma parte del patrimonio informativo del ERP y no podrá eliminarse ni modificarse — únicamente podrán agregarse eventos complementarios o de corrección.
+
+30.5. Toda decisión automática tomada por el sistema o por una inteligencia artificial deberá dejar igualmente su huella permanente indicando la regla, algoritmo o modelo que originó dicha decisión.
+
 ## Convención de Cambios a esta Constitución
 
 Ninguna de las reglas anteriores se modifica por conveniencia de una implementación puntual. Un cambio a este documento requiere:
