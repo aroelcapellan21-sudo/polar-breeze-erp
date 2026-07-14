@@ -237,3 +237,19 @@ No adoptar un esquema de versión numerado y limitarse a un changelog de fechas 
 - Toda futura redacción o modificación sustantiva de un documento en `docs/` debe agregar una entrada nueva a este historial como parte del mismo commit.
 - El avance de las fases de `10-PLAN-MAESTRO-DE-IMPLEMENTACION.md`, cuando inicie la implementación de código, se registrará aquí como nuevas entradas de versión.
 - La tabla de estado de completitud debe actualizarse cada vez que un documento pase de "Pendiente"/"Borrador" a "Vigente", o viceversa.
+
+### [2026-07-14] Redacción completa de 99-FILOSOFIA-DEL-SISTEMA.md como cierre reflexivo de la biblioteca
+
+**Contexto:**
+Con `00` a `13` ya redactados, la biblioteca cubría principios operativos (`00`), reglas formales (`02`) y todo el detalle técnico intermedio, pero no existía un documento que explicara el espíritu común del que se derivan esas reglas, ni un mensaje explícito dirigido a quien continúe el proyecto en el futuro (persona nueva o IA en otra conversación).
+
+**Decisión:**
+Se redactó `99-FILOSOFIA-DEL-SISTEMA.md` con ocho secciones: la filosofía resumida en una frase, el patrimonio como verdad reconstruible (no opinión editable), la documentación como memoria colectiva del proyecto, crecer sin reescribir, humildad arquitectónica (declarar explícitamente lo que sigue en Borrador o sin validar, en vez de fingir certeza), el rol de la IA en el proyecto, qué significa "terminar" el ERP (nunca, por diseño), y un mensaje directo a quien retome el proyecto. Se decidió explícitamente que este documento no introduce reglas ni entidades nuevas — solo da contexto a las que ya existen.
+
+**Alternativas consideradas:**
+Fusionar este contenido dentro de `00-PRINCIPIOS-DEL-ERP.md`, evitando un documento adicional. Se descartó porque `00` está escrito en un registro operativo (Enunciado/Fundamento/Implica/Prohíbe, consultable rápidamente) mientras que este contenido es deliberadamente reflexivo y narrativo; mezclar ambos registros habría diluido la utilidad de consulta rápida de `00` sin aportar claridad adicional.
+
+**Consecuencias:**
+- Con esta entrada, todos los documentos numerados (`00` a `13`, `99`) del catálogo original tienen contenido completo; solo quedan pendientes los 6 diagramas `.drawio` (sin contenido visual) mencionados en `13-HISTORIAL-DE-VERSIONES.md`.
+- El "Mensaje a Quien Continúe Este Proyecto" (sección 8) queda como el punto de partida recomendado para cualquier persona o IA nueva en el proyecto, antes de profundizar en el detalle técnico.
+- `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.17) reflejando este commit y marcando `99` como Vigente en su tabla de completitud.

@@ -38,7 +38,8 @@ Cuando exista código de producto, ese repositorio llevará su propio esquema de
 | v0.13 | 2026-07-14 | `7add52d` | `10-PLAN-MAESTRO-DE-IMPLEMENTACION.md` redactado: 9 fases de implementación con dependencias y criterios de salida. |
 | v0.14 | 2026-07-14 | `1e86287` | `11-DICCIONARIO-DE-DATOS.md` redactado: detalle campo por campo de todas las entidades. |
 | v0.15 | 2026-07-14 | `6f65e78` | `12-GLOSARIO.md` redactado: terminología consolidada y catálogo formal de los 20 eventos del sistema (Artículo 15 de la Constitución). |
-| v0.16 | 2026-07-14 | — (este commit) | `13-HISTORIAL-DE-VERSIONES.md` redactado. |
+| v0.16 | 2026-07-14 | `15d00c4` | `13-HISTORIAL-DE-VERSIONES.md` redactado. |
+| v0.17 | 2026-07-14 | — (este commit) | `99-FILOSOFIA-DEL-SISTEMA.md` redactado: cierre reflexivo de la biblioteca, sin reglas ni entidades nuevas. Con esta entrada, todos los documentos numerados `00`-`13` y `99` quedan con contenido completo. |
 
 ## Estado de Completitud de la Documentación (a la fecha de la última entrada)
 
@@ -60,7 +61,7 @@ Cuando exista código de producto, ese repositorio llevará su propio esquema de
 | `11-DICCIONARIO-DE-DATOS.md` | Vigente |
 | `12-GLOSARIO.md` | Vigente |
 | `13-HISTORIAL-DE-VERSIONES.md` | Vigente (este documento) |
-| `99-FILOSOFIA-DEL-SISTEMA.md` | Pendiente |
+| `99-FILOSOFIA-DEL-SISTEMA.md` | Vigente |
 | `docs/diagramas/*.drawio` (6 archivos) | Creados vacíos; pendientes de contenido visual |
 
 ## Relación con Otros Documentos
