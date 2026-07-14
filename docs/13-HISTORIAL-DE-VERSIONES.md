@@ -41,7 +41,8 @@ Cuando exista código de producto, ese repositorio llevará su propio esquema de
 | v0.16 | 2026-07-14 | `15d00c4` | `13-HISTORIAL-DE-VERSIONES.md` redactado. |
 | v0.17 | 2026-07-14 | `51736ea` | `99-FILOSOFIA-DEL-SISTEMA.md` redactado: cierre reflexivo de la biblioteca, sin reglas ni entidades nuevas. Con esta entrada, todos los documentos numerados `00`-`13` y `99` quedan con contenido completo. |
 | v0.18 (MAYOR) | 2026-07-14 | `4861440` | Se agrega el **Artículo 30 — Principio de Huella Permanente** a `02-CONSTITUCION-ERP.md`: todo dato deja huella permanente e inmutable, con contenido mínimo definido, incluyendo decisiones automáticas de sistema o IA. La Constitución pasa de 29 a 30 artículos. |
-| v0.19 | 2026-07-14 | — (este commit) | `docs/diagramas/README.md` completado con la lista y propósito de los 6 diagramas `.drawio`. `docs/anexos/README.md` se deja sin cambios deliberadamente: la carpeta no tiene anexos reales todavía. |
+| v0.19 | 2026-07-14 | `89128be` | `docs/diagramas/README.md` completado con la lista y propósito de los 6 diagramas `.drawio`. `docs/anexos/README.md` se deja sin cambios deliberadamente: la carpeta no tiene anexos reales todavía. |
+| v0.20 | 2026-07-14 | — (este commit) | Se crea `CLAUDE.md` con la regla permanente de entrega de resúmenes largos (>20 líneas) vía archivo en `resumenes/` en lugar de mostrarse completos en terminal. Se crea la carpeta `resumenes/` con su primer inventario de archivos. |
 
 ## Estado de Completitud de la Documentación (a la fecha de la última entrada)
 

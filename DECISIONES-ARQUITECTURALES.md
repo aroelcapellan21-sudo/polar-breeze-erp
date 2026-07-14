@@ -285,3 +285,19 @@ Inventar una lista de anexos previstos ("plantilla de próximos anexos") para no
 **Consecuencias:**
 - Con esta entrada, todo el contenido "redactable" con la información disponible queda completo. Lo único pendiente en el repositorio es: contenido visual de los 6 `.drawio` (fuera de alcance por instrucción del usuario) y el llenado de `anexos/README.md` cuando exista al menos un anexo real.
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.19) reflejando este cambio.
+
+### [2026-07-14] Regla permanente de entrega de resúmenes largos vía CLAUDE.md
+
+**Contexto:**
+El usuario pidió que, en este repositorio, todo resumen, conclusión o documento de más de 20 líneas se guarde como archivo en lugar de mostrarse completo en terminal, mostrando en pantalla solo la ruta y un resumen de máximo 5 líneas.
+
+**Decisión:**
+Se creó `CLAUDE.md` en la raíz del repositorio con esta regla permanente: contenido de más de 20 líneas se guarda en `~/polar-breeze-erp/resumenes/` con nombre descriptivo y fecha (`AAAA-MM-DD-descripcion-corta.md`); en terminal solo se muestra la ruta y un resumen de hasta 5 líneas. Se aclaró explícitamente que la regla aplica a resúmenes/informes de trabajo, no al contenido normal de `docs/` (que se sigue editando en su propio archivo) ni a respuestas breves. Se creó la carpeta `resumenes/` con su primer archivo: un inventario de todos los archivos creados/modificados en el repositorio con su estado actual.
+
+**Alternativas consideradas:**
+Mantener el comportamiento previo de publicar resúmenes largos como Artifact (enlace web). Se descartó como regla por defecto para este repositorio porque el usuario reportó que ese enlace no le abría, y porque pidió explícitamente un mecanismo basado en archivo local versionado en el propio repo — más consistente además con la filosofía de este proyecto de que el conocimiento vive en el repositorio (`99-FILOSOFIA-DEL-SISTEMA.md`, sección 3), no en un servicio externo.
+
+**Consecuencias:**
+- `resumenes/` es una carpeta de trabajo/bitácora, explícitamente fuera de la biblioteca oficial de arquitectura (`docs/`); no sustituye a este archivo ni a `13-HISTORIAL-DE-VERSIONES.md`.
+- Cualquier resumen largo futuro generado en este repositorio debe seguir este mismo patrón: archivo en `resumenes/` + resumen de 5 líneas en terminal.
+- `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.20) reflejando la creación de `CLAUDE.md` y la carpeta `resumenes/`.
