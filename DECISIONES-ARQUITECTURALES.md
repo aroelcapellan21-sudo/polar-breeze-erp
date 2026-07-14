@@ -205,3 +205,19 @@ Detallar el diccionario con tipos de dato técnicos concretos (string, integer, 
 - Ninguna entidad puede agregarse a `05-MODELO-DE-DATOS-MAESTRO.md` sin detallarse aquí, y viceversa (regla que este documento se autoimpone en su sección 11).
 - Cuando se elija la tecnología de persistencia, el mapeo de estos tipos conceptuales a tipos técnicos concretos se documenta en el repositorio de código, no aquí.
 - Los valores de Enumeración documentados aquí (por ejemplo, tipos de `NovedadInventario` o `NovedadDespacho`) son la lista cerrada autorizada; agregar un valor nuevo requiere actualizar este documento antes de usarse en desarrollo (Artículo 29.3 de la Constitución).
+
+### [2026-07-14] Redacción completa de 12-GLOSARIO.md y formalización del catálogo de eventos (Artículo 15)
+
+**Contexto:**
+Varios documentos ya redactados (`04`, `05`, `07`, `11`) referenciaban `12-GLOSARIO.md` como el lugar donde se consolidaría la terminología del sistema y, junto con `docs/diagramas/eventos.drawio`, el catálogo formal de eventos exigido por el Artículo 15 de la Constitución. Los 20 nombres de evento propuestos en `07-FLUJOS-DE-NEGOCIO.md` seguían marcados explícitamente como "borrador de nomenclatura, no el catálogo oficial".
+
+**Decisión:**
+Se redactó `12-GLOSARIO.md` con tres secciones: (A) términos de arquitectura (empresaId, sucursalId, evento, proyección, fuente de verdad, soft delete, motor de flujos patrimoniales, etc.), (B) términos de negocio (arqueo, consignación, cuarto frío, despacho, novedad, nota de crédito, etc.), y (C) el catálogo formal de los 20 eventos del sistema (tabla con evento, flujo(s) afectado(s), entidad afectada y flujo de negocio de origen), cerrando así el estado de "borrador" que tenían esos nombres desde `07`.
+
+**Alternativas consideradas:**
+Mantener el catálogo de eventos únicamente en `docs/diagramas/eventos.drawio` (diagrama), sin tabla textual en el glosario. Se descartó porque el diagrama sigue vacío/pendiente de elaborarse visualmente, y siete documentos ya redactados dependen de nombres de evento consistentes; postergar la formalización textual hasta que existiera el diagrama habría dejado la nomenclatura sin fuente de verdad por tiempo indefinido.
+
+**Consecuencias:**
+- Los 20 eventos de la sección C son ahora los nombres oficiales; `07-FLUJOS-DE-NEGOCIO.md` queda consistente con ellos sin requerir cambios (los nombres no se alteraron, solo se formalizaron).
+- Cualquier evento nuevo que un módulo futuro necesite emitir debe agregarse primero a esta tabla (Artículo 15.3 de la Constitución) antes de usarse en desarrollo.
+- El diagrama `docs/diagramas/eventos.drawio` queda pendiente de elaborarse como representación visual de esta misma tabla, y debe mantenerse consistente con ella si se actualiza.
