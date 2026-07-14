@@ -20,7 +20,7 @@ Contenido:
 | Texto corto | Cadena breve (nombres, descripciones cortas). |
 | Texto largo | Cadena extensa (motivos, justificaciones, observaciones). |
 | Número entero | Cantidad sin decimales (unidades de producto, versión). |
-| Monto | Número decimal con precisión monetaria. |
+| Monto | Número decimal con precisión monetaria, expresado siempre en la moneda funcional de la `Empresa` a la que pertenece la entidad que lo contiene (campo `moneda` de `Empresa`, sección 3). |
 | Fecha/Hora | Instante o fecha calendario. |
 | Booleano | Verdadero/falso. |
 | Enumeración | Valor limitado a una lista cerrada predefinida. |
@@ -51,6 +51,7 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 | `código` | Código | Sí | Identificador único de la empresa en todo el ecosistema (no particionado por sí mismo). |
 | `razónSocial` | Texto corto | Sí | Nombre legal de la empresa. |
 | `estado` | Enumeración (`activa` / `inactiva`) | Sí | Soft delete a nivel de empresa. |
+| `moneda` | Código (ISO 4217, por ejemplo `USD`, `DOP`) | Sí | Moneda funcional de la empresa. Todo `Monto` de cualquier entidad con esta `empresaId` se expresa en esta moneda (Artículo 28.1 de la Constitución — crecimiento a nuevas monedas). |
 
 ### Usuario
 

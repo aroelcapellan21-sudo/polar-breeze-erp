@@ -22,6 +22,7 @@ Toda entidad de este modelo respeta:
 - **Soft delete** — ninguna entidad se elimina físicamente; se marca inactiva/anulada y se conserva (Artículo 9 de la Constitución).
 - **Auditoría implícita** — toda entidad hereda los campos mínimos de trazabilidad: usuario creador, timestamp de creación, último evento aplicado (Artículo 7 y 8 de la Constitución).
 - **Versión** — toda entidad configurable o normativa (catálogos de reglas, clasificaciones) lleva número de versión (Artículo 11 de la Constitución).
+- **Moneda** — todo `Monto` se expresa en la moneda funcional de la `Empresa` a la que pertenece (campo `moneda` de `Empresa`, sección 2 de este documento). Ninguna entidad mezcla montos de dos monedas sin una conversión explícita y trazable.
 
 ## 2. Entidades de Plataforma (No Particionadas por Empresa)
 
@@ -29,8 +30,9 @@ Toda entidad de este modelo respeta:
 
 La raíz del modelo multiempresa. Representa a cada empresa del ecosistema (Polar Breeze es la primera).
 
-- Campos conceptuales: código de empresa, razón social, estado (activa/inactiva), fecha de alta.
+- Campos conceptuales: código de empresa, razón social, estado (activa/inactiva), fecha de alta, **moneda funcional** (la moneda base en la que se expresan todos los montos de la empresa).
 - Relación: toda entidad del resto del modelo referencia a una `Empresa` a través de `empresaId`.
+- Toda empresa opera en una única moneda funcional. Dos empresas del ecosistema pueden operar en monedas distintas entre sí (Artículo 28.1 de la Constitución — crecimiento a nuevas monedas), pero ningún `Monto` dentro de una misma `empresaId` se expresa en más de una moneda sin una conversión explícita y trazable; ese mecanismo de conversión, si el negocio llega a necesitarlo, es una decisión de arquitectura aparte, no asumida aquí.
 
 ### Usuario
 
@@ -215,3 +217,5 @@ Toda referencia entre entidades de este modelo respeta el Artículo 10 de la Con
 Observaciones:
 
 Este documento define entidades y relaciones a nivel conceptual. El detalle exhaustivo de cada campo (tipo de dato, obligatoriedad, valores permitidos) corresponde a `11-DICCIONARIO-DE-DATOS.md`, que debe mantenerse consistente con las entidades aquí listadas.
+
+El campo `moneda` de `Empresa` (sección 2) fija una única moneda funcional por empresa — el alcance mínimo necesario para que el ecosistema multiempresa no asuma una sola moneda global (Artículo 28.1 de la Constitución). Este modelo **no** cubre escenarios de multi-moneda dentro de una misma empresa (por ejemplo, una `CuentaBancaria` en una moneda distinta a la funcional, o conversión automática de tipo de cambio); si el negocio llega a necesitar eso, es una extensión futura que requiere su propia decisión en `DECISIONES-ARQUITECTURALES.md`, no una suposición de este documento.

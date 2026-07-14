@@ -381,3 +381,23 @@ También se consideró vincular `Cliente` a `Factura` en esta misma decisión pa
 - `Factura` **no** se modificó para referenciar `Cliente` en esta decisión; la Cuenta 3 — Cuentas por Cobrar del plan de cuentas sigue sin flujo de negocio que la alimente. Esa brecha queda pendiente y debe resolverse como una decisión aparte cuando se confirme si existen ventas a crédito.
 - Cualquier módulo futuro que dependa de `Obligacion`, `Cliente` o `Proveedor` debe consumir estas entidades ya existentes, nunca reimplementarlas (Artículo 4 y 16.1 de la Constitución).
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.25) reflejando este cambio como MENOR (agrega entidades sin reestructurar el modelo existente).
+
+### [2026-07-14] Agregado el campo `moneda` a Empresa — una moneda funcional por empresa en el modelo multiempresa
+
+**Contexto:**
+La misma evaluación completa (`resumenes/2026-07-14-evaluacion-completa-documentacion.md`, sección 3, punto 3) señaló que el Artículo 28.1 de `02-CONSTITUCION-ERP.md` anticipa el crecimiento del ERP hacia "nuevas monedas", pero ni `Empresa` ni el tipo conceptual `Monto` (`11-DICCIONARIO-DE-DATOS.md`, sección 1) declaraban moneda alguna. Sin ese campo, el modelo asumía implícitamente una sola moneda global para todo el ecosistema — justo el tipo de supuesto de "empresa única" que el Artículo 2 de la Constitución prohíbe extender a cualquier dimensión del sistema.
+
+**Decisión:**
+Se agregó el campo `moneda` (Código, formato ISO 4217, por ejemplo `USD` o `DOP`) a la entidad `Empresa` en `05-MODELO-DE-DATOS-MAESTRO.md` (sección 2) y `11-DICCIONARIO-DE-DATOS.md` (sección 3), como su **moneda funcional**: la moneda base en la que se expresan todos los montos de esa empresa. Se actualizó la definición del tipo conceptual `Monto` (`11`, sección 1) para dejar explícito que todo monto se interpreta siempre en la moneda funcional de la `empresaId` a la que pertenece. Se agregó una convención general en `05` (sección 1): ninguna entidad mezcla montos de dos monedas sin conversión explícita y trazable.
+
+Deliberadamente **no** se agregó un campo `moneda` a `MovimientoCapital`, `Obligacion`, `CuentaBancaria`, `Fondo`, `Factura` ni a ninguna otra entidad monetaria: la moneda de cualquier `Monto` ya es deducible de forma no ambigua a través de su `empresaId` → `Empresa.moneda`, y duplicar el campo en cada entidad monetaria violaría la prohibición de duplicar información (Artículo 4 de la Constitución) sin necesidad real, dado que una empresa opera en una única moneda funcional.
+
+**Alternativas consideradas:**
+Agregar `moneda` como campo propio de cada entidad monetaria (`MovimientoCapital`, `Obligacion`, `Factura`, etc.), a modo de "snapshot" redundante. Se descartó por ser una duplicación no justificada del mismo dato mientras la moneda funcional de una empresa se mantenga estable en el tiempo; si en el futuro una empresa cambiara su moneda funcional (redenominación), el tratamiento de los montos históricos ya registrados en la moneda anterior es una decisión de arquitectura aparte (análoga al versionado de reglas del Artículo 11), no resuelta ni asumida por esta decisión.
+También se consideró modelar una entidad `Moneda` (catálogo con símbolo, decimales, etc.) en lugar de un código ISO 4217 simple. Se descartó por ser sobre-construcción para el alcance actual (una moneda funcional fija por empresa, sin conversión ni tasas de cambio); un código ISO 4217 es suficiente y evita introducir un catálogo sin consumidores reales todavía.
+
+**Consecuencias:**
+- El modelo de datos maestro ya no asume una sola moneda global: cada `empresaId` tiene su propia moneda funcional declarada explícitamente, consistente con el Artículo 28.1 de la Constitución.
+- Este cambio **no** cubre multi-moneda dentro de una misma empresa (por ejemplo, una `CuentaBancaria` en moneda extranjera, o conversión automática de tipo de cambio); `05-MODELO-DE-DATOS-MAESTRO.md` deja esa limitación explícita en sus Observaciones, consistente con la humildad arquitectónica de `99-FILOSOFIA-DEL-SISTEMA.md` (sección 5).
+- Si en el futuro una empresa necesita cambiar su moneda funcional, ese cambio y el tratamiento de los montos históricos ya registrados debe registrarse como una nueva decisión aparte antes de implementarse, nunca como una edición silenciosa del campo `moneda`.
+- `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.26) reflejando este cambio como MENOR (agrega un campo sin reestructurar el modelo existente).
