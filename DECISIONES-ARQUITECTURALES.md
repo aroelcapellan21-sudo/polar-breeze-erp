@@ -141,3 +141,19 @@ Esperar a que existiera el diccionario de datos (`11`) para derivar de ahí el m
 - `11-DICCIONARIO-DE-DATOS.md`, cuando se redacte, debe detallar campo por campo cada una de las entidades listadas aquí, sin introducir entidades nuevas no derivadas de un módulo documentado.
 - Cualquier módulo nuevo que se agregue a `08-CATALOGO-DE-MODULOS.md` debe, al aprobarse, declarar qué entidades nuevas necesita y cómo se relacionan con las ya existentes en este documento (evitando duplicación, Artículo 4 de la Constitución).
 - El diagrama `docs/diagramas/base-datos.drawio` queda pendiente de elaborarse como representación visual de este modelo.
+
+### [2026-07-14] Redacción completa de 06-REGLAS-CONTABLES-Y-FINANCIERAS.md, con plan de cuentas propuesto pendiente de validación contable
+
+**Contexto:**
+`08-CATALOGO-DE-MODULOS.md` (Módulo 1) exige "gestionar Cuentas 1-6" sin especificar su significado contable, y `02-CONSTITUCION-ERP.md` fija los principios de los Artículos 18-20 sin desarrollar su aplicación práctica. No existía un documento que tradujera esos principios en reglas de clasificación de movimientos, plan de cuentas y tratamiento de cuentas por pagar.
+
+**Decisión:**
+Se redactó `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` desarrollando: la clasificación obligatoria de todo movimiento de capital en los cuatro `Fondo` (Costo, Venta, Distribución, Mantenimiento), una **propuesta** de plan de cuentas para las Cuentas 1-6 (Caja General, Bancos, Cuentas por Cobrar, Cuentas por Pagar, Costos Operativos, Gastos de Mantenimiento), las reglas de cuentas por pagar y pagos parciales como eventos independientes, reglas de cierre de periodos sin retroactividad, y la relación del arqueo manual con la conciliación de saldos. Dado que el significado de las Cuentas 1-6 no estaba definido en ningún documento previo, se marcó explícitamente esa sección (3) como propuesta de arquitectura pendiente de validación por un contador o responsable financiero, y el Estado del documento se dejó en "Borrador" en lugar de "Vigente".
+
+**Alternativas consideradas:**
+Dejar la sección de plan de cuentas vacía ("pendiente de definición contable") en lugar de proponer una interpretación. Se descartó porque el propósito del documento es servir de referencia completa para el desarrollo, y una sección vacía no permite evaluar si el resto de las reglas (cuentas por pagar, cierre de periodos) son coherentes con un plan de cuentas concreto; se prefirió una propuesta explícita y claramente marcada como no validada, sobre un vacío sin punto de partida.
+
+**Consecuencias:**
+- Ningún módulo puede implementar lógica dependiente del significado de las Cuentas 1-6 hasta que esta sección sea revisada y aprobada formalmente por un responsable financiero, y esa aprobación quede registrada aquí.
+- Si el plan de cuentas real difiere del propuesto, la actualización de la sección 3 debe registrarse como una nueva decisión de reemplazo (Artículo 14.3 de la Constitución), no como edición silenciosa.
+- El Estado de `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` debe pasar de "Borrador" a "Vigente" solo después de esa validación.
