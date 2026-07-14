@@ -189,3 +189,19 @@ Ordenar las fases siguiendo la numeración de los módulos en `08-CATALOGO-DE-MO
 - Ningún equipo de desarrollo debe iniciar la implementación del Módulo 1 (Fase 2) hasta que el plan de cuentas de `06` deje de estar en estado Borrador.
 - La Fase 7 (segunda empresa real) es el hito formal que valida en producción la decisión de "Arquitectura multiempresa desde el origen" ya registrada anteriormente en este archivo; su resultado debe registrarse aquí como una nueva entrada cuando ocurra.
 - Cambios futuros al orden de fases o a sus criterios de salida deben registrarse como nueva decisión antes de aplicarse (regla que este mismo documento se autoimpone en su sección 11).
+
+### [2026-07-14] Redacción completa de 11-DICCIONARIO-DE-DATOS.md campo por campo
+
+**Contexto:**
+`05-MODELO-DE-DATOS-MAESTRO.md` dejaba explícitamente el detalle campo por campo de cada entidad para este documento (ver su sección Observaciones), y hasta ahora `11-DICCIONARIO-DE-DATOS.md` era un placeholder vacío.
+
+**Decisión:**
+Se redactó `11-DICCIONARIO-DE-DATOS.md` detallando las ~24 entidades ya identificadas en `05-MODELO-DE-DATOS-MAESTRO.md`, con tipos de dato **conceptuales** (Código, Texto corto/largo, Número entero, Monto, Fecha/Hora, Booleano, Enumeración, Referencia — sin tipos de columna técnicos), obligatoriedad y reglas de valor por campo. Se definió un bloque de "campos comunes heredados" (`empresaId`, `sucursalId`, `código`, `estado`, `creadoPor`, `creadoEn`, `version`) para no repetirlos en cada entidad, y cada sección de entidad lista solo sus campos específicos adicionales.
+
+**Alternativas consideradas:**
+Detallar el diccionario con tipos de dato técnicos concretos (string, integer, timestamp de una base de datos específica). Se descartó porque el repositorio es exclusivamente documental (regla del `README.md`: "no escribir código") y porque atarse a tipos técnicos antes de elegir la tecnología de persistencia (aún no decidida, ver `03-ARQUITECTURA-GENERAL.md` sección 6-7) generaría documentación que contradice al código real en cuanto se tome esa decisión.
+
+**Consecuencias:**
+- Ninguna entidad puede agregarse a `05-MODELO-DE-DATOS-MAESTRO.md` sin detallarse aquí, y viceversa (regla que este documento se autoimpone en su sección 11).
+- Cuando se elija la tecnología de persistencia, el mapeo de estos tipos conceptuales a tipos técnicos concretos se documenta en el repositorio de código, no aquí.
+- Los valores de Enumeración documentados aquí (por ejemplo, tipos de `NovedadInventario` o `NovedadDespacho`) son la lista cerrada autorizada; agregar un valor nuevo requiere actualizar este documento antes de usarse en desarrollo (Artículo 29.3 de la Constitución).
