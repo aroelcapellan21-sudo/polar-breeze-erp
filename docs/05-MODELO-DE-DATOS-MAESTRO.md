@@ -211,7 +211,7 @@ Toda referencia entre entidades de este modelo respeta el Artículo 10 de la Con
 - `02-CONSTITUCION-ERP.md` — las reglas que este modelo está obligado a cumplir (particionado, integridad referencial, soft delete, versionado, auditoría).
 - `04-MOTOR-DE-FLUJOS-PATRIMONIALES.md` — quien aplica los eventos que dan origen al historial y a las proyecciones descritas aquí.
 - `08-CATALOGO-DE-MODULOS.md` — el origen funcional de cada entidad descrita por módulo.
-- `11-DICCIONARIO-DE-DATOS.md` — el detalle campo por campo de cada entidad aquí listada (pendiente de redactar).
+- `11-DICCIONARIO-DE-DATOS.md` — el detalle campo por campo de cada entidad aquí listada.
 - `docs/diagramas/base-datos.drawio` — representación visual de este modelo (pendiente de diagramar).
 
 Observaciones:

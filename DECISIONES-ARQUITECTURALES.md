@@ -468,3 +468,18 @@ Para la cita de "abstracción prematura" en `99`, se consideró agregar esa regl
 - Las cuatro citas corregidas de "Artículo 1.3" ya no podrán inducir a un futuro desarrollador o IA a implementar una regla de no-reutilización de claves buscándola erróneamente en las reglas de offline-first.
 - `09-ESTANDARES-DE-DESARROLLO.md` y `13-HISTORIAL-DE-VERSIONES.md` quedan consistentes entre sí; ya no existe ningún documento numerado (`00` a `13`, `99`) con Estado "En construcción".
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.30) reflejando este cambio como MENOR (corrige referencias y alinea un estado, sin modificar el contenido normativo de ningún artículo).
+
+### [2026-07-14] Revisión final: sincronizado 10-PLAN-MAESTRO-DE-IMPLEMENTACION.md con los catálogos agregados en decisiones previas
+
+**Contexto:**
+Durante una revisión final de todo el repositorio, tras las cinco rondas de correcciones anteriores, se detectó que `10-PLAN-MAESTRO-DE-IMPLEMENTACION.md` (Fase 1 y Fase 2) seguía sin actualizarse desde que se agregaron las entidades `Cliente`, `Proveedor` y `Obligacion` a `05-MODELO-DE-DATOS-MAESTRO.md`: la Fase 1 listaba solo cinco catálogos ("`Producto`, `Cuenta`, `Fondo`, `CuentaBancaria`, `Vendedor`... los cinco catálogos existen"), sin `Cliente` ni `Proveedor`; y la Fase 2 no mencionaba que el Módulo 1 también depende de `Proveedor` (como contraparte de `Obligacion`) ni que su criterio de salida debía incluir poder registrar y pagar una `Obligacion`. También se corrigió una referencia obsoleta en `05-MODELO-DE-DATOS-MAESTRO.md` (sección 11), que seguía calificando a `11-DICCIONARIO-DE-DATOS.md` como "pendiente de redactar" pese a estar completo desde la versión v0.14.
+
+**Decisión:**
+Se actualizó la Fase 1 de `10-PLAN-MAESTRO-DE-IMPLEMENTACION.md` para incluir los siete catálogos actuales (`Producto`, `Cuenta`, `Fondo`, `CuentaBancaria`, `Vendedor`, `Cliente`, `Proveedor`) y su criterio de salida ("los siete catálogos existen..."). Se actualizó la Fase 2 para declarar la dependencia de `Proveedor` y para que su criterio de salida incluya explícitamente registrar y pagar una `Obligacion`. Se eliminó la calificación "(pendiente de redactar)" de la referencia a `11-DICCIONARIO-DE-DATOS.md` en `05`.
+
+**Alternativas consideradas:**
+Ninguna: son correcciones de sincronización directa entre documentos que ya se derivan unos de otros: si `05` cambia el número y la lista de catálogos, `10` (que depende explícitamente de esa lista para su Fase 1) debe reflejarlo, sin margen de interpretación distinta.
+
+**Consecuencias:**
+- No queda ningún documento del repositorio que enumere un número de catálogos maestros compartidos distinto a los siete definidos en `05-MODELO-DE-DATOS-MAESTRO.md`, sección 4.
+- `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.31) reflejando este cambio como MENOR.

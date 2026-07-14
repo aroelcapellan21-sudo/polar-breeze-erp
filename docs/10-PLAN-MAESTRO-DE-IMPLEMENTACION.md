@@ -35,21 +35,21 @@ El orden de implementación no es arbitrario: refleja las dependencias reales en
 
 **Objetivo:** construir los catálogos que todos los módulos consumirán, evitando la duplicación prohibida por el Artículo 4 de la Constitución.
 
-**Incluye:** `Producto`, `Cuenta`, `Fondo`, `CuentaBancaria`, `Vendedor` (`05-MODELO-DE-DATOS-MAESTRO.md`, sección 4).
+**Incluye:** `Producto`, `Cuenta`, `Fondo`, `CuentaBancaria`, `Vendedor`, `Cliente`, `Proveedor` (`05-MODELO-DE-DATOS-MAESTRO.md`, sección 4).
 
 **Dependencia:** Fase 0 completa.
 
-**Criterio de salida:** los cinco catálogos existen, particionados por `empresaId`, con código como clave de negocio (Principio 1), y ningún módulo posterior necesita reimplementarlos.
+**Criterio de salida:** los siete catálogos existen, particionados por `empresaId`, con código como clave de negocio (Principio 1), y ningún módulo posterior necesita reimplementarlos.
 
 ## 4. Fase 2 — Módulo 1: Flujo de Efectivo
 
 **Objetivo:** implementar F1 (Ingreso de Capital), F10 (Pago de Cuentas por Pagar) y la base de F11 (Arqueo) descritos en `07-FLUJOS-DE-NEGOCIO.md`.
 
-**Dependencia:** Fase 1 (requiere `Fondo` y `Cuenta`).
+**Dependencia:** Fase 1 (requiere `Fondo`, `Cuenta` y `Proveedor` — este último como contraparte de las obligaciones de F10).
 
 **Bloqueante:** el plan de cuentas de `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` (sección 3) está marcado como Borrador — **no debe iniciarse la implementación de este módulo hasta que ese plan de cuentas sea validado formalmente** por un responsable financiero (ver Observaciones de ese documento).
 
-**Criterio de salida:** es posible registrar capital, clasificarlo en los cuatro fondos, gestionar las Cuentas 1-6 ya validadas, y crear cuentas bancarias.
+**Criterio de salida:** es posible registrar capital, clasificarlo en los cuatro fondos, gestionar las Cuentas 1-6 ya validadas, crear cuentas bancarias, y registrar/pagar una `Obligacion` (Cuenta por Pagar) referenciando a un `Proveedor`.
 
 ## 5. Fase 3 — Módulo 2: Inventario y Almacén
 
