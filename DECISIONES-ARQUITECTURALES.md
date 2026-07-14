@@ -363,3 +363,21 @@ Reescribir también `03-ARQUITECTURA-GENERAL.md` para introducir formalmente el 
 **Consecuencias:**
 - El término "Sistema Operativo Empresarial basado en Flujos Patrimoniales" queda introducido únicamente en el manifiesto por ahora; si se decide adoptarlo formalmente como marco arquitectónico en `01-VISION-ERP.md` o `03-ARQUITECTURA-GENERAL.md`, eso requiere su propia decisión y documentación, no se asume aquí.
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.24) reflejando este cambio.
+
+### [2026-07-14] Agregadas las entidades Cliente, Proveedor y Obligacion (Cuenta por Pagar) al modelo de datos maestro
+
+**Contexto:**
+Una evaluación completa de la biblioteca de arquitectura (`resumenes/2026-07-14-evaluacion-completa-documentacion.md`) detectó que el Artículo 16.1 de `02-CONSTITUCION-ERP.md` exige explícitamente "clientes" y "proveedores" como catálogos maestros, pero ninguno de los dos existía en `05-MODELO-DE-DATOS-MAESTRO.md` ni en `11-DICCIONARIO-DE-DATOS.md`. Además, los flujos F2 y F10 de `07-FLUJOS-DE-NEGOCIO.md` y la sección 5 de `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` dependen de una "obligación" con contraparte, monto original inmutable, fecha de vencimiento y saldo pendiente proyectado (Artículo 20 de la Constitución), pero esa obligación tampoco existía como entidad — solo como evento (`ObligacionRegistrada`, `PagoRegistrado`) sin registro estructural que integridad referencial (Artículo 10) pudiera exigir.
+
+**Decisión:**
+Se agregaron tres entidades a `05-MODELO-DE-DATOS-MAESTRO.md` (secciones 4 y 5) y a `11-DICCIONARIO-DE-DATOS.md` (secciones 5 y 6): **Cliente** (código, nombre, `empresaId`) como catálogo maestro compartido, consumible por el Módulo 4 — Facturación y por el Módulo 1 cuando exista venta a crédito contra la Cuenta 3 — Cuentas por Cobrar; **Proveedor** (código, nombre, tipo — proveedor de mercancía / transportista / consignatario / otro — `empresaId`) como catálogo maestro compartido, representando a todo tercero con quien la empresa puede contraer una obligación (Artículo 20.1); y **Obligacion** (Cuenta por Pagar) como entidad del Módulo 1 — Flujo de Efectivo, con `Proveedor` referenciado, monto original, fecha de vencimiento, `Cuenta` asociada (Cuenta 4), saldo pendiente como proyección y evento de origen. Se agregó también el campo opcional `obligacionReferenciada` a `MovimientoCapital`, para que un pago pueda vincularse a la obligación que salda (Artículo 20.2), y se actualizó la sección 10 de `05` (Integridad Referencial) con las dos reglas de referencia correspondientes.
+
+**Alternativas consideradas:**
+Modelar `Obligacion.contraparte` con un cuarto tipo de entidad distinto por cada tercero (Proveedor, Transportista, Consignatario). Se descartó por ser una duplicación de catálogo para el mismo concepto (tercero acreedor de la empresa) que el propio Artículo 4 de la Constitución prohíbe; en su lugar, `Proveedor` incluye un campo `tipo` que distingue el rol del tercero sin crear catálogos paralelos.
+También se consideró vincular `Cliente` a `Factura` en esta misma decisión para resolver de una vez la ausencia de ventas a crédito. Se descartó porque esa pregunta (¿Polar Breeze factura a crédito o solo de contado?) es una decisión de negocio pendiente de confirmar, no una corrección de modelo de datos; se deja fuera de alcance de esta decisión y queda señalada como pendiente.
+
+**Consecuencias:**
+- El Artículo 16.1 de la Constitución queda satisfecho en su totalidad por el modelo de datos maestro: los seis catálogos que menciona (productos, cuentas, vendedores, bancos, clientes, proveedores) existen ahora en `05` y `11`.
+- `Factura` **no** se modificó para referenciar `Cliente` en esta decisión; la Cuenta 3 — Cuentas por Cobrar del plan de cuentas sigue sin flujo de negocio que la alimente. Esa brecha queda pendiente y debe resolverse como una decisión aparte cuando se confirme si existen ventas a crédito.
+- Cualquier módulo futuro que dependa de `Obligacion`, `Cliente` o `Proveedor` debe consumir estas entidades ya existentes, nunca reimplementarlas (Artículo 4 y 16.1 de la Constitución).
+- `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.25) reflejando este cambio como MENOR (agrega entidades sin reestructurar el modelo existente).

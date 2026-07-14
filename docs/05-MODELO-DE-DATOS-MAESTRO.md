@@ -104,13 +104,30 @@ Agrupación patrimonial de capital por propósito (`01-VISION-ERP.md`, sección 
 - Campos conceptuales: código, nombre, `empresaId`.
 - Se crea desde el Módulo 4 — Facturación ("crear vendedor").
 
+### Cliente
+
+- Campos conceptuales: código, nombre, `empresaId`.
+- Catálogo maestro exigido explícitamente por el Artículo 16.1 de la Constitución ("productos, cuentas, vendedores, bancos, clientes, proveedores"). Queda disponible para su consumo por el Módulo 4 — Facturación y por el Módulo 1 — Flujo de Efectivo cuando el negocio registre ventas a crédito contra la Cuenta 3 — Cuentas por Cobrar (`06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 3).
+
+### Proveedor
+
+- Campos conceptuales: código, nombre, tipo (proveedor de mercancía / transportista / consignatario / otro), `empresaId`.
+- Catálogo maestro exigido explícitamente por el Artículo 16.1 de la Constitución. Representa a todo tercero con quien la empresa puede contraer una obligación de pago (Artículo 20.1: "proveedor, transportista, consignatario"). Es la contraparte que referencia toda `Obligacion` (sección 5).
+
 ## 5. Entidades del Módulo 1 — Flujo de Efectivo
 
 ### MovimientoCapital
 
 Proyección/registro de un evento de flujo de capital.
 
-- Campos conceptuales: `empresaId`, `Fondo` (clasificación), `Cuenta` de origen/destino, monto, tipo (ingreso/egreso), evento de origen.
+- Campos conceptuales: `empresaId`, `Fondo` (clasificación), `Cuenta` de origen/destino, monto, tipo (ingreso/egreso), obligación referenciada (opcional, cuando el movimiento es un pago aplicado a una `Obligacion`), evento de origen.
+
+### Obligacion (Cuenta por Pagar)
+
+Registra una obligación de pago con un tercero (Artículo 20 de la Constitución), contabilizada contra la Cuenta 4 — Cuentas por Pagar (`06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 3).
+
+- Campos conceptuales: `empresaId`, `Proveedor` referenciado (contraparte), monto original, fecha de vencimiento, `Cuenta` asociada (Cuenta 4), saldo pendiente (proyección: monto original menos suma de pagos aplicados), evento de origen (`ObligacionRegistrada`).
+- El monto original nunca se edita para reflejar pagos parciales (Artículo 20.2); un pago se registra como un `MovimientoCapital` que referencia esta `Obligacion`, y la obligación se considera saldada cuando la proyección de saldo pendiente llega a cero (`06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 5).
 
 ## 6. Entidades del Módulo 2 — Inventario y Almacén
 
@@ -183,6 +200,8 @@ Toda referencia entre entidades de este modelo respeta el Artículo 10 de la Con
 - Una `NovedadDespacho` siempre referencia un `Despacho` existente.
 - Una `JustificacionRetiro` siempre referencia una `SolicitudRetiro` existente.
 - Un `MovimientoCapital` siempre referencia una `Cuenta` y un `Fondo` existentes.
+- Una `Obligacion` siempre referencia un `Proveedor` existente de la misma `empresaId`.
+- Un `MovimientoCapital` que registra un pago siempre referencia una `Obligacion` existente de la misma `empresaId`.
 - Ninguna entidad referencia a otra de una `empresaId` distinta a la propia.
 
 ## 11. Relación con Otros Documentos

@@ -155,6 +155,19 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 |---|---|---|---|
 | `nombre` | Texto corto | Sí | Nombre del vendedor. |
 
+### Cliente
+
+| Campo | Tipo | Obligatorio | Descripción |
+|---|---|---|---|
+| `nombre` | Texto corto | Sí | Nombre o razón social del cliente (Artículo 16.1 de la Constitución). |
+
+### Proveedor
+
+| Campo | Tipo | Obligatorio | Descripción |
+|---|---|---|---|
+| `nombre` | Texto corto | Sí | Nombre o razón social del proveedor o tercero. |
+| `tipo` | Enumeración (`proveedor_mercancia` / `transportista` / `consignatario` / `otro`) | Sí | Clasifica el tipo de tercero con quien se puede contraer una obligación (Artículo 20.1 de la Constitución). |
+
 ## 6. Módulo 1 — Flujo de Efectivo
 
 ### MovimientoCapital
@@ -165,7 +178,19 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 | `cuentaOrigen` / `cuentaDestino` | Referencia (a Cuenta) | Al menos una | Cuenta afectada por el movimiento (Artículo 18.3). |
 | `monto` | Monto | Sí | Valor del movimiento. |
 | `tipo` | Enumeración (`ingreso` / `egreso`) | Sí | Naturaleza del movimiento. |
+| `obligacionReferenciada` | Referencia (a Obligacion) | No, solo si el movimiento es un pago aplicado a una obligación | Vincula el pago con la obligación que salda, parcial o totalmente (Artículo 20.2). |
 | `eventoOrigen` | Referencia (a Evento) | Sí | El evento que generó este registro. |
+
+### Obligacion (Cuenta por Pagar)
+
+| Campo | Tipo | Obligatorio | Descripción |
+|---|---|---|---|
+| `proveedor` | Referencia (a Proveedor) | Sí | Contraparte de la obligación (Artículo 20.1 de la Constitución). |
+| `montoOriginal` | Monto | Sí | Monto de la obligación; nunca se edita para reflejar pagos parciales (Artículo 20.2). |
+| `fechaVencimiento` | Fecha/Hora | Sí | Fecha límite de pago pactada. |
+| `cuenta` | Referencia (a Cuenta) | Sí | Vínculo a la Cuenta 4 — Cuentas por Pagar del plan de cuentas (`06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 3). |
+| `saldoPendiente` | Monto | — (proyección) | `montoOriginal` menos la suma de pagos aplicados; derivado del historial de eventos, no editable directamente. |
+| `eventoOrigen` | Referencia (a Evento) | Sí | El evento `ObligacionRegistrada` que originó esta obligación. |
 
 ## 7. Módulo 2 — Inventario y Almacén
 
