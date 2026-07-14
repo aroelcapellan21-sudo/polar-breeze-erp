@@ -125,3 +125,19 @@ Describir el motor únicamente como parte de `03-ARQUITECTURA-GENERAL.md`, sin u
 - Todo módulo nuevo, al documentarse (Artículo 29.2 de la Constitución), debe describir qué eventos emite hacia este motor y cómo cumple la separación de validación de dominio vs. validación de flujo de la sección 9.
 - `05-MODELO-DE-DATOS-MAESTRO.md`, cuando se redacte, debe ser consistente con la noción de historial de eventos inmutable + proyecciones derivadas fijada aquí (sección 7).
 - El catálogo de eventos (`docs/diagramas/eventos.drawio` y `12-GLOSARIO.md`) queda como la lista formal de tipos de evento que este motor reconoce; ambos siguen pendientes de completarse.
+
+### [2026-07-14] Redacción completa de 05-MODELO-DE-DATOS-MAESTRO.md a partir de los cinco módulos ya documentados
+
+**Contexto:**
+`08-CATALOGO-DE-MODULOS.md` ya listaba las funcionalidades de los cinco módulos (Flujo de Efectivo, Inventario y Almacén, Despacho y Consignaciones, Facturación, Reportes), y `04-MOTOR-DE-FLUJOS-PATRIMONIALES.md` ya definía cómo se procesan los eventos, pero no existía un documento que tradujera esas funcionalidades a entidades de datos concretas con sus relaciones y su particionado multiempresa.
+
+**Decisión:**
+Se redactó `05-MODELO-DE-DATOS-MAESTRO.md` derivando las entidades directamente de los cinco módulos ya documentados: Empresa, Usuario, Sucursal, Rol/Permiso, Evento y Auditoría como entidades de plataforma/comunes; Producto, Cuenta, CuentaBancaria, Fondo y Vendedor como catálogos maestros compartidos; y por módulo — MovimientoCapital (Módulo 1); InventarioChofer, InventarioEncargado y NovedadInventario (Módulo 2); Consignacion, Despacho, NovedadDespacho, SolicitudRetiro y JustificacionRetiro (Módulo 3); Factura y NotaCredito (Módulo 4); ArqueoManual y ExportacionReporte (Módulo 5). El documento define entidades y relaciones a nivel conceptual, explícitamente sin tipos de dato ni esquema técnico, remitiendo ese detalle a `11-DICCIONARIO-DE-DATOS.md`.
+
+**Alternativas consideradas:**
+Esperar a que existiera el diccionario de datos (`11`) para derivar de ahí el modelo maestro. Se descartó por ser el orden inverso al natural: el modelo maestro (entidades y relaciones) debe preceder al diccionario (detalle campo por campo), no al revés — es más fácil detallar campos de entidades ya identificadas que inferir entidades a partir de una lista de campos sin agrupar.
+
+**Consecuencias:**
+- `11-DICCIONARIO-DE-DATOS.md`, cuando se redacte, debe detallar campo por campo cada una de las entidades listadas aquí, sin introducir entidades nuevas no derivadas de un módulo documentado.
+- Cualquier módulo nuevo que se agregue a `08-CATALOGO-DE-MODULOS.md` debe, al aprobarse, declarar qué entidades nuevas necesita y cómo se relacionan con las ya existentes en este documento (evitando duplicación, Artículo 4 de la Constitución).
+- El diagrama `docs/diagramas/base-datos.drawio` queda pendiente de elaborarse como representación visual de este modelo.
