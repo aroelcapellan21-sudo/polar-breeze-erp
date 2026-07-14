@@ -19,6 +19,7 @@ polar-breeze-erp/
 ├── README.md
 ├── DECISIONES-ARQUITECTURALES.md
 └── docs/
+    ├── 00-PRINCIPIOS-DEL-ERP.md
     ├── 01-VISION-ERP.md
     ├── 02-CONSTITUCION-ERP.md
     ├── 03-ARQUITECTURA-GENERAL.md
@@ -29,9 +30,19 @@ polar-breeze-erp/
     ├── 08-CATALOGO-DE-MODULOS.md
     ├── 09-ESTANDARES-DE-DESARROLLO.md
     ├── 10-PLAN-MAESTRO-DE-IMPLEMENTACION.md
+    ├── 11-DICCIONARIO-DE-DATOS.md
+    ├── 12-GLOSARIO.md
+    ├── 13-HISTORIAL-DE-VERSIONES.md
+    ├── 99-FILOSOFIA-DEL-SISTEMA.md
     ├── diagramas/
     │   ├── README.md
-    │   └── imagenes/
+    │   ├── imagenes/
+    │   ├── flujo-capital.drawio
+    │   ├── flujo-mercancia.drawio
+    │   ├── flujo-informacion.drawio
+    │   ├── arquitectura-general.drawio
+    │   ├── base-datos.drawio
+    │   └── eventos.drawio
     └── anexos/
         └── README.md
 ```
