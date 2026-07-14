@@ -6,9 +6,9 @@ Estado:
 
 Objetivo:
 
-Este documento define las reglas que **ningún módulo, flujo, integración, dato o decisión técnica del ERP Polar Breeze puede violar**. Es la norma de más alto rango de todo el repositorio, superada únicamente por `01-VISION-ERP.md`, del cual se deriva.
+Este documento define las reglas que **ningún módulo, flujo, integración, dato o decisión técnica del ERP Polar Breeze puede violar**. Es la norma de más alto rango de todo el repositorio.
 
-Ante un conflicto entre esta Constitución y cualquier otro documento (`00`, `03` a `13`, `99`), prevalece la Constitución. Ningún módulo del `08-CATALOGO-DE-MODULOS.md` puede aprobarse para desarrollo si su diseño contradice alguno de los artículos siguientes.
+Ante un conflicto entre esta Constitución y cualquier otro documento del repositorio — incluido `01-VISION-ERP.md`, del cual esta Constitución se deriva — prevalece la Constitución. La Visión es el origen y el fundamento de estas reglas, no una instancia superior de apelación: si una decisión de producto pareciera alinearse con la Visión pero contradecir un artículo vigente de esta Constitución, esa tensión se resuelve enmendando explícitamente la Constitución (ver Convención de Cambios, al final de este documento), nunca invocando la Visión para dejarla sin efecto en la práctica. Ningún módulo del `08-CATALOGO-DE-MODULOS.md` puede aprobarse para desarrollo si su diseño contradice alguno de los artículos siguientes.
 
 Este documento se escribe y mantiene con estándar de arquitectura empresarial: cada regla debe ser verificable, no aspiracional.
 

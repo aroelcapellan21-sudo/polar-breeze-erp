@@ -419,3 +419,35 @@ También se consideró resolver en esta misma decisión la ambigüedad de a qué
 - La inconsistencia detectada entre el Estado de `08` ("En construcción") y su fila en la tabla de completitud de `13-HISTORIAL-DE-VERSIONES.md` ("Vigente") queda resuelta: ambos documentos dicen ahora lo mismo.
 - Esta decisión no resuelve la inconsistencia equivalente de `09-ESTANDARES-DE-DESARROLLO.md` (mismo problema, señalado en la misma evaluación); queda fuera de alcance de esta decisión.
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.27) reflejando este cambio como MENOR (completa contenido exigido sin reestructurar los módulos ya definidos).
+
+### [2026-07-14] Fijada la jerarquía documental: la Constitución prevalece sobre la Visión
+
+**Contexto:**
+La evaluación completa (`resumenes/2026-07-14-evaluacion-completa-documentacion.md`, sección 2.1) detectó una contradicción textual entre tres documentos: el Objetivo de `02-CONSTITUCION-ERP.md` declaraba ser "la norma de más alto rango... superada únicamente por `01-VISION-ERP.md`" (la Visión ganaría en un conflicto), mientras que `99-FILOSOFIA-DEL-SISTEMA.md` (sección 8) afirmaba sin excepción que "la Constitución (02) gana", y la propia `01-VISION-ERP.md` (sección 13) ya establecía que ante tensión "se resuelve actualizando la Constitución... nunca ignorándola en la implementación" — un texto compatible con que la Constitución sea la autoridad operativa, no con que la Visión pueda anularla directamente. No existía una regla única de resolución de conflictos entre estos dos documentos.
+
+**Decisión:**
+Se preguntó al usuario cuál de tres criterios adoptar: la Constitución prevalece, la Visión prevalece, o ninguna prevalece automáticamente (cada conflicto se registra como decisión pendiente caso por caso). El usuario eligió que **la Constitución prevalece**. Se reescribió el Objetivo de `02-CONSTITUCION-ERP.md` para eliminar la frase "superada únicamente por `01-VISION-ERP.md`" y declarar explícitamente que la Constitución prevalece ante cualquier conflicto, incluido con la Visión — que queda descrita como origen y fundamento de las reglas, no como instancia superior de apelación. No fue necesario modificar `01-VISION-ERP.md` ni `99-FILOSOFIA-DEL-SISTEMA.md`: ambos ya eran consistentes con esta jerarquía.
+
+**Alternativas consideradas:**
+Las otras dos opciones presentadas al usuario (Visión prevalece; sin regla de desempate por defecto). No se evaluaron variantes adicionales de redacción: la elección de fondo fue del usuario, no una decisión técnica de arquitectura tomada unilateralmente por la IA (consistente con el Artículo 26.2 de la Constitución y la regla 10 de `09-ESTANDARES-DE-DESARROLLO.md`: ante ambigüedad de gobernanza, se pregunta, no se asume).
+
+**Consecuencias:**
+- Cualquier tensión futura detectada entre `01-VISION-ERP.md` y `02-CONSTITUCION-ERP.md` se resuelve enmendando explícitamente la Constitución (Convención de Cambios, al final de ese documento), nunca invocando la Visión para dejar sin efecto un artículo vigente en la práctica.
+- `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.28) reflejando este cambio como MAYOR (modifica una regla de gobernanza documental de la propia Constitución).
+
+### [2026-07-14] Formalizada la coexistencia de 00-MANIFIESTO-DEL-ERP.md y 00-PRINCIPIOS-DEL-ERP.md bajo el prefijo 00
+
+**Contexto:**
+Desde la decisión "Creado 00-MANIFIESTO-DEL-ERP.md — coexiste con 00-PRINCIPIOS-DEL-ERP.md bajo el mismo prefijo" (registrada anteriormente en este archivo), el repositorio tenía dos documentos con prefijo `00`, señalada explícitamente como "colisión conocida... a la espera de decisión del usuario" y así reflejada en `13-HISTORIAL-DE-VERSIONES.md`. La evaluación completa (`resumenes/2026-07-14-evaluacion-completa-documentacion.md`, sección 2.12) volvió a señalarla como pendiente de resolver.
+
+**Decisión:**
+Se preguntó al usuario si mantener ambos documentos bajo `00`, renumerar `00-PRINCIPIOS-DEL-ERP.md`, o renumerar `00-MANIFIESTO-DEL-ERP.md`. El usuario eligió **mantener ambos bajo `00`**, formalizando el prefijo `00` como el nivel fundacional/declarativo compartido del repositorio por diseño — no un error pendiente de corregir. No se renombra ningún archivo ni se actualiza ninguna referencia cruzada existente.
+
+**Alternativas consideradas:**
+Renumerar uno de los dos documentos (Principios o Manifiesto) a un prefijo libre. No se evaluaron variantes adicionales de numeración: la elección de fondo fue del usuario.
+
+**Consecuencias:**
+- La colisión de prefijo `00` deja de estar "pendiente de decisión" y pasa a ser una característica intencional y permanente del repositorio.
+- `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse: la fila de `00-MANIFIESTO-DEL-ERP.md` en la tabla de completitud ya no dice "sin resolver", sino que refleja esta decisión como definitiva.
+- Cualquier herramienta o persona que asuma "un archivo por número" en `docs/` debe seguir tratando `00` como la única excepción documentada del repositorio, ahora con carácter permanente en lugar de temporal.
+- `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.29) reflejando este cambio como MENOR (cierra una decisión pendiente sin modificar reglas ni contenido de ningún artículo).
