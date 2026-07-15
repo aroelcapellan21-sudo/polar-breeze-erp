@@ -15,7 +15,7 @@ Contenido:
 ```
 01. FLUJO DE EFECTIVO Y BANCOS
 [FLUJO DE EFECTIVO]
-• Venta / Costo / Distribución -> Agregar Registro
+• Venta / Costo / Distribución / Mantenimiento -> Agregar Registro
 
 [CUENTAS]
 • Cuenta 1, Cuenta 2, Cuenta 3, Cuenta 4, Cuenta 5, Cuenta 6 -> Mantenimiento / Crear Cuenta
@@ -112,4 +112,6 @@ Contenido:
 
 Observaciones:
 
-Este documento se transcribe tal cual fue entregado, sin reconciliarlo todavía contra el resto de la documentación. Se deja constancia de que su estructura de 6 módulos ("01. Flujo de Efectivo y Bancos", "02. CXP, Facturación y Reportes", "03. Inventario y Cuarto Frío", "04. Consignaciones", "05. Despacho, Novedades y Caja", "06. Parámetros de Mantenimiento") no coincide, en número ni en agrupación, con los 5 módulos actualmente descritos en `08-CATALOGO-DE-MODULOS.md` ("Flujo de Efectivo", "Inventario y Almacén", "Despacho y Consignaciones", "Facturación", "Reportes"). Esta diferencia no se resuelve en este documento — queda señalada aquí para que una revisión futura decida cómo reconciliar ambas estructuras, consistente con la Convención de Cambios de `02-CONSTITUCION-ERP.md` y con el principio de humildad arquitectónica de `99-FILOSOFIA-DEL-SISTEMA.md` (declarar lo que aún no se ha resuelto, en vez de simular una reconciliación que no ha ocurrido).
+Este documento se transcribe tal cual fue entregado. Su estructura de 6 módulos ("01. Flujo de Efectivo y Bancos", "02. CXP, Facturación y Reportes", "03. Inventario y Cuarto Frío", "04. Consignaciones", "05. Despacho, Novedades y Caja", "06. Parámetros de Mantenimiento") ya fue reconciliada contra `08-CATALOGO-DE-MODULOS.md` y el resto de la documentación técnica (`DECISIONES-ARQUITECTURALES.md`, decisión "Reconciliación completa de la documentación técnica con los 6 módulos de la Estructura Oliver").
+
+La sección [FLUJO DE EFECTIVO] del Módulo 01 se corrigió (2026-07-14) para incluir "Mantenimiento" en la lista de clasificaciones ("Venta / Costo / Distribución / Mantenimiento"), tras confirmarse con el usuario que la fuente de verdad de Oliver sí incluye esa cuarta clasificación — la transcripción original de este documento la omitía por error, no porque Oliver la excluyera. Ver `DECISIONES-ARQUITECTURALES.md`, decisión "Confirmadas las cuatro clasificaciones de Fondo contra la fuente de verdad de Oliver".

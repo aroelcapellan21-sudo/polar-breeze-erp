@@ -24,7 +24,7 @@ Cada módulo se describe con la misma estructura, exigida por el Artículo 29.2 
 ### Módulo 1 — Flujo de Efectivo y Bancos
 
 **Funcionalidades:**
-- *Flujo de Efectivo*: Venta / Costo / Distribución -> Agregar Registro
+- *Flujo de Efectivo*: Venta / Costo / Distribución / Mantenimiento -> Agregar Registro
 - *Cuentas*: Cuenta 1, Cuenta 2, Cuenta 3, Cuenta 4, Cuenta 5, Cuenta 6 -> Mantenimiento / Crear Cuenta
 - *Bancos*: Banco / Número de Cuenta -> Participación de Capital
 
@@ -40,7 +40,8 @@ Cada módulo se describe con la misma estructura, exigida por el Artículo 29.2 
 
 **Pendiente de modelar:**
 - **Participación de Capital** (Bancos) — no tiene entidad ni campo formal en `05`/`11` todavía.
-- **Discrepancia con el Artículo 18.1 de la Constitución:** Oliver lista solo tres clasificaciones para el Flujo de Efectivo (Venta / Costo / Distribución), mientras el Artículo 18.1 y la entidad `Fondo` exigen cuatro (agregan Mantenimiento). Esta discrepancia **no se resuelve en este documento** — se transcribe la estructura de Oliver tal cual, y la Constitución conserva sus cuatro clasificaciones hasta que se confirme con el negocio si la cuarta (Mantenimiento) sigue vigente o Oliver la omitió deliberadamente.
+
+Las cuatro clasificaciones de `Fondo` (Costo, Venta, Distribución, Mantenimiento — Artículo 18.1 de la Constitución) están confirmadas contra la fuente de verdad de Oliver: la aparente discrepancia señalada en una versión anterior de este documento se debía a una transcripción incompleta de `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md`, ya corregida (`DECISIONES-ARQUITECTURALES.md`, decisión "Confirmadas las cuatro clasificaciones de Fondo contra la fuente de verdad de Oliver").
 
 ### Módulo 2 — CXP, Facturación y Reportes
 

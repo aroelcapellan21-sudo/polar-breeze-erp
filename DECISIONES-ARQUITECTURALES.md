@@ -600,3 +600,19 @@ Asumir sin preguntar que "Factura" significaba lo mismo en el Módulo 2 y el Mó
 - Quedan señalados, sin resolver, como "Pendiente de modelar" en `08-CATALOGO-DE-MODULOS.md`: NCF, ITBIS, Condición de Pago (catálogo reutilizable), Participación de Capital, Rutas y Vías (con Consignaciones Individuales 1 al 23), Reportes R1/R2/R3, Refrigerios/Bonificaciones/Donaciones, nota de crédito de proveedor, y un catálogo configurable de tipos de Novedad — ninguno de estos requiere una decisión inmediata, pero ninguno debe implementarse sin que primero se modele formalmente (Artículo 29.3 de la Constitución).
 - Se detectó y se dejó explícitamente señalada (sin resolverla) una discrepancia entre Oliver (3 clasificaciones de Flujo de Efectivo: Venta/Costo/Distribución) y el Artículo 18.1 de la Constitución (4 clasificaciones, incluye Mantenimiento) — pendiente de confirmar con el negocio.
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.37, MAYOR) reflejando esta reconciliación como reestructuración del modelo de módulos y enmienda de 4 artículos de la Constitución (Artículo 14.3).
+
+### [2026-07-14] Confirmadas las cuatro clasificaciones de Fondo contra la fuente de verdad de Oliver
+
+**Contexto:**
+La decisión anterior ("Reconciliación completa de la documentación técnica con los 6 módulos de la Estructura Oliver") señaló, sin resolverla, una aparente discrepancia: `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md` transcribía la sección [FLUJO DE EFECTIVO] del Módulo 01 como "Venta / Costo / Distribución -> Agregar Registro" (tres clasificaciones), mientras el Artículo 18.1 de la Constitución y la entidad `Fondo` exigen cuatro (agregan Mantenimiento). El usuario confirmó que no existe tal discrepancia: la fuente de verdad de Oliver sí incluye Mantenimiento como cuarta clasificación — la transcripción original del anexo la omitía por un error de transcripción, no porque Oliver la excluyera de su estructura real.
+
+**Decisión:**
+Se corrigió `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md` para que la sección [FLUJO DE EFECTIVO] del Módulo 01 diga "Venta / Costo / Distribución / Mantenimiento -> Agregar Registro", con una nota en sus Observaciones dejando constancia de que se trata de una corrección de transcripción (2026-07-14), no de una reinterpretación del contenido de Oliver. Se actualizó `08-CATALOGO-DE-MODULOS.md` (Módulo 1, Funcionalidades y "Pendiente de modelar") para reflejar la misma corrección y reemplazar la nota de discrepancia por la confirmación de que las cuatro clasificaciones de `Fondo` (Costo, Venta, Distribución, Mantenimiento) están alineadas con la fuente de verdad de Oliver. El Artículo 18.1 de la Constitución **no requiere ningún cambio**: ya declaraba correctamente las cuatro clasificaciones: esta decisión confirma que el modelo existente estaba en lo correcto, y que el error estaba en la transcripción del anexo.
+
+**Alternativas consideradas:**
+Ninguna: el usuario proveyó la corrección de forma directa y sin ambigüedad sobre el contenido real de la fuente de verdad de Oliver.
+
+**Consecuencias:**
+- Ya no queda ninguna discrepancia abierta entre `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md` y `02-CONSTITUCION-ERP.md` respecto a las clasificaciones de Fondo.
+- Este caso queda como referencia de que una "discrepancia" detectada durante una reconciliación puede deberse a un error de transcripción de la fuente, no a una diferencia real de diseño — y de que corregirla en el anexo (la fuente de verdad transcrita) es preferible a dejarla marcada como abierta indefinidamente, una vez que el usuario la resuelve con información directa.
+- `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.38) reflejando esta corrección como MENOR (corrige una transcripción, no reestructura ninguna regla ni entidad).
