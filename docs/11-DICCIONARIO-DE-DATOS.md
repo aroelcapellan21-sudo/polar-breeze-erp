@@ -118,6 +118,18 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 | `valoresNuevos` | — | No, según la acción | Estado resultante (si aplica). |
 | — | — | — | **De solo lectura para todos los roles** (Artículo 8.2), incluidos los administrativos. |
 
+### ConflictoSincronizacion
+
+| Campo | Tipo | Obligatorio | Descripción |
+|---|---|---|---|
+| `eventoRechazado` | Referencia (a Evento) | Sí | El intento de evento que el motor no pudo aplicar al sincronizarse (`04-MOTOR-DE-FLUJOS-PATRIMONIALES.md`, sección 13). |
+| `motivoRechazo` | Texto largo | Sí | Explicación específica del rechazo. |
+| `estadoConflicto` | Enumeración (`pendiente` / `resuelto`) | Sí (proyección) | `resuelto` si y solo si existe un `eventoResolucion` que la referencia; nunca un valor editado directamente (Artículo 5 de la Constitución). |
+| `eventoResolucion` | Referencia (a Evento) | No, solo cuando `estadoConflicto` es `resuelto` | El evento nuevo que resuelve el conflicto (reintento corregido, ajuste, o registro de que la operación ya no procede). |
+| `usuarioResuelve` | Referencia (a Usuario) | No, solo cuando está resuelto | Quién resolvió el conflicto; nunca una IA sin acción humana explícita (Artículo 26.4). |
+| `momentoDeteccion` | Fecha/Hora | Sí | Cuándo el motor detectó el conflicto al sincronizar. |
+| — | — | — | No es de solo lectura como `RegistroAuditoria`: es un objeto de trabajo pendiente cuyo `estadoConflicto` se recalcula, no se marca manualmente. |
+
 ## 5. Catálogos Maestros Compartidos
 
 ### Producto

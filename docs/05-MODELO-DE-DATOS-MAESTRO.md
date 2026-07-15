@@ -74,6 +74,13 @@ Independiente del propio registro de negocio que audita (Artículo 8 de la Const
 - Campos conceptuales: `empresaId`, `sucursalId` (si aplica), usuario, acción, entidad afectada, valores anteriores y nuevos, timestamp.
 - Regla: de solo lectura para todos los roles, sin excepción.
 
+### ConflictoSincronizacion
+
+Registra un evento capturado offline que el Motor de Flujos Patrimoniales rechazó al sincronizarse, por haber dejado de ser válido debido a un cambio de estado ocurrido mientras estaba pendiente de sincronizar (`04-MOTOR-DE-FLUJOS-PATRIMONIALES.md`, sección 13).
+
+- Campos conceptuales: `empresaId`, `sucursalId` (si aplica), evento original rechazado (referencia), motivo del rechazo, estado (pendiente / resuelto — proyección: `resuelto` si y solo si existe un evento de resolución que la referencia, nunca un valor editado directamente, Artículo 5 de la Constitución), evento de resolución (referencia, presente solo cuando la proyección de estado es `resuelto`), usuario que resuelve, momento de detección.
+- Toda resolución es un evento nuevo, nunca una edición del evento original rechazado ni de esta entidad (Artículo 5.4 y 14 de la Constitución); ninguna IA la resuelve de forma autónoma sin acción humana explícita (Artículo 26.4). Es, a diferencia del Registro de Auditoría (de solo lectura), un objeto de trabajo pendiente: su estado se recalcula de la existencia de un evento de resolución, no se marca manualmente.
+
 ## 4. Catálogos Maestros Compartidos
 
 Consumidos por todos los módulos, nunca reimplementados por ninguno (Principio 6 y 7; Artículo 16.1 de la Constitución).
@@ -213,6 +220,7 @@ Toda referencia entre entidades de este modelo respeta el Artículo 10 de la Con
 - Una `Obligacion` siempre referencia un `Proveedor` existente de la misma `empresaId`.
 - Un `MovimientoCapital` que registra un pago siempre referencia una `Obligacion` existente de la misma `empresaId`.
 - Una `BajaInventario` siempre referencia un inventario o consignación de origen (`InventarioChofer`, `InventarioEncargado` o `Consignacion`) existente de la misma `empresaId`; cuando referencia una novedad de origen, esta debe existir (`NovedadInventario` o `NovedadDespacho`).
+- Una `ConflictoSincronizacion` siempre referencia un `Evento` existente (el rechazado) de la misma `empresaId`; cuando tiene resolución, el evento de resolución también existe y es de la misma `empresaId`.
 - Ninguna entidad referencia a otra de una `empresaId` distinta a la propia.
 
 ## 11. Relación con Otros Documentos

@@ -16,6 +16,8 @@ Contenido:
 
 **Código** — Identificador de negocio único y estable de una entidad, usado como clave funcional en lugar del nombre libre (Principio 1 de `00-PRINCIPIOS-DEL-ERP.md`).
 
+**Conflicto de sincronización** — Situación en que un evento capturado offline, válido en el momento de su captura, deja de serlo al sincronizarse por un cambio de estado ocurrido mientras tanto. Se registra como `ConflictoSincronizacion` y requiere resolución humana explícita mediante un evento nuevo, nunca automática ni editando el evento original (`04-MOTOR-DE-FLUJOS-PATRIMONIALES.md`, sección 13; Artículo 26.4 de la Constitución).
+
 **Constitución** — `02-CONSTITUCION-ERP.md`; el documento de reglas inquebrantables que ningún módulo puede violar.
 
 **Empresa** — La unidad organizacional raíz del modelo multiempresa. Polar Breeze es la primera empresa del ecosistema, no el límite de su diseño.
@@ -111,6 +113,7 @@ Formaliza, según el Artículo 15 de la Constitución, los eventos propuestos en
 | `ArqueoRealizado` | Capital / Mercancía, Información | `ArqueoManual` | F11 |
 | `ReporteExportado` | Información | `ExportacionReporte` | F12 |
 | `BajaInventarioRegistrada` | Mercancía, Información | `BajaInventario` | F13 |
+| `ConflictoSincronizacionDetectado` | El mismo flujo del evento rechazado (Capital, Mercancía o Información) | `ConflictoSincronizacion` | No proviene de un flujo de negocio Fx: lo emite el propio Motor de Flujos Patrimoniales al sincronizar (`04-MOTOR-DE-FLUJOS-PATRIMONIALES.md`, sección 13) |
 
 ## D. Relación con Otros Documentos
 

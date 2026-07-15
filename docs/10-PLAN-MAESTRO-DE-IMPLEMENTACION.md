@@ -27,9 +27,10 @@ El orden de implementación no es arbitrario: refleja las dependencias reales en
 - Motor de Flujos Patrimoniales en su forma mínima: recepción, validación general, persistencia del historial de `Evento`, generación de `Registro de Auditoría` (`04-MOTOR-DE-FLUJOS-PATRIMONIALES.md`).
 - Motor de Permisos operando de forma centralizada (Artículo 13 de la Constitución).
 - Capa de Persistencia Local y Sincronización offline-first (`03-ARQUITECTURA-GENERAL.md`, sección 3), probada en al menos un flujo de extremo a extremo antes de construir módulos sobre ella.
+- Mecanismo de detección y registro de `ConflictoSincronizacion` (`04-MOTOR-DE-FLUJOS-PATRIMONIALES.md`, sección 13), aunque su interfaz y proceso de resolución humana pueden refinarse en fases posteriores.
 - Capa de Configuración de Plataforma (`config/*`, Artículo 16.3).
 
-**Criterio de salida:** es posible crear una empresa, un usuario con rol, emitir un evento de prueba offline y verlo sincronizado, auditado y persistido de forma inmutable — sin que exista todavía ningún módulo de negocio.
+**Criterio de salida:** es posible crear una empresa, un usuario con rol, emitir un evento de prueba offline y verlo sincronizado, auditado y persistido de forma inmutable; y verificar que un evento offline que ya no es válido al sincronizar se registra como `ConflictoSincronizacion` en lugar de aplicarse o descartarse silenciosamente — sin que exista todavía ningún módulo de negocio.
 
 ## 3. Fase 1 — Catálogos Maestros Compartidos
 

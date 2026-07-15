@@ -116,14 +116,31 @@ Las reglas de validación del motor (clasificaciones válidas, tasas, parámetro
 
 Cuando el motor rechaza un evento, el módulo emisor recibe el motivo específico del rechazo (por ejemplo, "fondo no existe para esta empresa", "cantidad negativa no permitida en este tipo de evento"). El rechazo no genera un evento de negocio válido, pero el intento puede registrarse con fines de auditoría y diagnóstico, sin mezclarse nunca con el historial de eventos aplicados exitosamente.
 
-## 13. Relación con la Sincronización Offline
+## 13. Relación con la Sincronización Offline y Resolución de Conflictos
 
 Los eventos capturados sin conexión (`03-ARQUITECTURA-GENERAL.md`, sección 3) llegan al motor en el momento de la sincronización, pero conservan su momento real de captura. El motor los procesa en el orden que corresponde a ese momento de captura, no al orden de llegada por sincronización, de forma que el historial resultante refleje la secuencia real de los hechos.
+
+### 13.1 Por qué la mayoría de los eventos no generan conflicto
+
+Como el motor nunca aplica una edición directa sobre un valor compartido (Artículo 5 de la Constitución), sino que siempre aplica eventos nuevos sobre un historial, dos dispositivos que capturan eventos distintos sobre la misma entidad mientras están offline no "compiten" por sobrescribirse: ambos eventos, una vez sincronizados, se aplican en el orden de su momento de captura (sección anterior). Esto es estructuralmente distinto de un sistema de registros mutables, donde dos ediciones concurrentes sí requieren un mecanismo de fusión o de "última escritura gana" — este motor no necesita ese mecanismo para el caso general.
+
+### 13.2 Qué es, entonces, un conflicto de sincronización
+
+Un conflicto de sincronización ocurre cuando un evento capturado offline, válido según el estado que el dispositivo conocía en el momento de la captura, **deja de ser válido para el motor al momento de sincronizarse** — porque, mientras tanto, otro evento (de otro dispositivo, ya sincronizado antes) cambió el estado real del que ese evento dependía. Ejemplos: dos dispositivos intentan reducir la misma existencia de inventario más allá de lo disponible; dos usuarios intentan pagar la misma `Obligacion` sin saber del pago del otro; dos dispositivos crean, offline, un `Producto` con el mismo código dentro de la misma `empresaId`.
+
+### 13.3 Tratamiento de un conflicto de sincronización
+
+Un evento que el motor rechaza por esta razón nunca se descarta silenciosamente ni se reintenta automáticamente forzando su aplicación (Principio 2 de `00-PRINCIPIOS-DEL-ERP.md`; Artículo 1.3 de la Constitución). En su lugar:
+
+1. El motor registra el rechazo como una `ConflictoSincronizacion` (`05-MODELO-DE-DATOS-MAESTRO.md`), distinguible de un rechazo ordinario de validación (sección 12) porque su causa es un cambio de estado ocurrido durante el periodo offline, no un error de captura del usuario.
+2. El conflicto queda visible para un rol con permiso de resolución, evaluado por el Motor de Permisos (Artículo 13 de la Constitución) — nunca se resuelve de forma automática ni por una IA sin acción humana explícita (Artículo 26.4).
+3. La resolución es siempre un evento nuevo: puede reintentar la operación original con datos corregidos, o registrar explícitamente que la operación ya no procede (por ejemplo, mediante un evento de ajuste o una `NovedadInventario`) — nunca una edición del evento original rechazado (Artículo 5.4 y 14).
+4. Mientras un conflicto permanece sin resolver, ninguna proyección de estado lo refleja como aplicado. El `eventoRechazado` y, cuando exista, el `eventoResolucion` quedan vinculados entre sí en la `ConflictoSincronizacion`, consistente con el requisito de "relación con otros eventos" del Artículo 30.3 (Principio de Huella Permanente).
 
 ## 14. Relación con Otros Documentos
 
 - `00-PRINCIPIOS-DEL-ERP.md` (Principios 8 y 9) — el fundamento filosófico de este motor.
-- `02-CONSTITUCION-ERP.md` (Artículos 5, 6, 7, 8, 9, 11, 13, 14, 15) — las reglas formales que el motor está obligado a cumplir.
+- `02-CONSTITUCION-ERP.md` (Artículos 5, 6, 7, 8, 9, 11, 13, 14, 15, 26, 30) — las reglas formales que el motor está obligado a cumplir.
 - `03-ARQUITECTURA-GENERAL.md` (secciones 6 y 11) — la ubicación del motor dentro de las capas del sistema y el camino que sigue todo evento.
 - `05-MODELO-DE-DATOS-MAESTRO.md` — la estructura de datos donde el motor persiste eventos y proyecciones.
 - `12-GLOSARIO.md` y `docs/diagramas/eventos.drawio` — el catálogo formal de tipos de evento que el motor reconoce.

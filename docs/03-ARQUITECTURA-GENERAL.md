@@ -41,7 +41,7 @@ Responsable de que la capa de presentación nunca dependa de conectividad instan
 
 - Toda operación crítica se escribe primero en almacenamiento local, con su `empresaId`/`sucursalId` y usuario ya asignados en el momento de la captura.
 - Una cola de sincronización envía los eventos pendientes al backend en cuanto hay conectividad, preservando el orden y el momento real de captura (no el momento de sincronización).
-- Los conflictos de sincronización nunca se resuelven descartando datos silenciosamente: se detectan, se registran y quedan disponibles para resolución explícita (Principio 2 y Artículo 1.3 de la Constitución).
+- Los conflictos de sincronización nunca se resuelven descartando datos silenciosamente: se detectan, se registran como `ConflictoSincronizacion` (`05-MODELO-DE-DATOS-MAESTRO.md`) y quedan disponibles para resolución humana explícita — el contrato completo de detección y resolución vive en `04-MOTOR-DE-FLUJOS-PATRIMONIALES.md`, sección 13 (Principio 2 y Artículo 1.3 de la Constitución).
 
 ## 4. Capa de API / Puerta de Entrada
 
