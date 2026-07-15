@@ -181,7 +181,7 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 | `nombre` | Texto corto | Sí | Nombre o razón social del proveedor o tercero. |
 | `tipo` | Enumeración (`proveedor_mercancia` / `transportista` / `consignatario` / `otro`) | Sí | Clasifica el tipo de tercero con quien se puede contraer una obligación (Artículo 20.1 de la Constitución). |
 
-## 6. Módulo 1 — Flujo de Efectivo
+## 6. Módulo 1 — Flujo de Efectivo y Bancos
 
 ### MovimientoCapital
 
@@ -191,21 +191,24 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 | `cuentaOrigen` / `cuentaDestino` | Referencia (a Cuenta) | Al menos una | Cuenta afectada por el movimiento (Artículo 18.3). |
 | `monto` | Monto | Sí | Valor del movimiento. |
 | `tipo` | Enumeración (`ingreso` / `egreso`) | Sí | Naturaleza del movimiento. |
-| `obligacionReferenciada` | Referencia (a Obligacion) | No, solo si el movimiento es un pago aplicado a una obligación | Vincula el pago con la obligación que salda, parcial o totalmente (Artículo 20.2). |
+| `obligacionReferenciada` | Referencia (a Obligacion) | No, solo si el movimiento es un pago aplicado a una obligación del Módulo 2 | Vincula el pago con la obligación que salda, parcial o totalmente (Artículo 20.2). |
 | `eventoOrigen` | Referencia (a Evento) | Sí | El evento que generó este registro. |
+
+## 7. Módulo 2 — CXP, Facturación y Reportes
 
 ### Obligacion (Cuenta por Pagar)
 
 | Campo | Tipo | Obligatorio | Descripción |
 |---|---|---|---|
-| `proveedor` | Referencia (a Proveedor) | Sí | Contraparte de la obligación (Artículo 20.1 de la Constitución). |
+| `proveedor` | Referencia (a Proveedor) | Sí | Contraparte de la obligación — el Suplidor (Artículo 20.1 de la Constitución). |
 | `montoOriginal` | Monto | Sí | Monto de la obligación; nunca se edita para reflejar pagos parciales (Artículo 20.2). |
 | `fechaVencimiento` | Fecha/Hora | Sí | Fecha límite de pago pactada. |
 | `cuenta` | Referencia (a Cuenta) | Sí | Vínculo a la Cuenta 4 — Cuentas por Pagar del plan de cuentas (`06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 3). |
 | `saldoPendiente` | Monto | — (proyección) | `montoOriginal` menos la suma de pagos aplicados; derivado del historial de eventos, no editable directamente. |
 | `eventoOrigen` | Referencia (a Evento) | Sí | El evento `ObligacionRegistrada` que originó esta obligación. |
+| — | — | — | Campos que Oliver menciona sin respaldo formal todavía: Comprobante (NCF), ITBIS, Días de Crédito / Condición de Pago, nota de crédito de proveedor — ver `08-CATALOGO-DE-MODULOS.md`, Módulo 2, "Pendiente de modelar". |
 
-## 7. Módulo 2 — Inventario y Almacén
+## 8. Módulo 3 — Inventario y Cuarto Frío
 
 ### InventarioChofer / InventarioEncargado
 
@@ -239,7 +242,7 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 | `eventoOrigen` | Referencia (a Evento) | Sí | El evento `BajaInventarioRegistrada` que la originó. |
 | — | — | — | **No genera `MovimientoCapital`**: el tratamiento de capital de una baja (si genera un gasto/pérdida contable y contra qué `Fondo`/`Cuenta`) está pendiente de validación contable (`docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md`, ítem 7). |
 
-## 8. Módulo 3 — Despacho y Consignaciones
+## 9. Módulo 4 — Consignaciones
 
 ### Consignacion
 
@@ -248,6 +251,9 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 | `responsable` | Referencia (a Usuario) | Sí | Responsable de la consignación. |
 | `contenido` | Lista de (Referencia a Producto + cantidad) | Sí | Mercancía consignada. |
 | `estadoConsignacion` | Enumeración (`activa` / `cerrada`) | Sí | Al cerrarse, se vuelve inmutable (Artículo 14.1). |
+| — | — | — | Oliver menciona una estructura de rutas (PPTO Inventario Santiago, Consignaciones Individuales 1 al 23) sin campo formal todavía — ver `08-CATALOGO-DE-MODULOS.md`, Módulo 4, "Pendiente de modelar". |
+
+## 10. Módulo 5 — Despacho, Novedades y Caja
 
 ### Despacho
 
@@ -282,9 +288,9 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 | `justificación` | Texto largo | Sí | Justificación registrada. |
 | `usuarioAprobador` | Referencia (a Usuario) | Sí | Quién aprueba. |
 
-## 9. Módulo 4 — Facturación
-
 ### Factura
+
+Factura de **venta** que Polar Breeze emite a sus clientes — distinta de la `Obligacion` del Módulo 2 (factura que Polar Breeze recibe de un Suplidor).
 
 | Campo | Tipo | Obligatorio | Descripción |
 |---|---|---|---|
@@ -296,13 +302,13 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 
 ### NotaCredito
 
+Corrige una `Factura` de venta — distinta de la nota de crédito de proveedor mencionada en el Módulo 2.
+
 | Campo | Tipo | Obligatorio | Descripción |
 |---|---|---|---|
 | `facturaOriginal` | Referencia (a Factura) | Sí | Obligatoria; nunca se edita la factura original (Artículo 14.2). |
 | `motivo` | Texto largo | Sí | Razón de la nota de crédito. |
 | `monto` | Monto | Sí | Monto afectado. |
-
-## 10. Módulo 5 — Reportes
 
 ### ArqueoManual
 
@@ -327,7 +333,10 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 - `02-CONSTITUCION-ERP.md` — las reglas de integridad, soft delete, versionado y auditoría que estos campos implementan.
 - `12-GLOSARIO.md` — la definición de términos usados en los nombres de campo y enumeraciones.
 - `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` — el detalle contable de `Cuenta`, cuyo plan de cuentas sigue en estado Borrador.
+- `08-CATALOGO-DE-MODULOS.md` y `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md` — la agrupación de entidades por módulo (secciones 6-10) se reconcilió con estos dos documentos.
 
 Observaciones:
 
 Los campos marcados como Enumeración usan valores cerrados a modo ilustrativo, consistentes con lo ya documentado en `07-FLUJOS-DE-NEGOCIO.md` y `06-REGLAS-CONTABLES-Y-FINANCIERAS.md`. Cualquier valor adicional que el negocio requiera debe agregarse aquí antes de usarse en un módulo (Artículo 29.3 de la Constitución), no introducirse directamente en el código.
+
+Las secciones 6-10 se reagruparon para reconciliarse con los 6 módulos de `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md`, en el mismo orden en que se reagruparon las secciones equivalentes de `05-MODELO-DE-DATOS-MAESTRO.md`: `Obligacion` pasó del Módulo 1 al Módulo 2; `Despacho`, `NovedadDespacho`, `SolicitudRetiro`, `JustificacionRetiro`, `Factura` y `NotaCredito` pasaron al Módulo 5; `Consignacion` quedó sola en el Módulo 4. Ningún campo cambió — solo su agrupación por módulo.

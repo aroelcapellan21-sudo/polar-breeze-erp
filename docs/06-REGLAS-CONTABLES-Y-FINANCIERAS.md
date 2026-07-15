@@ -27,7 +27,7 @@ Ningún movimiento de capital se registra sin esta clasificación. El motor rech
 
 ## 3. Plan de Cuentas Base (Cuentas 1-6) — Propuesta Sujeta a Validación
 
-`08-CATALOGO-DE-MODULOS.md` establece que el Módulo 1 — Flujo de Efectivo debe "gestionar Cuentas 1-6", sin especificar su significado contable. Esta sección propone una interpretación inicial, **que debe ser revisada y validada por un contador o responsable financiero antes de aprobarse para implementación** (Artículo 29.3 de la Constitución: ninguna decisión se implementa sin documentación aprobada).
+`08-CATALOGO-DE-MODULOS.md` establece que el Módulo 1 — Flujo de Efectivo y Bancos debe "gestionar Cuentas 1-6", sin especificar su significado contable. Esta sección propone una interpretación inicial, **que debe ser revisada y validada por un contador o responsable financiero antes de aprobarse para implementación** (Artículo 29.3 de la Constitución: ninguna decisión se implementa sin documentación aprobada).
 
 | Cuenta | Nombre propuesto | Naturaleza | Uso previsto |
 |---|---|---|---|
@@ -70,7 +70,7 @@ Desarrollan el Artículo 20 de la Constitución:
 
 ## 8. Arqueo y Conciliación
 
-El arqueo manual (Módulo 5 — Reportes; `05-MODELO-DE-DATOS-MAESTRO.md`, sección 9) es la herramienta formal de conciliación entre el saldo proyectado por el sistema y el conteo físico real de efectivo. Toda diferencia detectada se registra como evento propio (Artículo 25.3 de la Constitución); el saldo del sistema nunca se sobrescribe silenciosamente para "cuadrar" con el conteo físico — la diferencia queda documentada y visible.
+El arqueo manual (Módulo 5 — Despacho, Novedades y Caja; `05-MODELO-DE-DATOS-MAESTRO.md`, sección 9) es la herramienta formal de conciliación entre el saldo proyectado por el sistema y el conteo físico real de efectivo. Toda diferencia detectada se registra como evento propio (Artículo 25.3 de la Constitución); el saldo del sistema nunca se sobrescribe silenciosamente para "cuadrar" con el conteo físico — la diferencia queda documentada y visible.
 
 ## 9. Auditoría Financiera
 
@@ -81,7 +81,7 @@ Todo movimiento de capital, toda clasificación de `Fondo`, toda cuenta por paga
 - `02-CONSTITUCION-ERP.md` (Artículos 18, 19, 20) — las reglas formales que este documento desarrolla.
 - `04-MOTOR-DE-FLUJOS-PATRIMONIALES.md` — quien aplica los eventos de capital descritos aquí.
 - `05-MODELO-DE-DATOS-MAESTRO.md` — las entidades `Fondo`, `Cuenta`, `CuentaBancaria` y `MovimientoCapital`.
-- `08-CATALOGO-DE-MODULOS.md` (Módulo 1) — el origen funcional de estas reglas.
+- `08-CATALOGO-DE-MODULOS.md` (Módulo 1 — Flujo de Efectivo y Bancos; Módulo 2 — CXP, Facturación y Reportes, para las reglas de cuentas por pagar de la sección 5) — el origen funcional de estas reglas.
 - `07-FLUJOS-DE-NEGOCIO.md` (F13) y `docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md` (ítem 7) — el tratamiento contable de bajas de inventario por merma, pérdida o condonación no está desarrollado en este documento; es una pregunta abierta, no una omisión de este documento.
 
 Observaciones:

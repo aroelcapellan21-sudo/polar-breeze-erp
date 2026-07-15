@@ -170,7 +170,7 @@ Contenido:
 
 ## Artículo 18 — Reglas Financieras
 
-18.1. Todo movimiento de efectivo (Módulo 1 — Flujo de Efectivo) se clasifica obligatoriamente en Costo, Venta, Distribución o Mantenimiento antes de considerarse registrado.
+18.1. Todo movimiento de efectivo (Módulo 1 — Flujo de Efectivo y Bancos) se clasifica obligatoriamente en Costo, Venta, Distribución o Mantenimiento antes de considerarse registrado.
 
 18.2. Toda cuenta bancaria pertenece a una única `empresaId` y registra número de cuenta y banco como datos obligatorios.
 
@@ -192,7 +192,7 @@ Contenido:
 
 ## Artículo 21 — Reglas de Consignación
 
-21.1. Toda consignación (Módulo 3 — Despacho y Consignaciones) se crea como un documento de flujo de mercancía con responsable, contenido y `empresaId`/`sucursalId` explícitos.
+21.1. Toda consignación (Módulo 4 — Consignaciones) se crea como un documento de flujo de mercancía con responsable, contenido y `empresaId`/`sucursalId` explícitos.
 
 21.2. Las novedades, daños y sobrantes de consignación siguen el mismo principio de trazabilidad y no reclasificación retroactiva del Artículo 17.2.
 
@@ -200,7 +200,7 @@ Contenido:
 
 ## Artículo 22 — Reglas de Cuarto Frío
 
-22.1. El cuarto frío es una `sucursalId` o unidad operativa propia dentro del flujo de mercancía; sus novedades (Módulo 2) se registran con el mismo rigor de trazabilidad que cualquier otro punto de inventario.
+22.1. El cuarto frío es una `sucursalId` o unidad operativa propia dentro del flujo de mercancía; sus novedades (Módulo 3 — Inventario y Cuarto Frío) se registran con el mismo rigor de trazabilidad que cualquier otro punto de inventario.
 
 22.2. Toda condición anómala del cuarto frío (rotura de cadena de frío, producto dañado, mal estado) genera un evento propio, distinguible de las novedades de despacho o de almacén general.
 
@@ -222,7 +222,7 @@ Contenido:
 
 25.2. Todo reporte incluye de forma explícita su alcance: `empresaId` (y `sucursalId` si aplica), rango de fechas y versión de reglas usada (Artículo 11.2).
 
-25.3. El arqueo manual (Módulo 5) es un evento de conciliación que compara el estado del sistema contra un conteo físico y registra la diferencia como evento propio, sin sobrescribir el saldo del sistema silenciosamente.
+25.3. El arqueo manual (Módulo 5 — Despacho, Novedades y Caja) es un evento de conciliación que compara el estado del sistema contra un conteo físico y registra la diferencia como evento propio, sin sobrescribir el saldo del sistema silenciosamente.
 
 ## Artículo 26 — Reglas para IA
 

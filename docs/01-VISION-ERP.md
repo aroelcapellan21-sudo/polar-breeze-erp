@@ -107,7 +107,7 @@ A alto nivel, el ERP se compone de:
 
 - Un **modelo de datos maestro** multiempresa, donde toda entidad relevante lleva `empresaId` (y `sucursalId` cuando aplica).
 - Un **motor de flujos patrimoniales** que centraliza la aplicación de eventos sobre capital, mercancía e información.
-- Un **catálogo de módulos** (Flujo de Efectivo, Inventario y Almacén, Despacho y Consignaciones, Facturación, Reportes) que son puntos de entrada de eventos hacia el motor, no dueños independientes de su propio estado.
+- Un **catálogo de módulos** (Flujo de Efectivo y Bancos, CXP-Facturación y Reportes, Inventario y Cuarto Frío, Consignaciones, Despacho-Novedades y Caja, Parámetros de Mantenimiento) que son puntos de entrada de eventos hacia el motor, no dueños independientes de su propio estado.
 - Una **capa de sincronización offline-first** que permite operar en campo sin conectividad y sincronizar de forma segura al recuperarla.
 - Un **motor de permisos** transversal que gobierna el acceso por empresa, rol y acción.
 
@@ -115,13 +115,14 @@ El detalle técnico de esta arquitectura se desarrolla en `03-ARQUITECTURA-GENER
 
 ## 10. Módulos del ERP
 
-El ERP se organiza, en su primera fase, en cinco módulos (detallados en `08-CATALOGO-DE-MODULOS.md`):
+El ERP se organiza, en su primera fase, en seis módulos (detallados en `08-CATALOGO-DE-MODULOS.md`, reconciliado con `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md`):
 
-1. **Flujo de Efectivo** — capital, fondos, cuentas bancarias.
-2. **Inventario y Almacén** — productos, novedades, cuarto frío, sobrantes y faltantes.
-3. **Despacho y Consignaciones** — consignaciones, novedades de despacho, retiros.
-4. **Facturación** — facturas, notas de crédito, productos, vendedores.
-5. **Reportes** — exportación de reportes, arqueo manual.
+1. **Flujo de Efectivo y Bancos** — capital, fondos, cuentas bancarias.
+2. **CXP, Facturación y Reportes** — obligaciones con proveedores, pagos, reportes de cuentas por pagar.
+3. **Inventario y Cuarto Frío** — productos, novedades, cuarto frío, sobrantes y faltantes.
+4. **Consignaciones** — consignaciones, rutas y vías, filtros.
+5. **Despacho, Novedades y Caja** — despacho, retiros, facturación de venta, arqueo.
+6. **Parámetros de Mantenimiento** — creación de catálogos base: proveedores, productos, condición de pago, vendedores, novedades, consignaciones.
 
 Ningún módulo es una isla: todos comparten los catálogos maestros y emiten eventos hacia el mismo motor de flujos patrimoniales. El crecimiento futuro del ERP se da agregando módulos nuevos a este catálogo, nunca duplicando la lógica de uno existente.
 

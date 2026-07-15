@@ -6,7 +6,7 @@ Estado:
 
 Objetivo:
 
-Definir las entidades de datos del ERP Polar Breeze, sus campos conceptuales, sus relaciones y su particionado multiempresa. Este documento traduce a estructura de datos lo ya establecido en `02-CONSTITUCION-ERP.md` (Artículos 2, 10, 11, 16), `04-MOTOR-DE-FLUJOS-PATRIMONIALES.md` (historial de eventos y proyecciones) y `08-CATALOGO-DE-MODULOS.md` (los cinco módulos funcionales).
+Definir las entidades de datos del ERP Polar Breeze, sus campos conceptuales, sus relaciones y su particionado multiempresa. Este documento traduce a estructura de datos lo ya establecido en `02-CONSTITUCION-ERP.md` (Artículos 2, 10, 11, 16), `04-MOTOR-DE-FLUJOS-PATRIMONIALES.md` (historial de eventos y proyecciones) y `08-CATALOGO-DE-MODULOS.md` (los seis módulos funcionales).
 
 Este documento describe **entidades y relaciones**, no esquemas de base de datos ni código. No define tipos de columna, índices ni tecnología de persistencia — esas decisiones viven en el repositorio de código y, si son arquitectónicamente relevantes, se registran en `DECISIONES-ARQUITECTURALES.md`.
 
@@ -88,11 +88,11 @@ Consumidos por todos los módulos, nunca reimplementados por ninguno (Principio 
 ### Producto
 
 - Campos conceptuales: **código** (clave de negocio), nombre, precio, `empresaId`.
-- Se crea desde el Módulo 4 — Facturación ("crear producto nuevo", "código de producto") y se consume desde el Módulo 2 — Inventario y Almacén.
+- Se crea desde el Módulo 6 — Parámetros de Mantenimiento ("crear producto nuevo", "código de producto") y se consume desde el Módulo 3 — Inventario y Cuarto Frío, el Módulo 4 — Consignaciones, el Módulo 5 — Despacho, Novedades y Caja, y el Módulo 2 — CXP, Facturación y Reportes (líneas de la factura del Suplidor).
 
 ### Cuenta
 
-Representa las Cuentas 1-6 del Módulo 1 — Flujo de Efectivo.
+Representa las Cuentas 1-6 del Módulo 1 — Flujo de Efectivo y Bancos.
 
 - Campos conceptuales: código de cuenta (1 a 6), nombre/descripción, `empresaId`.
 - Relación: toda `CuentaBancaria` y todo evento de capital referencia una `Cuenta`.
@@ -100,7 +100,7 @@ Representa las Cuentas 1-6 del Módulo 1 — Flujo de Efectivo.
 ### CuentaBancaria
 
 - Campos conceptuales: código, número de cuenta, banco, `Cuenta` asociada, `empresaId`.
-- Se crea desde el Módulo 1 — Flujo de Efectivo ("crear cuenta bancaria con número y banco").
+- Se crea desde el Módulo 1 — Flujo de Efectivo y Bancos ("crear cuenta bancaria con número y banco").
 
 ### Fondo
 
@@ -111,34 +111,37 @@ Agrupación patrimonial de capital por propósito (`01-VISION-ERP.md`, sección 
 ### Vendedor
 
 - Campos conceptuales: código, nombre, `empresaId`.
-- Se crea desde el Módulo 4 — Facturación ("crear vendedor").
+- Se crea desde el Módulo 6 — Parámetros de Mantenimiento ("crear vendedor").
 
 ### Cliente
 
 - Campos conceptuales: código, nombre, `empresaId`.
-- Catálogo maestro exigido explícitamente por el Artículo 16.1 de la Constitución ("productos, cuentas, vendedores, bancos, clientes, proveedores"). Se crea desde el Módulo 4 — Facturación, igual que `Producto` y `Vendedor`. Queda disponible para su consumo por ese mismo módulo y por el Módulo 1 — Flujo de Efectivo cuando el negocio registre ventas a crédito contra la Cuenta 3 — Cuentas por Cobrar (`06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 3).
+- Catálogo maestro exigido explícitamente por el Artículo 16.1 de la Constitución ("productos, cuentas, vendedores, bancos, clientes, proveedores"). No aparece en ninguna parte de `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md` (fuente de verdad de módulos); se mantiene aquí por exigencia constitucional, sin un módulo de creación asignado todavía. Quedaría disponible para su consumo por el Módulo 5 — Despacho, Novedades y Caja (donde vive la facturación de venta) si el negocio confirma que existen ventas a crédito contra la Cuenta 3 — Cuentas por Cobrar (`06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 3).
 
 ### Proveedor
 
 - Campos conceptuales: código, nombre, tipo (proveedor de mercancía / transportista / consignatario / otro), `empresaId`.
-- Catálogo maestro exigido explícitamente por el Artículo 16.1 de la Constitución. Representa a todo tercero con quien la empresa puede contraer una obligación de pago (Artículo 20.1: "proveedor, transportista, consignatario"). Se crea desde el Módulo 1 — Flujo de Efectivo, como contraparte de las obligaciones que ese módulo administra. Es la contraparte que referencia toda `Obligacion` (sección 5).
+- Catálogo maestro exigido explícitamente por el Artículo 16.1 de la Constitución. Representa a todo tercero con quien la empresa puede contraer una obligación de pago (Artículo 20.1: "proveedor, transportista, consignatario"; Oliver lo llama "Suplidor"). Se crea desde el Módulo 6 — Parámetros de Mantenimiento ("Crear Suplidor"). Es la contraparte que referencia toda `Obligacion` (sección 6, Módulo 2).
 
-## 5. Entidades del Módulo 1 — Flujo de Efectivo
+## 5. Entidades del Módulo 1 — Flujo de Efectivo y Bancos
 
 ### MovimientoCapital
 
 Proyección/registro de un evento de flujo de capital.
 
-- Campos conceptuales: `empresaId`, `Fondo` (clasificación), `Cuenta` de origen/destino, monto, tipo (ingreso/egreso), obligación referenciada (opcional, cuando el movimiento es un pago aplicado a una `Obligacion`), evento de origen.
+- Campos conceptuales: `empresaId`, `Fondo` (clasificación), `Cuenta` de origen/destino, monto, tipo (ingreso/egreso), obligación referenciada (opcional, cuando el movimiento es un pago aplicado a una `Obligacion` del Módulo 2), evento de origen.
+
+## 6. Entidades del Módulo 2 — CXP, Facturación y Reportes
 
 ### Obligacion (Cuenta por Pagar)
 
-Registra una obligación de pago con un tercero (Artículo 20 de la Constitución), contabilizada contra la Cuenta 4 — Cuentas por Pagar (`06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 3).
+Registra una obligación de pago con un tercero — la factura que el Suplidor emite a Polar Breeze (Artículo 20 de la Constitución), contabilizada contra la Cuenta 4 — Cuentas por Pagar (`06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 3).
 
 - Campos conceptuales: `empresaId`, `Proveedor` referenciado (contraparte), monto original, fecha de vencimiento, `Cuenta` asociada (Cuenta 4), saldo pendiente (proyección: monto original menos suma de pagos aplicados), evento de origen (`ObligacionRegistrada`).
-- El monto original nunca se edita para reflejar pagos parciales (Artículo 20.2); un pago se registra como un `MovimientoCapital` que referencia esta `Obligacion`, y la obligación se considera saldada cuando la proyección de saldo pendiente llega a cero (`06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 5).
+- El monto original nunca se edita para reflejar pagos parciales (Artículo 20.2); un pago se registra como un `MovimientoCapital` (Módulo 1) que referencia esta `Obligacion`, y la obligación se considera saldada cuando la proyección de saldo pendiente llega a cero (`06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 5).
+- La estructura de Oliver menciona campos adicionales para esta factura del Suplidor (Comprobante NCF, ITBIS, Días de Crédito) y una nota de crédito propia del proveedor, ninguno modelado todavía — ver `08-CATALOGO-DE-MODULOS.md`, Módulo 2, "Pendiente de modelar".
 
-## 6. Entidades del Módulo 2 — Inventario y Almacén
+## 7. Entidades del Módulo 3 — Inventario y Cuarto Frío
 
 ### InventarioChofer / InventarioEncargado
 
@@ -160,11 +163,16 @@ Registra la salida definitiva de mercancía del inventario vendible por merma, p
 - Campos conceptuales: `empresaId`, `sucursalId`, `Producto` referenciado, cantidad, tipo (merma / pérdida / condonación), novedad de origen (referencia opcional a `NovedadInventario` o `NovedadDespacho` — no toda baja proviene de una novedad detectada; una condonación administrativa puede no tener novedad previa), inventario o consignación de origen (`InventarioChofer`, `InventarioEncargado` o `Consignacion`), motivo, usuario que autoriza, evento de origen.
 - El tratamiento de capital de una baja (si genera un gasto/pérdida contable y contra qué `Fondo`/`Cuenta`) no está definido en este documento — queda pendiente de validación contable (`docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md`, ítem 7, y `06-REGLAS-CONTABLES-Y-FINANCIERAS.md`). Mientras tanto, `BajaInventario` es únicamente un evento de flujo de mercancía e información; no genera un `MovimientoCapital`.
 
-## 7. Entidades del Módulo 3 — Despacho y Consignaciones
+## 8. Entidades del Módulo 4 — Consignaciones
 
 ### Consignacion
 
 - Campos conceptuales: código, `empresaId`, `sucursalId`, responsable, contenido (lista de `Producto` + cantidades), estado (activa / cerrada — inmutable al cerrarse, Artículo 14.1).
+- Oliver agrega, para este módulo, una estructura de rutas ("Rutas y Vías": PPTO Inventario Santiago, Consignaciones Individuales 1 al 23) sin entidad ni campo formal todavía — ver `08-CATALOGO-DE-MODULOS.md`, Módulo 4, "Pendiente de modelar".
+
+## 9. Entidades del Módulo 5 — Despacho, Novedades y Caja
+
+Este módulo agrupa, según la estructura de Oliver, tres funciones antes repartidas entre otros módulos: el despacho físico y sus novedades (antes junto a Consignaciones), la facturación de venta (antes su propio módulo), y el arqueo/exportación de reportes (antes un módulo "Reportes" independiente).
 
 ### Despacho
 
@@ -183,19 +191,17 @@ Dos entidades distintas y ambas obligatorias (Artículo 21.3 de la Constitución
 - **SolicitudRetiro**: código, `empresaId`, `Consignacion` o `Despacho` referenciado, motivo solicitado, usuario solicitante.
 - **JustificacionRetiro**: referencia a la `SolicitudRetiro`, justificación, usuario que aprueba.
 
-## 8. Entidades del Módulo 4 — Facturación
-
 ### Factura
 
-Documento inmutable una vez aprobado (Artículo 14.1 de la Constitución).
+Documento inmutable una vez aprobado (Artículo 14.1 de la Constitución). Es la factura de **venta** que Polar Breeze emite a sus clientes al despachar/cobrar — distinta de la `Obligacion` (Módulo 2), que es la factura que Polar Breeze **recibe** de un Suplidor.
 
 - Campos conceptuales: código (número de factura, nunca reutilizable — Artículo 9.3), `empresaId`, `sucursalId`, `Vendedor`, líneas de `Producto` + cantidad + precio, total, estado (aprobada / anulada por nota de crédito).
 
 ### NotaCredito
 
-- Campos conceptuales: código, `empresaId`, `Factura` original referenciada (obligatorio — Artículo 14.2), motivo, monto.
+Corrige una `Factura` de venta — distinta de la nota de crédito de proveedor mencionada en el Módulo 2 (`08-CATALOGO-DE-MODULOS.md`, "Pendiente de modelar"), que reduciría una `Obligacion` en lugar de una `Factura`.
 
-## 9. Entidades del Módulo 5 — Reportes
+- Campos conceptuales: código, `empresaId`, `Factura` original referenciada (obligatorio — Artículo 14.2), motivo, monto.
 
 ### ArqueoManual
 
@@ -228,11 +234,14 @@ Toda referencia entre entidades de este modelo respeta el Artículo 10 de la Con
 - `02-CONSTITUCION-ERP.md` — las reglas que este modelo está obligado a cumplir (particionado, integridad referencial, soft delete, versionado, auditoría).
 - `04-MOTOR-DE-FLUJOS-PATRIMONIALES.md` — quien aplica los eventos que dan origen al historial y a las proyecciones descritas aquí.
 - `08-CATALOGO-DE-MODULOS.md` — el origen funcional de cada entidad descrita por módulo.
+- `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md` — la fuente de verdad de módulos con la que se reconcilió la agrupación de las secciones 5-9.
 - `11-DICCIONARIO-DE-DATOS.md` — el detalle campo por campo de cada entidad aquí listada.
 - `docs/diagramas/base-datos.drawio` — representación visual de este modelo (pendiente de diagramar).
 
 Observaciones:
 
 Este documento define entidades y relaciones a nivel conceptual. El detalle exhaustivo de cada campo (tipo de dato, obligatoriedad, valores permitidos) corresponde a `11-DICCIONARIO-DE-DATOS.md`, que debe mantenerse consistente con las entidades aquí listadas.
+
+Las secciones 5-9 se reagruparon para reconciliarse con los 6 módulos de `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md`: `Obligacion` se movió del Módulo 1 al Módulo 2 (es la factura del Suplidor, no del Flujo de Efectivo general); `Despacho`, `NovedadDespacho`, `SolicitudRetiro`, `JustificacionRetiro`, `Factura` y `NotaCredito` se movieron al Módulo 5 (que combina despacho, facturación de venta y arqueo); `Consignacion` quedó sola en el Módulo 4. Ninguna entidad cambió sus campos por esta reconciliación — solo su agrupación por módulo.
 
 El campo `moneda` de `Empresa` (sección 2) fija una única moneda funcional por empresa — el alcance mínimo necesario para que el ecosistema multiempresa no asuma una sola moneda global (Artículo 28.1 de la Constitución). Este modelo **no** cubre escenarios de multi-moneda dentro de una misma empresa (por ejemplo, una `CuentaBancaria` en una moneda distinta a la funcional, o conversión automática de tipo de cambio); si el negocio llega a necesitar eso, es una extensión futura que requiere su propia decisión en `DECISIONES-ARQUITECTURALES.md`, no una suposición de este documento.

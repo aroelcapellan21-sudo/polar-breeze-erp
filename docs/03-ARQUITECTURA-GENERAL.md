@@ -19,7 +19,7 @@ El ERP se organiza en siete capas, cada una con una responsabilidad única y fro
 1. **Capa de Presentación** — aplicaciones móviles (Android/iOS) y, cuando aplique, interfaces web, usadas por chofer, encargado, administración y roles de reportes.
 2. **Capa de Persistencia Local y Sincronización** — almacenamiento local en el dispositivo y la cola de sincronización offline-first.
 3. **Capa de API / Puerta de Entrada** — el punto único por el que toda operación de un módulo llega al backend, aplicando primero el Motor de Permisos.
-4. **Capa de Módulos de Negocio** — los módulos del catálogo (`08-CATALOGO-DE-MODULOS.md`): Flujo de Efectivo, Inventario y Almacén, Despacho y Consignaciones, Facturación, Reportes.
+4. **Capa de Módulos de Negocio** — los módulos del catálogo (`08-CATALOGO-DE-MODULOS.md`): Flujo de Efectivo y Bancos, CXP-Facturación y Reportes, Inventario y Cuarto Frío, Consignaciones, Despacho-Novedades y Caja, Parámetros de Mantenimiento.
 5. **Motor de Flujos Patrimoniales** — el núcleo del sistema (`04-MOTOR-DE-FLUJOS-PATRIMONIALES.md`): valida, aplica y persiste eventos sobre capital, mercancía e información.
 6. **Modelo de Datos Maestro** — la persistencia autoritativa, particionada por `empresaId`/`sucursalId` (`05-MODELO-DE-DATOS-MAESTRO.md`).
 7. **Capa de Configuración de Plataforma** — configuración variable de negocio (`config/*`), catálogos maestros compartidos y parámetros por empresa.
@@ -110,7 +110,7 @@ Ningún componente se salta pasos de este camino, ni siquiera por razones de per
 
 ## 12. Reportes y Exportación
 
-El módulo de Reportes (Módulo 5 en `08-CATALOGO-DE-MODULOS.md`) es un **consumidor de solo lectura** del Modelo de Datos Maestro y sus proyecciones; nunca una vía de escritura. Toda exportación respeta el aislamiento por `empresaId` (Artículo 24 de la Constitución) y declara explícitamente su alcance (empresa, sucursal, rango de fechas, versión de reglas usada).
+La función de reportes y exportación (parte del Módulo 5 — Despacho, Novedades y Caja en `08-CATALOGO-DE-MODULOS.md`, sección "Arqueo de Caja y Facturar") es un **consumidor de solo lectura** del Modelo de Datos Maestro y sus proyecciones; nunca una vía de escritura. Toda exportación respeta el aislamiento por `empresaId` (Artículo 24 de la Constitución) y declara explícitamente su alcance (empresa, sucursal, rango de fechas, versión de reglas usada).
 
 ## 13. Integraciones Futuras (Vista Arquitectónica)
 

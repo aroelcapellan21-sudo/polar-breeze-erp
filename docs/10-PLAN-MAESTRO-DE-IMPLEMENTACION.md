@@ -40,49 +40,51 @@ El orden de implementación no es arbitrario: refleja las dependencias reales en
 
 **Dependencia:** Fase 0 completa.
 
-**Criterio de salida:** los siete catálogos existen, particionados por `empresaId`, con código como clave de negocio (Principio 1), y ningún módulo posterior necesita reimplementarlos.
+**Criterio de salida:** los siete catálogos existen, particionados por `empresaId`, con código como clave de negocio (Principio 1), y ningún módulo posterior necesita reimplementarlos. Esta fase cubre funcionalmente el Módulo 6 — Parámetros de Mantenimiento de `08-CATALOGO-DE-MODULOS.md` (Crear Suplidor, Crear Producto, Crear Vendedor) y la parte de "Mantenimiento" del Módulo 1 (Crear Cuenta); por eso Módulo 6 no tiene su propia fase de implementación más adelante.
 
-## 4. Fase 2 — Módulo 1: Flujo de Efectivo
+## 4. Fase 2 — Módulo 1: Flujo de Efectivo y Bancos
 
-**Objetivo:** implementar F1 (Ingreso de Capital), F10 (Pago de Cuentas por Pagar) y la base de F11 (Arqueo) descritos en `07-FLUJOS-DE-NEGOCIO.md`.
+**Objetivo:** implementar F1 (Ingreso de Capital) descrito en `07-FLUJOS-DE-NEGOCIO.md`.
 
-**Dependencia:** Fase 1 (requiere `Fondo`, `Cuenta` y `Proveedor` — este último como contraparte de las obligaciones de F10).
+**Dependencia:** Fase 1 (requiere `Fondo`, `Cuenta`, `CuentaBancaria`).
 
 **Bloqueante:** el plan de cuentas de `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` (sección 3) está marcado como Borrador — **no debe iniciarse la implementación de este módulo hasta que ese plan de cuentas sea validado formalmente** por un responsable financiero (ver Observaciones de ese documento).
 
-**Criterio de salida:** es posible registrar capital, clasificarlo en los cuatro fondos, gestionar las Cuentas 1-6 ya validadas, crear cuentas bancarias, y registrar/pagar una `Obligacion` (Cuenta por Pagar) referenciando a un `Proveedor`.
+**Criterio de salida:** es posible registrar capital, clasificarlo en los fondos, gestionar las Cuentas 1-6 ya validadas, y crear cuentas bancarias.
 
-## 5. Fase 3 — Módulo 2: Inventario y Almacén
+## 5. Fase 3 — Módulo 2: CXP, Facturación y Reportes
 
-**Objetivo:** implementar F3 (Conciliación Chofer/Encargado), F4 (Novedades de Cuarto Frío) y F13 (Baja de Mercancía por Merma, Pérdida o Condonación).
+**Objetivo:** implementar F2 (Compra y Recepción de Mercancía, parte de capital: obligación registrada) y F10 (Pago de Cuentas por Pagar) descritos en `07-FLUJOS-DE-NEGOCIO.md`.
 
-**Dependencia:** Fase 1 (requiere `Producto`).
+**Dependencia:** Fase 1 (requiere `Proveedor`) y Fase 2 (requiere `Cuenta` 4 — Cuentas por Pagar — ya validada, y `Fondo`).
+
+**Bloqueante:** el mismo plan de cuentas de `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` (sección 3) que bloquea la Fase 2 — la Cuenta 4 que esta fase usa forma parte de ese mismo plan sin validar.
+
+**Criterio de salida:** es posible registrar una `Obligacion` (factura de un `Proveedor`) y pagarla, total o parcialmente, referenciando siempre la obligación original (Artículo 20.2).
+
+## 6. Fase 4 — Módulo 3: Inventario y Cuarto Frío
+
+**Objetivo:** implementar F2 (Compra y Recepción de Mercancía, parte de mercancía: recepción física), F3 (Conciliación Chofer/Encargado), F4 (Novedades de Cuarto Frío) y F13 (Baja de Mercancía por Merma, Pérdida o Condonación).
+
+**Dependencia:** Fase 1 (requiere `Producto`) y Fase 3 (F2 es un evento atómico entre `ObligacionRegistrada` de este Módulo 2 y `MercanciaRecibida` de este Módulo 3 — ambas fases deben completarse juntas antes de que F2 pueda operar de extremo a extremo).
 
 **Criterio de salida:** `InventarioChofer` e `InventarioEncargado` operan como procesos independientes (Artículo 17.1), con registro de novedades (dañados, rotos, mal estado, sobrantes, faltantes, rotura de cadena de frío), conciliación explícita entre ambos, y capacidad de dar de baja mercancía (merma, pérdida o condonación) reduciendo la existencia proyectada de forma explícita (Artículo 6.3). El tratamiento de capital de una baja permanece pendiente de validación contable y no bloquea esta fase.
 
-## 6. Fase 4 — Módulo 3: Despacho y Consignaciones
+## 7. Fase 5 — Módulo 4: Consignaciones
 
-**Objetivo:** implementar F5 (Consignación y Despacho) y F6 (Solicitud y Justificación de Retiro).
+**Objetivo:** implementar la parte de creación de F5 (Consignación) descrita en `07-FLUJOS-DE-NEGOCIO.md`.
 
-**Dependencia:** Fase 3 (requiere inventario operando).
+**Dependencia:** Fase 4 (requiere inventario operando, como origen de la mercancía a consignar).
 
-**Criterio de salida:** es posible crear consignaciones, despachar mercancía, registrar novedades de despacho, y ningún retiro se considera válido sin su justificación asociada (Artículo 21.3).
+**Criterio de salida:** es posible crear, retirar, listar e historiar consignaciones, con su existencia proyectada correctamente reducida cuando el Módulo 5 ejecuta el despacho asociado.
 
-## 7. Fase 5 — Módulo 4: Facturación
+## 8. Fase 6 — Módulo 5: Despacho, Novedades y Caja
 
-**Objetivo:** implementar F7 (Facturación y Venta), F8 (Alta de Producto) y F9 (Nota de Crédito).
+**Objetivo:** implementar la parte de despacho de F5, F6 (Solicitud y Justificación de Retiro), F7 (Facturación y Venta), F8 (Alta de Producto — nota: este flujo se ejecuta operativamente en la Fase 1/Módulo 6, no aquí), F9 (Nota de Crédito), F11 (Arqueo Manual, completo) y F12 (Exportación de Reportes).
 
-**Dependencia:** Fase 2 (capital) y Fase 3 (inventario) — una factura afecta ambos flujos de forma atómica (Artículo 6.2 de la Constitución).
+**Dependencia:** Fase 5 (requiere `Consignacion` como origen del despacho), Fase 4 (inventario) y Fase 2 (capital) — una factura afecta capital e inventario de forma atómica (Artículo 6.2 de la Constitución).
 
-**Criterio de salida:** una factura aprobada es inmutable, genera su contrapartida de capital e inventario en una sola unidad atómica, y una nota de crédito nunca edita la factura original.
-
-## 8. Fase 6 — Módulo 5: Reportes
-
-**Objetivo:** implementar F11 (Arqueo Manual, completo) y F12 (Exportación de Reportes).
-
-**Dependencia:** Fases 2 a 5 (los reportes leen de todos los flujos anteriores).
-
-**Criterio de salida:** todo reporte se genera desde la fuente de verdad o una proyección declarada, respeta el aislamiento por `empresaId`, y todo arqueo registra su diferencia como evento propio sin sobrescribir el saldo del sistema.
+**Criterio de salida:** es posible despachar mercancía, registrar novedades de despacho, procesar solicitudes de retiro con su justificación obligatoria (Artículo 21.3), emitir una factura de venta inmutable que genera su contrapartida de capital e inventario en una sola unidad atómica, corregirla con una nota de crédito sin editar el original, y todo reporte y arqueo se genera desde la fuente de verdad o una proyección declarada, respetando el aislamiento por `empresaId`.
 
 ## 9. Fase 7 — Validación Multiempresa Real
 
@@ -106,7 +108,7 @@ El orden de implementación no es arbitrario: refleja las dependencias reales en
 
 ## 12. Riesgos Conocidos
 
-- **Plan de cuentas no validado** (bloqueante de Fase 2): si se implementa el Módulo 1 sin validación contable formal, el trabajo puede requerir rehacerse.
+- **Plan de cuentas no validado** (bloqueante de las Fases 2 y 3): si se implementan el Módulo 1 o el Módulo 2 sin validación contable formal, el trabajo puede requerir rehacerse.
 - **Omisión de offline-first en fases tempranas**: si la Fase 0 no prueba de extremo a extremo la sincronización offline, los módulos posteriores heredarán esa deuda técnica de forma silenciosa.
 - **Introducción prematura de una segunda empresa real** antes de la Fase 7: usar el ecosistema multiempresa como prueba de concepto antes de que los módulos base estén estables incrementa el riesgo de detectar tarde una fuga de aislamiento entre empresas.
 
@@ -114,11 +116,14 @@ El orden de implementación no es arbitrario: refleja las dependencias reales en
 
 - `02-CONSTITUCION-ERP.md` — las reglas que cada fase debe cumplir para considerarse completa.
 - `04-MOTOR-DE-FLUJOS-PATRIMONIALES.md` y `05-MODELO-DE-DATOS-MAESTRO.md` — lo que se construye en la Fase 0 y Fase 1.
-- `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` — el bloqueante de la Fase 2.
-- `07-FLUJOS-DE-NEGOCIO.md` — los flujos F1-F12 que cada fase de módulo implementa.
-- `08-CATALOGO-DE-MODULOS.md` — el catálogo de módulos que las Fases 2 a 6 construyen.
+- `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` — el bloqueante de las Fases 2 y 3.
+- `07-FLUJOS-DE-NEGOCIO.md` — los flujos F1-F13 que cada fase de módulo implementa.
+- `08-CATALOGO-DE-MODULOS.md` — el catálogo de 6 módulos que las Fases 2 a 6 construyen (el Módulo 6 se cubre en la Fase 1, ver sección 3).
+- `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md` — la fuente de verdad de módulos con la que se reconciliaron estas fases.
 - `13-HISTORIAL-DE-VERSIONES.md` — donde se registra el avance real de estas fases.
 
 Observaciones:
 
-Este plan asume que las Fases 2 a 6 podrían, en la práctica, ejecutarse con cierto grado de paralelismo una vez completadas las Fases 0 y 1 (por ejemplo, Inventario y Flujo de Efectivo pueden avanzar simultáneamente), siempre que Facturación (Fase 5) no inicie hasta que ambas estén operativas, por su dependencia atómica de las dos. La decisión final de paralelizar o no queda en manos del equipo de ejecución, respetando las dependencias aquí descritas.
+Este plan asume que las Fases 2 a 6 podrían, en la práctica, ejecutarse con cierto grado de paralelismo una vez completadas las Fases 0 y 1 (por ejemplo, la Fase 4 — Inventario y Cuarto Frío y la Fase 2 — Flujo de Efectivo y Bancos pueden avanzar simultáneamente), siempre que la Fase 6 — Despacho, Novedades y Caja no inicie hasta que las Fases 2, 4 y 5 estén operativas, por su dependencia atómica de todas ellas (facturación de venta). La decisión final de paralelizar o no queda en manos del equipo de ejecución, respetando las dependencias aquí descritas.
+
+Esta reconciliación (Fases 1 a 6) redistribuyó el trabajo de implementación entre 6 módulos en lugar de 5, siguiendo `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md`: la Fase 3 (CXP) se separó de la antigua Fase 2 (Flujo de Efectivo), y la antigua Fase 4 (Despacho y Consignaciones) se dividió en la actual Fase 5 (Consignaciones) y Fase 6 (Despacho, Novedades y Caja, que además absorbió la antigua Fase 6 — Reportes y la antigua Fase 5 — Facturación). Ningún criterio de salida ni dependencia técnica cambió de fondo — solo su agrupación en fases.
