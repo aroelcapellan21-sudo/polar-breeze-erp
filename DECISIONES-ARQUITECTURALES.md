@@ -616,3 +616,30 @@ Ninguna: el usuario proveyó la corrección de forma directa y sin ambigüedad s
 - Ya no queda ninguna discrepancia abierta entre `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md` y `02-CONSTITUCION-ERP.md` respecto a las clasificaciones de Fondo.
 - Este caso queda como referencia de que una "discrepancia" detectada durante una reconciliación puede deberse a un error de transcripción de la fuente, no a una diferencia real de diseño — y de que corregirla en el anexo (la fuente de verdad transcrita) es preferible a dejarla marcada como abierta indefinidamente, una vez que el usuario la resuelve con información directa.
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.38) reflejando esta corrección como MENOR (corrige una transcripción, no reestructura ninguna regla ni entidad).
+
+### [2026-07-14] Modelados 6 de los 7 conceptos pendientes de Oliver
+
+**Contexto:**
+La reconciliación con la Estructura Oliver dejó 7 conceptos marcados "Pendiente de modelar" en `08-CATALOGO-DE-MODULOS.md`: NCF, ITBIS, Condición de Pago, Participación de Capital, Rutas y Vías, Reportes R1/R2/R3, y Refrigerios/Bonificaciones/Donaciones. El usuario pidió modelarlos en `05-MODELO-DE-DATOS-MAESTRO.md` y `11-DICCIONARIO-DE-DATOS.md`, con un plan previo a la implementación. Al diseñar contra las entidades existentes aparecieron dos dependencias no anticipadas: NCF/ITBIS exigían agregar `fechaFactura` a `Obligacion` (no existía, solo `fechaVencimiento`); los reportes R3 exigían agregar `medioDePago`/`comprobanteImagen` a `MovimientoCapital` y un tipo conceptual nuevo ("Archivo/Imagen") que el diccionario no tenía. Se preguntó al usuario cómo interpretar "Participación de Capital" (única mención ambigua, sin contexto adicional de Oliver); el usuario confirmó dejarla explícitamente pendiente.
+
+**Decisión:**
+Se modelaron 6 conceptos:
+- **NCF y ITBIS**: `Obligacion` gana `comprobanteFiscal`, `montoCosto`, `montoITBIS` y `fechaFactura`; `montoOriginal` se reinterpreta explícitamente como el total (`montoCosto + montoITBIS`), sin romper su rol de monto inmutable.
+- **Condición de Pago**: entidad nueva `CondicionPago` (catálogo compartido, creada desde el Módulo 6), con `plazoDias`; `Obligacion` la referencia y calcula `fechaVencimiento` una sola vez al registrarse (`fechaFactura` + `plazoDias`), sin recalcularla después.
+- **Rutas y Vías**: entidad nueva `Ruta` (Módulo 4), con `presupuestoInventario` (cubre "PPTO Inventario Santiago"); `Consignacion` gana `ruta` y `numeroPunto` (cubre "Consignaciones Individuales 1 al 23"), ambos opcionales.
+- **Reportes R1/R2/R3**: documentados como proyecciones de solo lectura sobre `Obligacion` y `MovimientoCapital`, sin entidad propia — mismo tratamiento que ya tenía `ExportacionReporte`. "Días Vencimiento" de R2 se calcula al generar el reporte, no es un campo almacenado.
+- **Refrigerios / Bonificaciones / Donaciones**: se amplió `BajaInventario.tipo` de tres a seis valores (se agregan `donación`, `bonificación`, `refrigerio`), distinguiéndolos de `condonación` (perdonar una deuda existente, no regalar producto activamente).
+- Para dar soporte a R3, `MovimientoCapital` ganó `medioDePago`, `numeroTransaccion` y `comprobanteImagen`; se agregó el tipo conceptual **Archivo/Imagen** a `11-DICCIONARIO-DE-DATOS.md`, sección 1.
+
+Se actualizó `08-CATALOGO-DE-MODULOS.md` reemplazando cada "Pendiente de modelar" resuelto por una referencia a la entidad/campo real, y actualizando los catálogos que crean el Módulo 4 (`Ruta`) y el Módulo 6 (`CondicionPago`). **Participación de Capital** queda explícitamente pendiente en el Módulo 1, con nota de que el usuario la dejó así por decisión propia, no por descuido.
+
+**Alternativas consideradas:**
+Modelar tres entidades separadas para `donación`/`bonificación`/`refrigerio` en lugar de ampliar el enum de `BajaInventario.tipo`. Se descartó por ser exactamente la clase de sobre-construcción que este proyecto evita: las tres son formas de baja de mercancía, no conceptos con campos o comportamiento distintos entre sí.
+Modelar R1/R2/R3 como tres entidades de "plantilla de reporte". Se descartó porque `ExportacionReporte` ya existe como registro genérico de exportación y los reportes son, en esencia, proyecciones de campos ya modelados — inventar plantillas formales habría sido redundante.
+Intentar adivinar el significado de "Participación de Capital" para no dejar nada pendiente. Se descartó: se preguntó al usuario, que confirmó dejarla pendiente — consistente con el principio de este proyecto de preguntar ante ambigüedad genuina en lugar de asumir (Artículo 26.2 de la Constitución).
+
+**Consecuencias:**
+- De los 7 conceptos pendientes de la reconciliación con Oliver, solo **Participación de Capital** sigue sin modelar — con nota explícita de que requiere más contexto de Oliver, no una decisión arquitectónica pospuesta sin razón.
+- Cualquier módulo futuro que implemente CXP, Rutas o los reportes R1/R2/R3 debe consumir estas entidades ya existentes (`CondicionPago`, `Ruta`), nunca reimplementarlas (Artículo 4 y 16.1 de la Constitución).
+- Si en el futuro se decide modelar Participación de Capital, esa decisión debe registrarse aparte, con el contexto adicional de Oliver que hoy falta.
+- `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.39) reflejando este cambio como MENOR (agrega entidades y campos sin alterar ni romper lo existente).

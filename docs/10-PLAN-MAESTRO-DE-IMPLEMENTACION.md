@@ -68,7 +68,7 @@ El orden de implementación no es arbitrario: refleja las dependencias reales en
 
 **Dependencia:** Fase 1 (requiere `Producto`) y Fase 3 (F2 es un evento atómico entre `ObligacionRegistrada` de este Módulo 2 y `MercanciaRecibida` de este Módulo 3 — ambas fases deben completarse juntas antes de que F2 pueda operar de extremo a extremo).
 
-**Criterio de salida:** `InventarioChofer` e `InventarioEncargado` operan como procesos independientes (Artículo 17.1), con registro de novedades (dañados, rotos, mal estado, sobrantes, faltantes, rotura de cadena de frío), conciliación explícita entre ambos, y capacidad de dar de baja mercancía (merma, pérdida o condonación) reduciendo la existencia proyectada de forma explícita (Artículo 6.3). El tratamiento de capital de una baja permanece pendiente de validación contable y no bloquea esta fase.
+**Criterio de salida:** `InventarioChofer` e `InventarioEncargado` operan como procesos independientes (Artículo 17.1), con registro de novedades (dañados, rotos, mal estado, sobrantes, faltantes, rotura de cadena de frío), conciliación explícita entre ambos, y capacidad de dar de baja mercancía (merma, pérdida, condonación, donación, bonificación o refrigerio) reduciendo la existencia proyectada de forma explícita (Artículo 6.3). El tratamiento de capital de una baja permanece pendiente de validación contable y no bloquea esta fase.
 
 ## 7. Fase 5 — Módulo 4: Consignaciones
 

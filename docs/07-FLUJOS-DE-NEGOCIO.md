@@ -202,7 +202,7 @@ Contenido:
 
 **Pasos:**
 1. Se determina que la mercancía afectada no puede reintegrarse al inventario vendible: deterioro irreversible, extravío confirmado, o decisión de condonarla.
-2. Se registra la `BajaInventario`: producto, cantidad, tipo (merma / pérdida / condonación), novedad de origen (si aplica), inventario o consignación de origen, motivo y usuario que autoriza.
+2. Se registra la `BajaInventario`: producto, cantidad, tipo (merma / pérdida / condonación / donación / bonificación / refrigerio), novedad de origen (si aplica), inventario o consignación de origen, motivo y usuario que autoriza.
 3. El motor reduce la existencia del `Producto` en el inventario o consignación de origen de forma atómica con el registro de la baja — la mercancía nunca "desaparece" sin este evento explícito (Artículo 6.3 de la Constitución).
 4. El tratamiento de capital asociado a la baja (si genera o no un gasto/pérdida contable, y contra qué `Fondo`/`Cuenta`) queda pendiente de validación contable (`docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md`, ítem 7). Mientras tanto, la baja se registra únicamente como evento de flujo de mercancía e información, sin generar un `MovimientoCapital`.
 

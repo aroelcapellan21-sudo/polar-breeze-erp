@@ -25,6 +25,7 @@ Contenido:
 | Booleano | Verdadero/falso. |
 | Enumeración | Valor limitado a una lista cerrada predefinida. |
 | Referencia | Apunta a otra entidad por su **código**, nunca por nombre (Principio 1). |
+| Archivo/Imagen | Adjunto binario (por ejemplo, la foto de un comprobante de pago). Este documento no define formato ni almacenamiento técnico — solo que el campo existe conceptualmente y se referencia junto al registro que documenta. |
 
 ## 2. Campos Comunes Heredados por Toda Entidad
 
@@ -181,6 +182,13 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 | `nombre` | Texto corto | Sí | Nombre o razón social del proveedor o tercero. |
 | `tipo` | Enumeración (`proveedor_mercancia` / `transportista` / `consignatario` / `otro`) | Sí | Clasifica el tipo de tercero con quien se puede contraer una obligación (Artículo 20.1 de la Constitución). |
 
+### CondicionPago
+
+| Campo | Tipo | Obligatorio | Descripción |
+|---|---|---|---|
+| `nombre` | Texto corto | Sí | Nombre del plazo (ej. "Contado", "30 días"). |
+| `plazoDias` | Número entero | Sí | Días desde la fecha de la factura hasta el vencimiento. |
+
 ## 6. Módulo 1 — Flujo de Efectivo y Bancos
 
 ### MovimientoCapital
@@ -192,6 +200,9 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 | `monto` | Monto | Sí | Valor del movimiento. |
 | `tipo` | Enumeración (`ingreso` / `egreso`) | Sí | Naturaleza del movimiento. |
 | `obligacionReferenciada` | Referencia (a Obligacion) | No, solo si el movimiento es un pago aplicado a una obligación del Módulo 2 | Vincula el pago con la obligación que salda, parcial o totalmente (Artículo 20.2). |
+| `medioDePago` | Enumeración (`depósito` / `efectivo` / `transferencia`) | No, solo si el movimiento es un pago | Cómo se realizó el pago. |
+| `numeroTransaccion` | Código | No | Número de transacción bancaria, cuando el medio de pago lo genera. |
+| `comprobanteImagen` | Archivo/Imagen | No | Foto del comprobante del pago. |
 | `eventoOrigen` | Referencia (a Evento) | Sí | El evento que generó este registro. |
 
 ## 7. Módulo 2 — CXP, Facturación y Reportes
@@ -201,12 +212,17 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 | Campo | Tipo | Obligatorio | Descripción |
 |---|---|---|---|
 | `proveedor` | Referencia (a Proveedor) | Sí | Contraparte de la obligación — el Suplidor (Artículo 20.1 de la Constitución). |
-| `montoOriginal` | Monto | Sí | Monto de la obligación; nunca se edita para reflejar pagos parciales (Artículo 20.2). |
-| `fechaVencimiento` | Fecha/Hora | Sí | Fecha límite de pago pactada. |
+| `condicionPago` | Referencia (a CondicionPago) | Sí | Plazo de crédito aplicado. |
+| `fechaFactura` | Fecha/Hora | Sí | Fecha de la factura que el Suplidor emitió. |
+| `fechaVencimiento` | Fecha/Hora | Sí | `fechaFactura` + `condicionPago.plazoDias`, calculada una vez al registrar la obligación; no se recalcula si la condición de pago cambia después. |
+| `comprobanteFiscal` | Código | Sí | Número de Comprobante Fiscal (NCF) que el Suplidor emite. |
+| `montoCosto` | Monto | Sí | Monto antes de impuesto. |
+| `montoITBIS` | Monto | Sí | Impuesto (ITBIS) aplicado. |
+| `montoOriginal` | Monto | Sí | El total: `montoCosto` + `montoITBIS`. Nunca se edita para reflejar pagos parciales (Artículo 20.2). |
 | `cuenta` | Referencia (a Cuenta) | Sí | Vínculo a la Cuenta 4 — Cuentas por Pagar del plan de cuentas (`06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 3). |
 | `saldoPendiente` | Monto | — (proyección) | `montoOriginal` menos la suma de pagos aplicados; derivado del historial de eventos, no editable directamente. |
 | `eventoOrigen` | Referencia (a Evento) | Sí | El evento `ObligacionRegistrada` que originó esta obligación. |
-| — | — | — | Campos que Oliver menciona sin respaldo formal todavía: Comprobante (NCF), ITBIS, Días de Crédito / Condición de Pago, nota de crédito de proveedor — ver `08-CATALOGO-DE-MODULOS.md`, Módulo 2, "Pendiente de modelar". |
+| — | — | — | Los reportes R1 ("Fecha Factura-Comprobante-Costo-ITBIS-Total"), R2 ("Fecha Factura-Comprobante-Total-Días Vencimiento") y R3 ("Fecha Factura-Comprobantes-Medio de Pago con Imagen") de Oliver son proyecciones de solo lectura sobre estos campos y los de `MovimientoCapital` — no entidades nuevas. "Días Vencimiento" de R2 se calcula al generar el reporte, no es un campo almacenado. Sigue sin modelar: la nota de crédito propia del Suplidor — ver `08-CATALOGO-DE-MODULOS.md`, Módulo 2, "Pendiente de modelar". |
 
 ## 8. Módulo 3 — Inventario y Cuarto Frío
 
@@ -234,7 +250,7 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 |---|---|---|---|
 | `producto` | Referencia (a Producto) | Sí | Producto dado de baja. |
 | `cantidad` | Número entero | Sí | Cantidad dada de baja. |
-| `tipo` | Enumeración (`merma` / `pérdida` / `condonación`) | Sí | Naturaleza de la baja: deterioro operativo, extravío o siniestro, o decisión administrativa de no cobrar/perdonar. |
+| `tipo` | Enumeración (`merma` / `pérdida` / `condonación` / `donación` / `bonificación` / `refrigerio`) | Sí | Naturaleza de la baja: deterioro operativo, extravío/siniestro, no cobrar una deuda existente, regalar producto, incentivo promocional, o consumo del personal. |
 | `novedadOrigen` | Referencia (a NovedadInventario o NovedadDespacho) | No, solo si la baja proviene de una novedad detectada previamente | Vincula la baja con la novedad que la motivó (Artículo 17.2/23.2: nunca suelta cuando existe una novedad previa). |
 | `inventarioOrigen` | Referencia (a InventarioChofer, InventarioEncargado o Consignacion) | Sí | De dónde se retira la mercancía dada de baja. |
 | `motivo` | Texto largo | Sí | Justificación de la baja. |
@@ -251,7 +267,15 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 | `responsable` | Referencia (a Usuario) | Sí | Responsable de la consignación. |
 | `contenido` | Lista de (Referencia a Producto + cantidad) | Sí | Mercancía consignada. |
 | `estadoConsignacion` | Enumeración (`activa` / `cerrada`) | Sí | Al cerrarse, se vuelve inmutable (Artículo 14.1). |
-| — | — | — | Oliver menciona una estructura de rutas (PPTO Inventario Santiago, Consignaciones Individuales 1 al 23) sin campo formal todavía — ver `08-CATALOGO-DE-MODULOS.md`, Módulo 4, "Pendiente de modelar". |
+| `ruta` | Referencia (a Ruta) | No | Ruta de distribución a la que pertenece, cuando aplica. |
+| `numeroPunto` | Número entero | No, solo si tiene `ruta` | Posición dentro de la ruta (ej. 1 a 23). |
+
+### Ruta
+
+| Campo | Tipo | Obligatorio | Descripción |
+|---|---|---|---|
+| `nombre` | Texto corto | Sí | Nombre de la ruta (ej. "Santiago"). |
+| `presupuestoInventario` | Monto | No | Presupuesto de inventario de referencia para la ruta ("PPTO Inventario Santiago"). |
 
 ## 10. Módulo 5 — Despacho, Novedades y Caja
 
@@ -340,3 +364,5 @@ Observaciones:
 Los campos marcados como Enumeración usan valores cerrados a modo ilustrativo, consistentes con lo ya documentado en `07-FLUJOS-DE-NEGOCIO.md` y `06-REGLAS-CONTABLES-Y-FINANCIERAS.md`. Cualquier valor adicional que el negocio requiera debe agregarse aquí antes de usarse en un módulo (Artículo 29.3 de la Constitución), no introducirse directamente en el código.
 
 Las secciones 6-10 se reagruparon para reconciliarse con los 6 módulos de `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md`, en el mismo orden en que se reagruparon las secciones equivalentes de `05-MODELO-DE-DATOS-MAESTRO.md`: `Obligacion` pasó del Módulo 1 al Módulo 2; `Despacho`, `NovedadDespacho`, `SolicitudRetiro`, `JustificacionRetiro`, `Factura` y `NotaCredito` pasaron al Módulo 5; `Consignacion` quedó sola en el Módulo 4. Ningún campo cambió — solo su agrupación por módulo.
+
+Se modelaron 6 de los 7 conceptos que `08-CATALOGO-DE-MODULOS.md` marcaba como "Pendiente de modelar": NCF, ITBIS y fecha de factura (`Obligacion`), Condición de Pago (`CondicionPago`), Rutas y Vías (`Ruta`), Reportes R1/R2/R3 (proyecciones, no entidades) y Refrigerios/Bonificaciones/Donaciones (ampliación de `BajaInventario.tipo`). Se agregó el tipo conceptual Archivo/Imagen (sección 1) para dar soporte al comprobante de pago de `MovimientoCapital`. **Participación de Capital** queda deliberadamente sin modelar, por decisión del usuario — sigue señalada en `08-CATALOGO-DE-MODULOS.md`, Módulo 1.

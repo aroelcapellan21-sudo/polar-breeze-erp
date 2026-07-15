@@ -60,9 +60,15 @@ Contenido:
 
 **Arqueo manual** — Proceso de conciliación entre el saldo/existencia proyectado por el sistema y un conteo físico real, registrando cualquier diferencia como evento propio (Artículo 25.3 de la Constitución).
 
-**Baja de inventario** — Salida definitiva de mercancía del inventario vendible por merma, pérdida o condonación, registrada como `BajaInventario` (Artículo 6.3 de la Constitución: ninguna mercancía desaparece sin un evento explícito que documente su destino).
+**Baja de inventario** — Salida definitiva de mercancía del inventario vendible por merma, pérdida, condonación, donación, bonificación o refrigerio, registrada como `BajaInventario` (Artículo 6.3 de la Constitución: ninguna mercancía desaparece sin un evento explícito que documente su destino).
+
+**Bonificación** — Tipo de `BajaInventario` en que se entrega producto como incentivo promocional, sin que medie una obligación de pago o una deuda que perdonar.
 
 **Chofer** — Actor operativo responsable del `InventarioChofer`, la mercancía en tránsito en su vehículo.
+
+**Comprobante Fiscal (NCF)** — Número de Comprobante Fiscal que el Suplidor emite junto a su factura; campo `comprobanteFiscal` de `Obligacion` (Módulo 2 — CXP, Facturación y Reportes).
+
+**Condición de Pago** — Catálogo reutilizable de plazos de crédito (ej. "Contado", "30 días"); toda `Obligacion` referencia una `CondicionPago` para calcular su fecha de vencimiento.
 
 **Condonación** — Tipo de `BajaInventario` en que la empresa decide, por decisión administrativa, dar de baja mercancía sin que medie necesariamente una novedad detectada previamente.
 
@@ -72,7 +78,11 @@ Contenido:
 
 **Despacho** — Movimiento de mercancía de un origen a un destino identificables, dentro de la misma empresa (Artículo 23 de la Constitución).
 
+**Donación** — Tipo de `BajaInventario` en que se regala producto activamente, sin deuda previa que perdonar — distinta de la `Condonación`.
+
 **Encargado** — Actor operativo responsable del `InventarioEncargado`, la mercancía en almacén o punto fijo.
+
+**ITBIS** — Impuesto (equivalente al IVA) aplicado sobre el costo de una factura del Suplidor; campo `montoITBIS` de `Obligacion` (Módulo 2), distinto del `montoCosto` y del `montoOriginal` (el total: costo + ITBIS).
 
 **Justificación de retiro** — Documento que respalda una `Solicitud de retiro`; sin ella, el retiro no es válido (Artículo 21.3).
 
@@ -83,6 +93,10 @@ Contenido:
 **Nota de crédito** — Documento que corrige una factura aprobada sin editarla, referenciándola obligatoriamente (Artículo 14.2).
 
 **Pérdida** — Tipo de `BajaInventario` originado en un extravío o siniestro confirmado, distinto del deterioro operativo de una merma.
+
+**Refrigerio** — Tipo de `BajaInventario` en que se entrega producto para consumo del personal.
+
+**Ruta** — Recorrido de distribución que agrupa consignaciones (ej. "Santiago"), con un presupuesto de inventario de referencia y puntos numerados individuales (Módulo 4 — Consignaciones).
 
 **Solicitud de retiro** — Petición formal de retirar mercancía de una consignación o despacho, que requiere justificación asociada para considerarse válida.
 

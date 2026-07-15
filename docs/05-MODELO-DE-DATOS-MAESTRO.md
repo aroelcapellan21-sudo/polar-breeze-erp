@@ -123,13 +123,20 @@ Agrupación patrimonial de capital por propósito (`01-VISION-ERP.md`, sección 
 - Campos conceptuales: código, nombre, tipo (proveedor de mercancía / transportista / consignatario / otro), `empresaId`.
 - Catálogo maestro exigido explícitamente por el Artículo 16.1 de la Constitución. Representa a todo tercero con quien la empresa puede contraer una obligación de pago (Artículo 20.1: "proveedor, transportista, consignatario"; Oliver lo llama "Suplidor"). Se crea desde el Módulo 6 — Parámetros de Mantenimiento ("Crear Suplidor"). Es la contraparte que referencia toda `Obligacion` (sección 6, Módulo 2).
 
+### CondicionPago
+
+Catálogo reutilizable de plazos de crédito (ej. "Contado", "30 días", "60 días"), consistente con la viñeta de Oliver "Condición de Pago (Plazos de crédito)" en el Módulo 6.
+
+- Campos conceptuales: código, nombre, plazo en días, `empresaId`.
+- Se crea desde el Módulo 6 — Parámetros de Mantenimiento. Se consume desde el Módulo 2 — CXP, Facturación y Reportes: toda `Obligacion` referencia una `CondicionPago` para calcular su fecha de vencimiento (sección 6).
+
 ## 5. Entidades del Módulo 1 — Flujo de Efectivo y Bancos
 
 ### MovimientoCapital
 
 Proyección/registro de un evento de flujo de capital.
 
-- Campos conceptuales: `empresaId`, `Fondo` (clasificación), `Cuenta` de origen/destino, monto, tipo (ingreso/egreso), obligación referenciada (opcional, cuando el movimiento es un pago aplicado a una `Obligacion` del Módulo 2), evento de origen.
+- Campos conceptuales: `empresaId`, `Fondo` (clasificación), `Cuenta` de origen/destino, monto, tipo (ingreso/egreso), obligación referenciada (opcional, cuando el movimiento es un pago aplicado a una `Obligacion` del Módulo 2), medio de pago (depósito / efectivo / transferencia — obligatorio solo si el movimiento es un pago), número de transacción (opcional), imagen del comprobante de pago (opcional), evento de origen.
 
 ## 6. Entidades del Módulo 2 — CXP, Facturación y Reportes
 
@@ -137,9 +144,10 @@ Proyección/registro de un evento de flujo de capital.
 
 Registra una obligación de pago con un tercero — la factura que el Suplidor emite a Polar Breeze (Artículo 20 de la Constitución), contabilizada contra la Cuenta 4 — Cuentas por Pagar (`06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 3).
 
-- Campos conceptuales: `empresaId`, `Proveedor` referenciado (contraparte), monto original, fecha de vencimiento, `Cuenta` asociada (Cuenta 4), saldo pendiente (proyección: monto original menos suma de pagos aplicados), evento de origen (`ObligacionRegistrada`).
+- Campos conceptuales: `empresaId`, `Proveedor` referenciado (contraparte), `CondicionPago` referenciada (sección 4), fecha de la factura del Suplidor, fecha de vencimiento (calculada una vez, al registrar, como fecha de factura + plazo de la `CondicionPago` — no se recalcula si la condición cambia después), comprobante fiscal (NCF), monto de costo, monto de ITBIS, monto original (el total: costo + ITBIS), `Cuenta` asociada (Cuenta 4), saldo pendiente (proyección: monto original menos suma de pagos aplicados), evento de origen (`ObligacionRegistrada`).
 - El monto original nunca se edita para reflejar pagos parciales (Artículo 20.2); un pago se registra como un `MovimientoCapital` (Módulo 1) que referencia esta `Obligacion`, y la obligación se considera saldada cuando la proyección de saldo pendiente llega a cero (`06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 5).
-- La estructura de Oliver menciona campos adicionales para esta factura del Suplidor (Comprobante NCF, ITBIS, Días de Crédito) y una nota de crédito propia del proveedor, ninguno modelado todavía — ver `08-CATALOGO-DE-MODULOS.md`, Módulo 2, "Pendiente de modelar".
+- Los reportes R1, R2 y R3 de Oliver ("Fecha Factura - Comprobante - Costo - ITBIS - Total", "Fecha Factura - Comprobante - Total - Días Vencimiento", "Fecha Factura - Comprobantes - Medio de Pago con Imagen") no son entidades nuevas: son proyecciones de solo lectura sobre los campos de `Obligacion` (R1, R2) y de `MovimientoCapital` (R3), exportables vía `ExportacionReporte` (Módulo 5) igual que cualquier otro reporte. "Días Vencimiento" de R2 se calcula al momento del reporte (hoy − fecha de vencimiento), no es un campo almacenado.
+- La nota de crédito propia del proveedor (mencionada por Oliver junto a "Generar Nota de Crédito") sigue sin modelar — ver `08-CATALOGO-DE-MODULOS.md`, Módulo 2, "Pendiente de modelar".
 
 ## 7. Entidades del Módulo 3 — Inventario y Cuarto Frío
 
@@ -158,17 +166,25 @@ Cubre novedades de inventario: dañados, rotos, en mal estado, sobrantes, faltan
 
 ### BajaInventario
 
-Registra la salida definitiva de mercancía del inventario vendible por merma, pérdida o condonación (Artículo 6.3 de la Constitución: todo movimiento patrimonial debe balancear, ninguna mercancía desaparece sin un evento explícito que documente su destino).
+Registra la salida definitiva de mercancía del inventario vendible por merma, pérdida, condonación, donación, bonificación o refrigerio (Artículo 6.3 de la Constitución: todo movimiento patrimonial debe balancear, ninguna mercancía desaparece sin un evento explícito que documente su destino).
 
-- Campos conceptuales: `empresaId`, `sucursalId`, `Producto` referenciado, cantidad, tipo (merma / pérdida / condonación), novedad de origen (referencia opcional a `NovedadInventario` o `NovedadDespacho` — no toda baja proviene de una novedad detectada; una condonación administrativa puede no tener novedad previa), inventario o consignación de origen (`InventarioChofer`, `InventarioEncargado` o `Consignacion`), motivo, usuario que autoriza, evento de origen.
+- Campos conceptuales: `empresaId`, `sucursalId`, `Producto` referenciado, cantidad, tipo (merma / pérdida / condonación / donación / bonificación / refrigerio), novedad de origen (referencia opcional a `NovedadInventario` o `NovedadDespacho` — no toda baja proviene de una novedad detectada; una condonación, donación, bonificación o refrigerio administrativo puede no tener novedad previa), inventario o consignación de origen (`InventarioChofer`, `InventarioEncargado` o `Consignacion`), motivo, usuario que autoriza, evento de origen.
+- `condonación` (no cobrar/perdonar una deuda ya existente) es distinta de `donación` (regalar producto activamente, sin deuda previa) y de `bonificación` (producto entregado como incentivo promocional); `refrigerio` cubre la entrega de producto para consumo del personal. Las seis son formas de baja, no condiciones del producto (esas viven en `NovedadInventario.tipo`, sección 7).
 - El tratamiento de capital de una baja (si genera un gasto/pérdida contable y contra qué `Fondo`/`Cuenta`) no está definido en este documento — queda pendiente de validación contable (`docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md`, ítem 7, y `06-REGLAS-CONTABLES-Y-FINANCIERAS.md`). Mientras tanto, `BajaInventario` es únicamente un evento de flujo de mercancía e información; no genera un `MovimientoCapital`.
 
 ## 8. Entidades del Módulo 4 — Consignaciones
 
 ### Consignacion
 
-- Campos conceptuales: código, `empresaId`, `sucursalId`, responsable, contenido (lista de `Producto` + cantidades), estado (activa / cerrada — inmutable al cerrarse, Artículo 14.1).
-- Oliver agrega, para este módulo, una estructura de rutas ("Rutas y Vías": PPTO Inventario Santiago, Consignaciones Individuales 1 al 23) sin entidad ni campo formal todavía — ver `08-CATALOGO-DE-MODULOS.md`, Módulo 4, "Pendiente de modelar".
+- Campos conceptuales: código, `empresaId`, `sucursalId`, responsable, contenido (lista de `Producto` + cantidades), estado (activa / cerrada — inmutable al cerrarse, Artículo 14.1), `Ruta` referenciada (opcional), número de punto dentro de la ruta (opcional).
+- Los filtros de Oliver por Vendedor, Producto y Estado no requieren campo nuevo: se resuelven combinando `Vendedor`, `Producto` y `estado` ya existentes en la interfaz de consulta.
+
+### Ruta
+
+Agrupa consignaciones a lo largo de un recorrido de distribución (Oliver: "Rutas y Vías" — ej. "PPTO Inventario Santiago", consignaciones individuales numeradas de 1 a 23).
+
+- Campos conceptuales: código, nombre, presupuesto de inventario (monto o cantidad de referencia para la ruta), `empresaId`, `sucursalId` (opcional).
+- Se crea desde el Módulo 4 — Consignaciones. Toda `Consignacion` puede referenciar una `Ruta` y su número de punto dentro de ella, opcionalmente.
 
 ## 9. Entidades del Módulo 5 — Despacho, Novedades y Caja
 
@@ -223,8 +239,9 @@ Toda referencia entre entidades de este modelo respeta el Artículo 10 de la Con
 - Una `NovedadDespacho` siempre referencia un `Despacho` existente.
 - Una `JustificacionRetiro` siempre referencia una `SolicitudRetiro` existente.
 - Un `MovimientoCapital` siempre referencia una `Cuenta` y un `Fondo` existentes.
-- Una `Obligacion` siempre referencia un `Proveedor` existente de la misma `empresaId`.
+- Una `Obligacion` siempre referencia un `Proveedor` y una `CondicionPago` existentes de la misma `empresaId`.
 - Un `MovimientoCapital` que registra un pago siempre referencia una `Obligacion` existente de la misma `empresaId`.
+- Una `Consignacion` que referencia una `Ruta` lo hace a una `Ruta` existente de la misma `empresaId`.
 - Una `BajaInventario` siempre referencia un inventario o consignación de origen (`InventarioChofer`, `InventarioEncargado` o `Consignacion`) existente de la misma `empresaId`; cuando referencia una novedad de origen, esta debe existir (`NovedadInventario` o `NovedadDespacho`).
 - Una `ConflictoSincronizacion` siempre referencia un `Evento` existente (el rechazado) de la misma `empresaId`; cuando tiene resolución, el evento de resolución también existe y es de la misma `empresaId`.
 - Ninguna entidad referencia a otra de una `empresaId` distinta a la propia.
@@ -245,3 +262,5 @@ Este documento define entidades y relaciones a nivel conceptual. El detalle exha
 Las secciones 5-9 se reagruparon para reconciliarse con los 6 módulos de `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md`: `Obligacion` se movió del Módulo 1 al Módulo 2 (es la factura del Suplidor, no del Flujo de Efectivo general); `Despacho`, `NovedadDespacho`, `SolicitudRetiro`, `JustificacionRetiro`, `Factura` y `NotaCredito` se movieron al Módulo 5 (que combina despacho, facturación de venta y arqueo); `Consignacion` quedó sola en el Módulo 4. Ninguna entidad cambió sus campos por esta reconciliación — solo su agrupación por módulo.
 
 El campo `moneda` de `Empresa` (sección 2) fija una única moneda funcional por empresa — el alcance mínimo necesario para que el ecosistema multiempresa no asuma una sola moneda global (Artículo 28.1 de la Constitución). Este modelo **no** cubre escenarios de multi-moneda dentro de una misma empresa (por ejemplo, una `CuentaBancaria` en una moneda distinta a la funcional, o conversión automática de tipo de cambio); si el negocio llega a necesitar eso, es una extensión futura que requiere su propia decisión en `DECISIONES-ARQUITECTURALES.md`, no una suposición de este documento.
+
+Se modelaron 6 de los 7 conceptos que `08-CATALOGO-DE-MODULOS.md` marcaba como "Pendiente de modelar" tras la reconciliación con Oliver: NCF, ITBIS y fecha de factura (campos de `Obligacion`), Condición de Pago (entidad `CondicionPago`), Rutas y Vías (entidad `Ruta`), Reportes R1/R2/R3 (documentados como proyecciones, no entidades nuevas) y Refrigerios/Bonificaciones/Donaciones (ampliación del enum `BajaInventario.tipo`). **Participación de Capital** queda deliberadamente sin modelar — el usuario confirmó que la mención de Oliver ("Banco / Número de Cuenta -> Participación de Capital") es demasiado ambigua para diseñarla con confianza en esta pasada; sigue señalada en `08-CATALOGO-DE-MODULOS.md`, Módulo 1.

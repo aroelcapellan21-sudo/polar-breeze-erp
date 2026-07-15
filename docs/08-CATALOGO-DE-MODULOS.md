@@ -39,7 +39,7 @@ Cada módulo se describe con la misma estructura, exigida por el Artículo 29.2 
 **Catálogos maestros que consume:** ninguno adicional.
 
 **Pendiente de modelar:**
-- **Participación de Capital** (Bancos) — no tiene entidad ni campo formal en `05`/`11` todavía.
+- **Participación de Capital** (Bancos) — sigue sin entidad ni campo formal en `05`/`11`. El usuario confirmó que la mención de Oliver ("Banco / Número de Cuenta -> Participación de Capital") es demasiado ambigua para modelarla con confianza sin más contexto; es el único de los 7 conceptos pendientes de la reconciliación con Oliver que sigue sin resolver (`DECISIONES-ARQUITECTURALES.md`, decisión "Modelados 6 de los 7 conceptos pendientes de Oliver").
 
 Las cuatro clasificaciones de `Fondo` (Costo, Venta, Distribución, Mantenimiento — Artículo 18.1 de la Constitución) están confirmadas contra la fuente de verdad de Oliver: la aparente discrepancia señalada en una versión anterior de este documento se debía a una transcripción incompleta de `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md`, ya corregida (`DECISIONES-ARQUITECTURALES.md`, decisión "Confirmadas las cuatro clasificaciones de Fondo contra la fuente de verdad de Oliver").
 
@@ -50,19 +50,18 @@ Las cuatro clasificaciones de `Fondo` (Costo, Venta, Distribución, Mantenimient
 - *Notas y Medios de Pago*: Generar Nota de Crédito / Seleccionar Factura y/o Nota de Crédito / Medio de Pago (Depósito, Efectivo, Transferencia) / Monto del Pago / Pedir Numeración de Transacción / Bandeja de Banco
 - *Reportes Generados*: R1 (Fecha Factura - Comprobante - Costo - ITBIS - Total) / R2 (Fecha Factura - Comprobante - Total - Días Vencimiento) / R3 (Fecha Factura - Comprobantes - Medio de Pago con Imagen)
 
-**Alcance multiempresa:** `Obligacion` lleva `empresaId` obligatorio, sin `sucursalId` (Artículo 2.2; `05-MODELO-DE-DATOS-MAESTRO.md`, sección 5).
+**Alcance multiempresa:** `Obligacion` lleva `empresaId` obligatorio, sin `sucursalId` (Artículo 2.2; `05-MODELO-DE-DATOS-MAESTRO.md`, sección 6).
 
 **Eventos que emite:** `ObligacionRegistrada` (F2 — factura del Suplidor recibida, en unidad atómica con `MercanciaRecibida` del Módulo 3), `PagoRegistrado` (F10 — pago aplicado a una obligación existente, vía depósito/efectivo/transferencia).
 
 **Eventos de otros módulos que le afectan:** ninguno directo.
 
-**Catálogos maestros que consume:** `Proveedor` (creado en el Módulo 6 — Parámetros de Mantenimiento; es la contraparte de `Obligacion`), `Producto` (para las líneas de la factura del Suplidor).
+**Catálogos maestros que consume:** `Proveedor` (creado en el Módulo 6 — Parámetros de Mantenimiento; es la contraparte de `Obligacion`), `CondicionPago` (creada en el Módulo 6; fija el plazo de crédito y la fecha de vencimiento), `Producto` (para las líneas de la factura del Suplidor).
+
+**Modelado:** Comprobante (NCF), Costo/ITBIS/Total y Fecha de Factura son ahora campos de `Obligacion` (`05-MODELO-DE-DATOS-MAESTRO.md`, sección 6); Días de Crédito se resuelve mediante la nueva entidad `CondicionPago` (sección 4). Los reportes R1, R2 y R3 quedan documentados como proyecciones de solo lectura sobre esos mismos campos, sin entidad propia.
 
 **Pendiente de modelar:**
-- **Comprobante (NCF)** y **`ITBIS`** — campos fiscales sin tipo conceptual ni campo formal en `Obligacion` todavía.
-- **Días de Crédito / Condición de Pago** — Oliver la trata como un catálogo reutilizable creado aparte (ver Módulo 6); hoy `Obligacion` solo tiene `fechaVencimiento` como fecha puntual, no una `Condición de Pago` referenciable.
 - **"Generar Nota de Crédito" de este módulo es la nota de crédito que el Suplidor emite hacia Polar Breeze** (reduce una `Obligacion`), un concepto **distinto** de la `NotaCredito` de venta ya modelada en `05` (que corrige una `Factura` de venta, Módulo 5). No existe todavía una entidad formal para esta nota de crédito de proveedor.
-- **Reportes R1/R2/R3** — no existen como entidades o plantillas formales; `ExportacionReporte` (genérica) podría ser su base, pero sus columnas específicas no están modeladas.
 
 ### Módulo 3 — Inventario y Cuarto Frío
 
@@ -72,7 +71,7 @@ Las cuatro clasificaciones de `Fondo` (Costo, Venta, Distribución, Mantenimient
 
 **Alcance multiempresa:** `InventarioChofer`, `InventarioEncargado`, `NovedadInventario` y `BajaInventario` llevan `empresaId` y `sucursalId` obligatorios: cuarto frío, vehículo del chofer y punto de almacén son unidades `sucursalId` (Artículos 2.3 y 22.1). El Inventario del Chofer y el Inventario del Encargado son procesos independientes, nunca fusionados automáticamente (Artículo 17.1).
 
-**Eventos que emite:** `MercanciaRecibida` (F2, en unidad atómica con `ObligacionRegistrada` del Módulo 2), `MercanciaTransferida` (F3), `NovedadInventarioRegistrada` (F3), `ConciliacionInventarioRealizada` (F3), `NovedadCuartoFrioRegistrada` (F4), `BajaInventarioRegistrada` (F13 — merma, pérdida o condonación).
+**Eventos que emite:** `MercanciaRecibida` (F2, en unidad atómica con `ObligacionRegistrada` del Módulo 2), `MercanciaTransferida` (F3), `NovedadInventarioRegistrada` (F3), `ConciliacionInventarioRealizada` (F3), `NovedadCuartoFrioRegistrada` (F4), `BajaInventarioRegistrada` (F13 — merma, pérdida, condonación, donación, bonificación o refrigerio).
 
 **Eventos de otros módulos que le afectan:** `MercanciaVendida` y `MercanciaDevuelta` (Módulo 5, F7/F9) modifican las existencias que este módulo proyecta, sin que este módulo los emita. `Despachado` (Módulo 5, F5) retira mercancía del inventario de origen que este módulo mantiene.
 
@@ -80,8 +79,9 @@ Las cuatro clasificaciones de `Fondo` (Costo, Venta, Distribución, Mantenimient
 
 **Catálogos maestros que consume:** `Producto` (creado en el Módulo 6 — Parámetros de Mantenimiento).
 
+**Modelado:** Refrigerios, Bonificaciones y Donaciones son ahora valores del enum `BajaInventario.tipo` (`05-MODELO-DE-DATOS-MAESTRO.md`, sección 7), junto a merma, pérdida y condonación.
+
 **Pendiente de modelar:**
-- **Refrigerios / Bonificaciones / Donaciones** — tipos de salida de mercancía mencionados por Oliver; se relacionan con `BajaInventario.tipo` (hoy solo `merma` / `pérdida` / `condonación` — "Donaciones" podría mapear a `condonación`, pero "Refrigerios" y "Bonificaciones" no tienen equivalente todavía).
 - La distinción explícita **Buy In (compra) / For Sale (venta)** del Almacén Principal no está modelada como dos vistas separadas de `InventarioEncargado`; hoy es una sola proyección de existencias.
 
 ### Módulo 4 — Consignaciones
@@ -95,15 +95,13 @@ Las cuatro clasificaciones de `Fondo` (Costo, Venta, Distribución, Mantenimient
 
 **Eventos que emite:** `ConsignacionCreada` (F5).
 
-**Eventos de otros módulos que le afectan:** consume la existencia proyectada de `InventarioEncargado`/`InventarioChofer` (Módulo 3) como origen de la mercancía a consignar. `BajaInventarioRegistrada` (Módulo 3, F13) puede reducir la existencia de una `Consignacion` cuando su mercancía sufre merma, pérdida o condonación. `Despachado` (Módulo 5, F5) retira mercancía de una consignación al ejecutarse el despacho asociado.
+**Eventos de otros módulos que le afectan:** consume la existencia proyectada de `InventarioEncargado`/`InventarioChofer` (Módulo 3) como origen de la mercancía a consignar. `BajaInventarioRegistrada` (Módulo 3, F13) puede reducir la existencia de una `Consignacion` cuando su mercancía sufre merma, pérdida, condonación, donación, bonificación o refrigerio. `Despachado` (Módulo 5, F5) retira mercancía de una consignación al ejecutarse el despacho asociado.
 
-**Catálogos maestros que crea:** ninguno.
+**Catálogos maestros que crea:** `Ruta`.
 
 **Catálogos maestros que consume:** `Producto`, `Vendedor` (para los filtros).
 
-**Pendiente de modelar:**
-- **Rutas y Vías** (PPTO Inventario Santiago, Consignaciones Individuales 1 al 23, agrupación Generadas/Retiradas/Todas) — sugiere una estructura de rutas de venta con hasta 23 puntos individuales; no existe como entidad ni como estructura de `sucursalId` en `05`/`11`.
-- **Filtros por Estado** — `Consignacion.estadoConsignacion` ya existe (`activa`/`cerrada`); los filtros por Vendedor y Producto son de interfaz, no requieren campo nuevo.
+**Modelado:** Rutas y Vías corresponde a la nueva entidad `Ruta` (`05-MODELO-DE-DATOS-MAESTRO.md`, sección 8) — código, nombre, presupuesto de inventario ("PPTO Inventario Santiago") — que `Consignacion` referencia opcionalmente junto a su número de punto (cubre "Consignaciones Individuales 1 al 23"). "Consignaciones Generadas/Retiradas/Todas" y los Filtros por Estado, Vendedor y Producto no requerían campo nuevo: se resuelven combinando `estadoConsignacion`, `Vendedor` y `Producto` ya existentes en la interfaz.
 
 ### Módulo 5 — Despacho, Novedades y Caja
 
@@ -135,12 +133,13 @@ Las cuatro clasificaciones de `Fondo` (Costo, Venta, Distribución, Mantenimient
 
 **Eventos de otros módulos que le afectan:** ninguno.
 
-**Catálogos maestros que crea:** `Producto`, `Vendedor`, `Proveedor`.
+**Catálogos maestros que crea:** `Producto`, `Vendedor`, `Proveedor`, `CondicionPago`.
 
 **Catálogos maestros que consume:** ninguno.
 
+**Modelado:** Condición de Pago corresponde a la nueva entidad `CondicionPago` (`05-MODELO-DE-DATOS-MAESTRO.md`, sección 4) — código, nombre, plazo en días — que `Obligacion` referencia (Módulo 2) para calcular su fecha de vencimiento.
+
 **Pendiente de modelar:**
-- **Condición de Pago** (plazos de crédito) — Oliver la trata como una creación base reutilizable, distinta de `fechaVencimiento` puntual de `Obligacion`; no existe como catálogo en `05`/`11`.
 - **"Crear Novedades"** — sugiere que los tipos de `NovedadInventario`/`NovedadDespacho` podrían ser un catálogo configurable por la empresa, en lugar de la enumeración cerrada que son hoy en `11-DICCIONARIO-DE-DATOS.md`.
 - **"Crear Consignación" (puntos o lotes nuevos)** — sugiere una plantilla o tipo de consignación configurable, distinta de la `Consignacion` transaccional que ya se crea en el Módulo 4.
 - **`Cliente`** no aparece en ninguna parte de la estructura de Oliver, ni en este módulo de creaciones base ni en ningún otro. Su vínculo con `Factura` (ventas a crédito) sigue sin resolverse (`DECISIONES-ARQUITECTURALES.md`, decisión "Agregadas las entidades Cliente, Proveedor y Obligacion").
@@ -156,4 +155,6 @@ Las cuatro clasificaciones de `Fondo` (Costo, Venta, Distribución, Mantenimient
 
 Observaciones:
 
-Esta versión reconcilia el catálogo con `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md`: pasa de 5 a 6 módulos, con los nombres y agrupaciones exactos que Oliver definió. Las funcionalidades de cada módulo se transcriben fielmente de esa fuente; la interpretación de a qué entidad ya existente corresponde cada campo (declaraciones de Alcance/Eventos/Catálogos) es una lectura razonada de esta reconciliación, no un hecho literal del texto de Oliver — en particular, la distinción entre la "Factura" del Módulo 2 (documento del Suplidor, Cuentas por Pagar) y la "Facturación" del Módulo 5 (venta de Polar Breeze a sus clientes) fue confirmada explícitamente por el usuario durante la planificación de esta reconciliación, no inferida unilateralmente. Los conceptos de Oliver sin respaldo formal en el modelo (NCF, ITBIS, Condición de Pago, Participación de Capital, Rutas y Vías, Reportes R1/R2/R3, Refrigerios/Bonificaciones, nota de crédito de proveedor) quedan señalados en cada módulo como "Pendiente de modelar" — no se inventaron entidades ni eventos nuevos para ellos en esta reconciliación.
+Esta versión reconcilia el catálogo con `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md`: pasa de 5 a 6 módulos, con los nombres y agrupaciones exactos que Oliver definió. Las funcionalidades de cada módulo se transcriben fielmente de esa fuente; la interpretación de a qué entidad ya existente corresponde cada campo (declaraciones de Alcance/Eventos/Catálogos) es una lectura razonada de esta reconciliación, no un hecho literal del texto de Oliver — en particular, la distinción entre la "Factura" del Módulo 2 (documento del Suplidor, Cuentas por Pagar) y la "Facturación" del Módulo 5 (venta de Polar Breeze a sus clientes) fue confirmada explícitamente por el usuario durante la planificación de esta reconciliación, no inferida unilateralmente.
+
+De los 7 conceptos de Oliver que quedaron sin respaldo formal tras esa reconciliación, 6 ya están modelados: NCF, ITBIS y Fecha de Factura (campos de `Obligacion`), Condición de Pago (`CondicionPago`), Rutas y Vías (`Ruta`), Reportes R1/R2/R3 (proyecciones documentadas, sin entidad propia) y Refrigerios/Bonificaciones/Donaciones (ampliación de `BajaInventario.tipo`) — ver `DECISIONES-ARQUITECTURALES.md`, decisión "Modelados 6 de los 7 conceptos pendientes de Oliver". Quedan sin modelar, deliberadamente: **Participación de Capital** (Módulo 1, demasiado ambigua sin más contexto de Oliver, por decisión del usuario), la nota de crédito de proveedor (Módulo 2), el catálogo configurable de tipos de Novedad y la plantilla de Consignación (Módulo 6), y el vínculo de `Cliente` con `Factura` para ventas a crédito.
