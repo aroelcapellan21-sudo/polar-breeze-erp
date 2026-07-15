@@ -552,3 +552,19 @@ También se consideró que la resolución del conflicto pudiera automatizarse cu
 - El catálogo formal de eventos pasa de 21 a 22 eventos; es el primero cuyo origen no es un flujo de negocio Fx sino el propio motor — una excepción documentada explícitamente en `12-GLOSARIO.md`, sección C.
 - Cualquier decisión futura sobre la interfaz concreta de resolución (qué rol la ve, qué acciones ofrece) es una decisión de implementación que debe registrarse aparte, respetando el contrato de comportamiento fijado aquí.
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.35) reflejando este cambio como MENOR (agrega entidad, evento y contrato de comportamiento nuevos sin alterar lo existente).
+
+### [2026-07-14] Creado el anexo 02 — Estructura Oliver: transcripción literal de los flujos reales de los módulos
+
+**Contexto:**
+El usuario proveyó la estructura completa de 6 módulos del ERP, definida por Oliver, con la instrucción explícita de crear `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md` con su contenido exacto — sin interpretar ni modificar la estructura — y declarándola fuente de verdad para el diseño de los módulos.
+
+**Decisión:**
+Se creó `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md`, transcribiendo el contenido provisto **exactamente como fue entregado**, dentro de un bloque de código para preservarlo literal (sin que el renderizado Markdown alterara viñetas, numeración o casillas de verificación). No se resumió, reordenó, corrigió ni completó ningún campo. Se actualizó `docs/anexos/README.md` para listar este nuevo anexo, siguiendo la misma convención de prefijo numérico ya establecida con el anexo 01. Se agregó una única observación, sin modificar el contenido transcrito: la estructura de 6 módulos de Oliver ("01. Flujo de Efectivo y Bancos" ... "06. Parámetros de Mantenimiento") no coincide en número ni en agrupación con los 5 módulos actualmente descritos en `08-CATALOGO-DE-MODULOS.md`. Esa diferencia se señala, no se resuelve.
+
+**Alternativas consideradas:**
+Reconciliar de inmediato `08-CATALOGO-DE-MODULOS.md` (y por extensión `05-MODELO-DE-DATOS-MAESTRO.md`, `07-FLUJOS-DE-NEGOCIO.md`, `11-DICCIONARIO-DE-DATOS.md`) contra esta nueva estructura de 6 módulos. Se descartó explícitamente: la instrucción del usuario fue transcribir la estructura tal cual, no reinterpretarla ni propagarla a otros documentos en esta misma acción; reconciliar los módulos existentes es un trabajo sustancial que debe abordarse como su propia decisión, deliberada y explícita, no como un efecto secundario de crear este anexo.
+
+**Consecuencias:**
+- `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md` es ahora la fuente de verdad declarada para el diseño de módulos, por encima de lo que hoy describen `05`, `07`, `08` y `11` en cuanto a módulos y campos — pero esos documentos **no** se han actualizado todavía para reflejarla.
+- Cualquier reconciliación futura entre esta estructura y `08-CATALOGO-DE-MODULOS.md` (y los documentos que de él dependen) debe registrarse como una nueva decisión antes de implementarse, evaluando explícitamente qué módulos se fusionan, se dividen o se renombran.
+- `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.36) reflejando esta creación como MENOR (agrega un anexo nuevo sin modificar la documentación técnica existente).
