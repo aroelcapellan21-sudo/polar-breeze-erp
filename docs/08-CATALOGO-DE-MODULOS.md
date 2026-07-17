@@ -21,6 +21,14 @@ Cada módulo se describe con la misma estructura, exigida por el Artículo 29.2 
 - **Catálogos maestros** — cuáles crea y cuáles consume, de los definidos en `05-MODELO-DE-DATOS-MAESTRO.md`, sección 4 (Artículo 16.1).
 - **Pendiente de modelar** — funcionalidades que Oliver define y que este documento transcribe fielmente, pero para las que todavía no existe entidad, campo o evento formal en `05`/`07`/`11`/`12`. No se inventan aquí; quedan señaladas para una decisión aparte.
 
+## Gobernanza de Catálogos de Configuración Dinámica (2026-07-17)
+
+Todo catálogo maestro marcado como gestionado desde el **Hub Admin** en este documento (`Cuenta`, `CuentaBancaria`, `AporteCapital`, `MotivoSalidaSinCobro`, y por extensión el resto de los catálogos de la sección 4 de `05-MODELO-DE-DATOS-MAESTRO.md`) comparte el mismo patrón:
+
+- **Patrón CRUD:** Agregar / Editar / Desactivar — nunca eliminación física (Artículo 9 de la Constitución), vía el campo común `estado` (`11-DICCIONARIO-DE-DATOS.md`, sección 2), sin campo adicional.
+- **Acceso:** exclusivo del rol Administrador/Oliver, evaluado por el Motor de Permisos genérico ya existente (Artículo 13 de la Constitución) — no se introduce un mecanismo de permisos nuevo.
+- **Ubicación:** Firestore `config/{empresaId}/<colección>/{código}` (`03-ARQUITECTURA-GENERAL.md`, sección 8).
+
 ### Módulo 1 — Flujo de Efectivo y Bancos
 
 **Funcionalidades:**
@@ -34,12 +42,14 @@ Cada módulo se describe con la misma estructura, exigida por el Artículo 29.2 
 
 **Eventos de otros módulos que le afectan:** `CapitalIngresado` también lo emite el Módulo 5 — Despacho, Novedades y Caja (F7, ingreso de capital por venta), actualizando el mismo `Fondo` Venta que este módulo administra. `ArqueoRealizado` (Módulo 5) concilia el saldo de `Fondo`/`Cuenta` que este módulo proyecta, sin sobrescribirlo (Artículo 25.3).
 
-**Catálogos maestros que crea:** `Cuenta`, `CuentaBancaria`, `Fondo`.
+**Catálogos maestros que crea:** `Cuenta` (catálogo abierto desde el 2026-07-17, ya no restringido a 6 cuentas fijas), `CuentaBancaria`, `Fondo`, `AporteCapital`. Los cuatro se gestionan desde el Hub Admin (Agregar/Editar/Desactivar), acceso restringido al rol Administrador/Oliver.
 
 **Catálogos maestros que consume:** ninguno adicional.
 
+**Catálogo de Configuración Dinámica — Capital de la Empresa (2026-07-17):** se agrega `AporteCapital` (`05-MODELO-DE-DATOS-MAESTRO.md`, sección 5), catálogo con el capital inicial de la empresa (default 0, puramente informativo por ahora — no emite `CapitalIngresado` ni genera `MovimientoCapital`). Es un concepto **distinto** del pendiente "Participación de Capital" de abajo: ese pendiente es por `CuentaBancaria` individual, `AporteCapital` es el capital total de la empresa; ambos quedan documentados por separado.
+
 **Pendiente de modelar:**
-- **Participación de Capital** (Bancos) — sigue sin entidad ni campo formal en `05`/`11`. El usuario confirmó que la mención de Oliver ("Banco / Número de Cuenta -> Participación de Capital") es demasiado ambigua para modelarla con confianza sin más contexto; es el único de los 7 conceptos pendientes de la reconciliación con Oliver que sigue sin resolver (`DECISIONES-ARQUITECTURALES.md`, decisión "Modelados 6 de los 7 conceptos pendientes de Oliver").
+- **Participación de Capital** (Bancos) — sigue sin entidad ni campo formal en `05`/`11`. El usuario confirmó que la mención de Oliver ("Banco / Número de Cuenta -> Participación de Capital") es demasiado ambigua para modelarla con confianza sin más contexto; es el único de los 7 conceptos pendientes de la reconciliación con Oliver que sigue sin resolver (`DECISIONES-ARQUITECTURALES.md`, decisión "Modelados 6 de los 7 conceptos pendientes de Oliver"). No lo resuelve el `AporteCapital` agregado arriba (ver nota).
 
 Las cuatro clasificaciones de `Fondo` (Costo, Venta, Distribución, Mantenimiento — Artículo 18.1 de la Constitución) están confirmadas contra la fuente de verdad de Oliver: la aparente discrepancia señalada en una versión anterior de este documento se debía a una transcripción incompleta de `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md`, ya corregida (`DECISIONES-ARQUITECTURALES.md`, decisión "Confirmadas las cuatro clasificaciones de Fondo contra la fuente de verdad de Oliver").
 
@@ -77,9 +87,9 @@ Las cuatro clasificaciones de `Fondo` (Costo, Venta, Distribución, Mantenimient
 
 **Catálogos maestros que crea:** ninguno.
 
-**Catálogos maestros que consume:** `Producto` (creado en el Módulo 6 — Parámetros de Mantenimiento).
+**Catálogos maestros que consume:** `Producto` (creado en el Módulo 6 — Parámetros de Mantenimiento), `MotivoSalidaSinCobro` (creado en el Módulo 6, sección "Motivos de Salida sin Cobro" — `05-MODELO-DE-DATOS-MAESTRO.md`, sección 4).
 
-**Modelado:** Refrigerios, Bonificaciones y Donaciones son ahora valores del enum `BajaInventario.tipo` (`05-MODELO-DE-DATOS-MAESTRO.md`, sección 7), junto a merma, pérdida y condonación.
+**Modelado:** Refrigerios, Bonificaciones y Donaciones son valores de `BajaInventario.tipo` (`05-MODELO-DE-DATOS-MAESTRO.md`, sección 7), junto a merma, pérdida y condonación. **Cambio de modelo (2026-07-17):** `tipo` deja de ser un enum cerrado y pasa a referenciar el catálogo abierto `MotivoSalidaSinCobro`, administrable desde el Hub Admin.
 
 **Pendiente de modelar:**
 - La distinción explícita **Buy In (compra) / For Sale (venta)** del Almacén Principal no está modelada como dos vistas separadas de `InventarioEncargado`; hoy es una sola proyección de existencias.
@@ -133,14 +143,16 @@ Las cuatro clasificaciones de `Fondo` (Costo, Venta, Distribución, Mantenimient
 
 **Eventos de otros módulos que le afectan:** ninguno.
 
-**Catálogos maestros que crea:** `Producto`, `Vendedor`, `Proveedor`, `CondicionPago`.
+**Catálogos maestros que crea:** `Producto`, `Vendedor`, `Proveedor`, `CondicionPago`, `MotivoSalidaSinCobro` (2026-07-17).
 
 **Catálogos maestros que consume:** ninguno.
 
 **Modelado:** Condición de Pago corresponde a la nueva entidad `CondicionPago` (`05-MODELO-DE-DATOS-MAESTRO.md`, sección 4) — código, nombre, plazo en días — que `Obligacion` referencia (Módulo 2) para calcular su fecha de vencimiento.
 
+**Catálogo de Configuración Dinámica — Motivos de Salida sin Cobro (2026-07-17):** contenido nuevo, no una transcripción de Oliver. Se crea aquí, desde el Hub Admin, el catálogo `MotivoSalidaSinCobro` que consume el Módulo 3 en `BajaInventario.tipo`, sembrado con merma/pérdida/condonación/donación/bonificación/refrigerio. Es un catálogo **distinto** del pendiente "Crear Novedades" de abajo: ese pendiente habla de los tipos de `NovedadInventario`/`NovedadDespacho` (condiciones detectadas en el producto), no de los motivos de `BajaInventario` (por qué sale la mercancía) — ambos siguen documentados por separado.
+
 **Pendiente de modelar:**
-- **"Crear Novedades"** — sugiere que los tipos de `NovedadInventario`/`NovedadDespacho` podrían ser un catálogo configurable por la empresa, en lugar de la enumeración cerrada que son hoy en `11-DICCIONARIO-DE-DATOS.md`.
+- **"Crear Novedades"** — sugiere que los tipos de `NovedadInventario`/`NovedadDespacho` podrían ser un catálogo configurable por la empresa, en lugar de la enumeración cerrada que son hoy en `11-DICCIONARIO-DE-DATOS.md`. Sigue sin resolver; no lo resuelve el `MotivoSalidaSinCobro` agregado arriba (ver nota).
 - **"Crear Consignación" (puntos o lotes nuevos)** — sugiere una plantilla o tipo de consignación configurable, distinta de la `Consignacion` transaccional que ya se crea en el Módulo 4.
 - **`Cliente`** no aparece en ninguna parte de la estructura de Oliver, ni en este módulo de creaciones base ni en ningún otro. Su vínculo con `Factura` (ventas a crédito) sigue sin resolverse (`DECISIONES-ARQUITECTURALES.md`, decisión "Agregadas las entidades Cliente, Proveedor y Obligacion").
 
@@ -158,3 +170,5 @@ Observaciones:
 Esta versión reconcilia el catálogo con `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md`: pasa de 5 a 6 módulos, con los nombres y agrupaciones exactos que Oliver definió. Las funcionalidades de cada módulo se transcriben fielmente de esa fuente; la interpretación de a qué entidad ya existente corresponde cada campo (declaraciones de Alcance/Eventos/Catálogos) es una lectura razonada de esta reconciliación, no un hecho literal del texto de Oliver — en particular, la distinción entre la "Factura" del Módulo 2 (documento del Suplidor, Cuentas por Pagar) y la "Facturación" del Módulo 5 (venta de Polar Breeze a sus clientes) fue confirmada explícitamente por el usuario durante la planificación de esta reconciliación, no inferida unilateralmente.
 
 De los 7 conceptos de Oliver que quedaron sin respaldo formal tras esa reconciliación, 6 ya están modelados: NCF, ITBIS y Fecha de Factura (campos de `Obligacion`), Condición de Pago (`CondicionPago`), Rutas y Vías (`Ruta`), Reportes R1/R2/R3 (proyecciones documentadas, sin entidad propia) y Refrigerios/Bonificaciones/Donaciones (ampliación de `BajaInventario.tipo`) — ver `DECISIONES-ARQUITECTURALES.md`, decisión "Modelados 6 de los 7 conceptos pendientes de Oliver". Quedan sin modelar, deliberadamente: **Participación de Capital** (Módulo 1, demasiado ambigua sin más contexto de Oliver, por decisión del usuario), la nota de crédito de proveedor (Módulo 2), el catálogo configurable de tipos de Novedad y la plantilla de Consignación (Módulo 6), y el vínculo de `Cliente` con `Factura` para ventas a crédito.
+
+**Catálogos de Configuración Dinámica — Hub Admin (2026-07-17):** se agregan cuatro catálogos administrables desde el Hub Admin: Cuentas Bancarias (`CuentaBancaria`, ya existía, gana `alias`), Capital de la Empresa (`AporteCapital`, nueva, informativa), Cuentas Contables (`Cuenta`, deja de estar restringida a 6 valores fijos) y Motivos de Salida sin Cobro (`MotivoSalidaSinCobro`, nueva, reemplaza el enum cerrado de `BajaInventario.tipo`). Todos comparten el patrón Agregar/Editar/Desactivar, acceso exclusivo del rol Administrador/Oliver, y viven en Firestore bajo `config/{empresaId}/<colección>/{código}` — ver "Gobernanza de Catálogos de Configuración Dinámica" arriba y `DECISIONES-ARQUITECTURALES.md`.

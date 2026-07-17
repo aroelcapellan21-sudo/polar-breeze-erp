@@ -133,6 +133,8 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 
 ## 5. Catálogos Maestros Compartidos
 
+Todo catálogo de esta sección vive en Firestore bajo `config/{empresaId}/<colección>/{código}` (`03-ARQUITECTURA-GENERAL.md`, sección 8), administrado desde el Hub Admin con el patrón Agregar/Editar/Desactivar (campo común `estado`, Artículo 9).
+
 ### Producto
 
 | Campo | Tipo | Obligatorio | Descripción |
@@ -144,7 +146,7 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 
 | Campo | Tipo | Obligatorio | Descripción |
 |---|---|---|---|
-| `código` | Código (numérico, "1" a "6") | Sí | Identificador de la cuenta dentro del plan de cuentas (`06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 3 — Borrador); es el mismo número con el que el resto de la documentación ya se refiere a cada cuenta ("Cuenta 1", "Cuenta 4", etc.). Para esta entidad, el tipo `Código` genérico de la sección 1 queda restringido a los valores "1" a "6" — no es un código arbitrario como en el resto de los catálogos. |
+| `código` | Código | Sí | Identificador de la cuenta dentro del plan de cuentas. **Catálogo abierto desde el 2026-07-17** (hasta entonces restringido a los valores "1" a "6" — `06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 3): Oliver agrega las cuentas que necesite desde el Hub Admin, sin cantidad fija. Los seis nombres que proponía la sección 3 de `06` quedan como datos semilla de ejemplo, no como restricción. |
 | `nombre` | Texto corto | Sí | Nombre descriptivo de la cuenta. |
 | `naturaleza` | Enumeración (`activo` / `pasivo` / `resultado`) | Sí | Clasificación contable de la cuenta. |
 
@@ -154,7 +156,15 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 |---|---|---|---|
 | `número` | Texto corto | Sí | Número de cuenta bancaria (Artículo 18.2 de la Constitución). |
 | `banco` | Texto corto | Sí | Nombre del banco. |
+| `alias` | Texto corto | No | Etiqueta corta opcional para identificar la cuenta en el Hub Admin (ej. "Nómina", "Operaciones"). |
 | `cuentaAsociada` | Referencia (a Cuenta) | Sí | Vínculo a la Cuenta 2 — Bancos del plan de cuentas. |
+
+### MotivoSalidaSinCobro
+
+| Campo | Tipo | Obligatorio | Descripción |
+|---|---|---|---|
+| `nombre` | Texto corto | Sí | Nombre del motivo (ej. "Refrigerio", "Merma"). |
+| — | — | — | Catálogo abierto, sembrado inicialmente con `merma`, `pérdida`, `condonación`, `donación`, `bonificación` y `refrigerio` — los mismos seis valores que hasta el 2026-07-17 eran la Enumeración cerrada de `BajaInventario.tipo` (sección 8). Se crea desde el Módulo 6 — Parámetros de Mantenimiento; lo consume el Módulo 3 — Inventario y Cuarto Frío. |
 
 ### Fondo
 
@@ -205,6 +215,15 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 | `comprobanteImagen` | Archivo/Imagen | No | Foto del comprobante del pago. |
 | `eventoOrigen` | Referencia (a Evento) | Sí | El evento que generó este registro. |
 
+### AporteCapital
+
+| Campo | Tipo | Obligatorio | Descripción |
+|---|---|---|---|
+| `monto` | Monto | Sí | Valor del aporte; por defecto 0 (el negocio se abastece de compras a crédito, no de capital propio inyectado). |
+| `fecha` | Fecha/Hora | Sí | Fecha del aporte. |
+| `descripción` | Texto largo | No | Detalle opcional del origen del aporte. |
+| — | — | — | **No genera `MovimientoCapital`**: es puramente informativo por ahora. Si un aporte real requiere reflejarse contra un `Fondo`, esa conexión se define como decisión aparte, no asumida aquí. Catálogo administrado desde el Hub Admin (Agregar/Editar/Desactivar). |
+
 ## 7. Módulo 2 — CXP, Facturación y Reportes
 
 ### Obligacion (Cuenta por Pagar)
@@ -250,7 +269,7 @@ Las secciones siguientes listan **solo los campos específicos adicionales** de 
 |---|---|---|---|
 | `producto` | Referencia (a Producto) | Sí | Producto dado de baja. |
 | `cantidad` | Número entero | Sí | Cantidad dada de baja. |
-| `tipo` | Enumeración (`merma` / `pérdida` / `condonación` / `donación` / `bonificación` / `refrigerio`) | Sí | Naturaleza de la baja: deterioro operativo, extravío/siniestro, no cobrar una deuda existente, regalar producto, incentivo promocional, o consumo del personal. |
+| `tipo` | Referencia (a MotivoSalidaSinCobro, sección 5) | Sí | Naturaleza de la baja: deterioro operativo, extravío/siniestro, no cobrar una deuda existente, regalar producto, incentivo promocional, consumo del personal, o cualquier motivo nuevo que Oliver agregue desde el Hub Admin. **Cambio de modelo (2026-07-17):** hasta esta versión era una Enumeración cerrada de seis valores; pasa a ser Referencia a un catálogo abierto. |
 | `novedadOrigen` | Referencia (a NovedadInventario o NovedadDespacho) | No, solo si la baja proviene de una novedad detectada previamente | Vincula la baja con la novedad que la motivó (Artículo 17.2/23.2: nunca suelta cuando existe una novedad previa). |
 | `inventarioOrigen` | Referencia (a InventarioChofer, InventarioEncargado o Consignacion) | Sí | De dónde se retira la mercancía dada de baja. |
 | `motivo` | Texto largo | Sí | Justificación de la baja. |
@@ -366,3 +385,5 @@ Los campos marcados como Enumeración usan valores cerrados a modo ilustrativo, 
 Las secciones 6-10 se reagruparon para reconciliarse con los 6 módulos de `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md`, en el mismo orden en que se reagruparon las secciones equivalentes de `05-MODELO-DE-DATOS-MAESTRO.md`: `Obligacion` pasó del Módulo 1 al Módulo 2; `Despacho`, `NovedadDespacho`, `SolicitudRetiro`, `JustificacionRetiro`, `Factura` y `NotaCredito` pasaron al Módulo 5; `Consignacion` quedó sola en el Módulo 4. Ningún campo cambió — solo su agrupación por módulo.
 
 Se modelaron 6 de los 7 conceptos que `08-CATALOGO-DE-MODULOS.md` marcaba como "Pendiente de modelar": NCF, ITBIS y fecha de factura (`Obligacion`), Condición de Pago (`CondicionPago`), Rutas y Vías (`Ruta`), Reportes R1/R2/R3 (proyecciones, no entidades) y Refrigerios/Bonificaciones/Donaciones (ampliación de `BajaInventario.tipo`). Se agregó el tipo conceptual Archivo/Imagen (sección 1) para dar soporte al comprobante de pago de `MovimientoCapital`. **Participación de Capital** queda deliberadamente sin modelar, por decisión del usuario — sigue señalada en `08-CATALOGO-DE-MODULOS.md`, Módulo 1.
+
+**Catálogos de Configuración Dinámica (2026-07-17):** `Cuenta.código` deja de estar restringido a "1"-"6" (catálogo abierto); `CuentaBancaria` gana `alias`; se agregan `AporteCapital` (Módulo 1, sección 6 — puramente informativo, sin `MovimientoCapital`) y `MotivoSalidaSinCobro` (sección 5); `BajaInventario.tipo` cambia de Enumeración cerrada a Referencia a `MotivoSalidaSinCobro`. Todos los catálogos maestros de este diccionario viven en Firestore bajo `config/{empresaId}/<colección>/{código}` (`03-ARQUITECTURA-GENERAL.md`, sección 8).

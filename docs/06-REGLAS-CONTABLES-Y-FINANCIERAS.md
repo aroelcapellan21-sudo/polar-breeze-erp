@@ -2,7 +2,7 @@
 
 Estado:
 
-> Borrador — contiene una propuesta de plan de cuentas (sección 3) que requiere validación de un contador/responsable financiero antes de aprobarse
+> Borrador — el plan de cuentas de la sección 3 ya no bloquea (catálogo abierto, gestionado por el negocio desde el Hub Admin), pero las secciones 2, 5, 7 y 8 siguen requiriendo validación de un contador/responsable financiero antes de aprobarse (ver `docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md`)
 
 Objetivo:
 
@@ -25,11 +25,13 @@ Todo movimiento de capital se clasifica obligatoriamente en uno de cuatro `Fondo
 
 Ningún movimiento de capital se registra sin esta clasificación. El motor rechaza cualquier evento de capital que no pueda vincularse a un `Fondo` válido (`04-MOTOR-DE-FLUJOS-PATRIMONIALES.md`, sección 5).
 
-## 3. Plan de Cuentas Base (Cuentas 1-6) — Propuesta Sujeta a Validación
+## 3. Plan de Cuentas Base — Catálogo Abierto, Datos Semilla de Ejemplo
 
-`08-CATALOGO-DE-MODULOS.md` establece que el Módulo 1 — Flujo de Efectivo y Bancos debe "gestionar Cuentas 1-6", sin especificar su significado contable. Esta sección propone una interpretación inicial, **que debe ser revisada y validada por un contador o responsable financiero antes de aprobarse para implementación** (Artículo 29.3 de la Constitución: ninguna decisión se implementa sin documentación aprobada).
+**Cambio de modelo (2026-07-17):** hasta esta versión, esta sección fijaba las Cuentas 1-6 como una lista cerrada pendiente de validación contable. `Cuenta` pasa a ser un catálogo abierto (`05-MODELO-DE-DATOS-MAESTRO.md`, sección 4): Oliver agrega, edita y desactiva las cuentas que su plan de cuentas real necesite desde el Hub Admin, sin cantidad fija y sin que este documento le sugiera nombres. Esto resuelve directamente los ítems 1 y 6 del anexo `docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md` — ya no depende de que un contador externo valide 6 nombres fijos, porque el propio negocio los define.
 
-| Cuenta | Nombre propuesto | Naturaleza | Uso previsto |
+La siguiente tabla, que hasta esta versión era una propuesta cerrada, queda como **datos semilla de ejemplo** — un punto de partida razonable, no una restricción:
+
+| Cuenta | Nombre (semilla) | Naturaleza | Uso previsto |
 |---|---|---|---|
 | 1 | Caja General | Activo | Efectivo físico en manos de encargados/choferes antes de depositarse |
 | 2 | Bancos | Activo | Saldo en cuentas bancarias registradas (`CuentaBancaria`) |
@@ -39,6 +41,8 @@ Ningún movimiento de capital se registra sin esta clasificación. El motor rech
 | 6 | Gastos de Mantenimiento | Resultado | Acumulación de movimientos clasificados como `Fondo` Mantenimiento |
 
 Cada `Cuenta` pertenece a una `empresaId` (Artículo 2.2 de la Constitución); dos empresas del ecosistema nunca comparten el mismo saldo de cuenta, aunque usen la misma numeración base.
+
+Esto **no** resuelve el resto del checklist: los ítems 2 (clasificación de Fondos), 3 (Cuentas por Pagar y pagos parciales), 4 (periodo contable) y 5 (tolerancia de arqueo) del anexo `01-PENDIENTE-VALIDACION-CONTABLE.md` siguen pendientes de un contador o responsable financiero real; el Estado de este documento sigue en **Borrador** hasta que se cierren.
 
 ## 4. Cuentas Bancarias
 
@@ -86,6 +90,6 @@ Todo movimiento de capital, toda clasificación de `Fondo`, toda cuenta por paga
 
 Observaciones:
 
-El plan de cuentas de la sección 3 es una **propuesta inicial de arquitectura**, no una definición contable validada. Antes de que cualquier módulo implemente lógica basada en la Cuenta 1-6 descrita aquí, un contador o responsable financiero de Polar Breeze debe revisar, ajustar y aprobar formalmente esta sección, dejando constancia en `DECISIONES-ARQUITECTURALES.md`.
+El plan de cuentas de la sección 3 dejó de ser una propuesta cerrada pendiente de validación contable (2026-07-17): al convertirse `Cuenta` en catálogo abierto gestionado por el propio negocio desde el Hub Admin, ya no existen "6 nombres fijos" que un contador deba aprobar — el negocio valida su propio plan de cuentas al definirlo. Los ítems 2, 3, 4 y 5 del checklist de `docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md` (clasificación de Fondos, tratamiento de Cuentas por Pagar, periodo contable, tolerancia de arqueo) siguen requiriendo un contador o responsable financiero real antes de aprobarse.
 
 Este documento tampoco define si una `BajaInventario` (merma, pérdida, condonación, donación, bonificación o refrigerio — `05-MODELO-DE-DATOS-MAESTRO.md`, sección 7) genera un movimiento de capital y contra qué `Fondo`/`Cuenta`. Esa pregunta queda registrada como ítem 7 del anexo de validaciones contables pendientes, y no bloquea la implementación de `BajaInventario` en el flujo de mercancía (que puede operar sin efecto de capital hasta que se resuelva).

@@ -15,7 +15,7 @@ Contenido:
 1. El **código** es la clave universal del producto — nunca nombre libre
 2. **Offline-first** obligatorio — guarda local, sincroniza automático
 3. **Inventario del Chofer** e **Inventario del Encargado** son procesos separados
-4. La **configuración variable** vive en Firestore `config/*` — nunca hardcodeada
+4. La **configuración variable** vive en Firestore `config/*` — nunca hardcodeada; incluye todo catálogo maestro compartido (Artículo 16.1), administrado desde el Hub Admin con patrón Agregar/Editar/Desactivar
 5. **Compatibilidad obligatoria** Android + iOS
 6. **Persistencia de sesión** resistente a interrupciones
 

@@ -36,11 +36,11 @@ El orden de implementación no es arbitrario: refleja las dependencias reales en
 
 **Objetivo:** construir los catálogos que todos los módulos consumirán, evitando la duplicación prohibida por el Artículo 4 de la Constitución.
 
-**Incluye:** `Producto`, `Cuenta`, `Fondo`, `CuentaBancaria`, `Vendedor`, `Cliente`, `Proveedor` (`05-MODELO-DE-DATOS-MAESTRO.md`, sección 4).
+**Incluye:** `Producto`, `Cuenta`, `Fondo`, `CuentaBancaria`, `Vendedor`, `Cliente`, `Proveedor`, `AporteCapital`, `MotivoSalidaSinCobro` (`05-MODELO-DE-DATOS-MAESTRO.md`, sección 4) — todos administrables desde el Hub Admin (`08-CATALOGO-DE-MODULOS.md`, "Gobernanza de Catálogos de Configuración Dinámica").
 
 **Dependencia:** Fase 0 completa.
 
-**Criterio de salida:** los siete catálogos existen, particionados por `empresaId`, con código como clave de negocio (Principio 1), y ningún módulo posterior necesita reimplementarlos. Esta fase cubre funcionalmente el Módulo 6 — Parámetros de Mantenimiento de `08-CATALOGO-DE-MODULOS.md` (Crear Suplidor, Crear Producto, Crear Vendedor) y la parte de "Mantenimiento" del Módulo 1 (Crear Cuenta); por eso Módulo 6 no tiene su propia fase de implementación más adelante.
+**Criterio de salida:** los catálogos existen, particionados por `empresaId`, con código como clave de negocio (Principio 1), y ningún módulo posterior necesita reimplementarlos. Esta fase cubre funcionalmente el Módulo 6 — Parámetros de Mantenimiento de `08-CATALOGO-DE-MODULOS.md` (Crear Suplidor, Crear Producto, Crear Vendedor, Motivos de Salida sin Cobro) y la parte de "Mantenimiento" del Módulo 1 (Crear Cuenta, Capital de la Empresa); por eso Módulo 6 no tiene su propia fase de implementación más adelante.
 
 ## 4. Fase 2 — Módulo 1: Flujo de Efectivo y Bancos
 
@@ -48,17 +48,17 @@ El orden de implementación no es arbitrario: refleja las dependencias reales en
 
 **Dependencia:** Fase 1 (requiere `Fondo`, `Cuenta`, `CuentaBancaria`).
 
-**Bloqueante:** el plan de cuentas de `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` (sección 3) está marcado como Borrador — **no debe iniciarse la implementación de este módulo hasta que ese plan de cuentas sea validado formalmente** por un responsable financiero (ver Observaciones de ese documento).
+**Bloqueante (reducido en v0.40):** la cardinalidad del plan de cuentas ya no bloquea — `Cuenta` es un catálogo abierto gestionado por el negocio desde el Hub Admin (ítems 1 y 6 del anexo `01-PENDIENTE-VALIDACION-CONTABLE.md`, resueltos). Sigue bloqueando la clasificación de movimientos en Fondos (`06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 2 — ítem 2 del anexo, Pendiente): **no debe iniciarse la implementación de F1 hasta que un responsable financiero valide las cuatro clasificaciones de `Fondo`**.
 
-**Criterio de salida:** es posible registrar capital, clasificarlo en los fondos, gestionar las Cuentas 1-6 ya validadas, y crear cuentas bancarias.
+**Criterio de salida:** es posible registrar capital, clasificarlo en los fondos ya validados, gestionar el plan de cuentas (catálogo abierto, creado en la Fase 1 — Módulo 6), y crear cuentas bancarias.
 
 ## 5. Fase 3 — Módulo 2: CXP, Facturación y Reportes
 
 **Objetivo:** implementar F2 (Compra y Recepción de Mercancía, parte de capital: obligación registrada) y F10 (Pago de Cuentas por Pagar) descritos en `07-FLUJOS-DE-NEGOCIO.md`.
 
-**Dependencia:** Fase 1 (requiere `Proveedor`) y Fase 2 (requiere `Cuenta` 4 — Cuentas por Pagar — ya validada, y `Fondo`).
+**Dependencia:** Fase 1 (requiere `Proveedor` y la Cuenta 4 — Cuentas por Pagar — creada en el plan de cuentas, ya no bloqueada en su cardinalidad) y Fase 2 (requiere `Fondo` validado).
 
-**Bloqueante:** el mismo plan de cuentas de `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` (sección 3) que bloquea la Fase 2 — la Cuenta 4 que esta fase usa forma parte de ese mismo plan sin validar.
+**Bloqueante:** las reglas de Cuentas por Pagar y pagos parciales de `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` (sección 5 — ítem 3 del anexo `01-PENDIENTE-VALIDACION-CONTABLE.md`, Pendiente) — **no debe iniciarse la implementación de este módulo hasta que un responsable financiero las valide.**
 
 **Criterio de salida:** es posible registrar una `Obligacion` (factura de un `Proveedor`) y pagarla, total o parcialmente, referenciando siempre la obligación original (Artículo 20.2).
 
@@ -108,7 +108,7 @@ El orden de implementación no es arbitrario: refleja las dependencias reales en
 
 ## 12. Riesgos Conocidos
 
-- **Plan de cuentas no validado** (bloqueante de las Fases 2 y 3): si se implementan el Módulo 1 o el Módulo 2 sin validación contable formal, el trabajo puede requerir rehacerse.
+- **Reglas contables no validadas** (bloqueante de las Fases 2 y 3): si se implementan el Módulo 1 (clasificación de Fondos) o el Módulo 2 (reglas de Cuentas por Pagar) sin validación financiera formal, el trabajo puede requerir rehacerse. La cardinalidad del plan de cuentas ya no es parte de este riesgo desde v0.40 (`Cuenta` es un catálogo abierto).
 - **Omisión de offline-first en fases tempranas**: si la Fase 0 no prueba de extremo a extremo la sincronización offline, los módulos posteriores heredarán esa deuda técnica de forma silenciosa.
 - **Introducción prematura de una segunda empresa real** antes de la Fase 7: usar el ecosistema multiempresa como prueba de concepto antes de que los módulos base estén estables incrementa el riesgo de detectar tarde una fuga de aislamiento entre empresas.
 

@@ -35,6 +35,8 @@ Responsable de la experiencia del usuario en campo y en oficina. Debe cumplir, s
 - Persistencia de sesión resistente a interrupciones (Principio 5): el progreso de una operación en curso no depende de completarla en una sola sesión ininterrumpida.
 - Selector explícito de empresa/sucursal activa cuando el usuario tiene acceso a más de una (Artículo 2.7 de la Constitución) — nunca un contexto implícito o adivinado.
 
+Dentro de esta capa, el rol Administrador/Oliver opera desde el **Hub Admin**: una interfaz web de administración, distinta de las apps móviles de campo (chofer, encargado, despacho), donde vive la gestión de los catálogos de configuración dinámica de la Capa de Configuración de Plataforma (sección 8) — Agregar/Editar/Desactivar sobre `config/*`, nunca eliminación física (Artículo 9 de la Constitución). Ningún otro rol tiene acceso a estos catálogos; lo restringe el Motor de Permisos (sección 9), no la interfaz por sí sola.
+
 ## 3. Capa de Persistencia Local y Sincronización
 
 Responsable de que la capa de presentación nunca dependa de conectividad instantánea:
@@ -77,12 +79,14 @@ Es el núcleo arquitectónico del sistema, desarrollado en detalle en `04-MOTOR-
 La persistencia autoritativa del sistema, descrita en detalle en `05-MODELO-DE-DATOS-MAESTRO.md`. A nivel de arquitectura general:
 
 - Toda colección o tabla de datos de negocio está particionada por `empresaId` (y por `sucursalId` cuando la entidad opera a nivel de sede).
-- Los catálogos maestros (productos, cuentas, vendedores, bancos) son consumidos por todos los módulos desde este único origen (Principio 6).
+- Contiene las entidades transaccionales y patrimoniales de cada módulo (`MovimientoCapital`, `Obligacion`, `Despacho`, `Factura`, etc.) y su historial de eventos — los catálogos maestros que estas entidades referencian viven en la Capa de Configuración de Plataforma (sección 8), no aquí.
 - El historial de eventos (Artículo 5 de la Constitución) se conserva de forma completa; las proyecciones de estado (saldos actuales, existencias actuales) son vistas derivadas de ese historial, reconstruibles en cualquier momento.
 
 ## 8. Capa de Configuración de Plataforma
 
-Contiene la configuración variable de negocio bajo `config/*` (Artículo 16.3 de la Constitución): tasas, clasificaciones de fondos, parámetros de flujo, y catálogos particionados por `empresaId`. Ningún valor de esta capa se hardcodea en la capa de presentación ni en la capa de módulos de negocio.
+Contiene la configuración variable de negocio bajo `config/*` (Artículo 16.3 de la Constitución): tasas, clasificaciones de fondos, parámetros de flujo, y **todos los catálogos maestros compartidos** (Artículo 16.1) — `Producto`, `Cuenta`, `CuentaBancaria`, `Fondo`, `Vendedor`, `Cliente`, `Proveedor`, `CondicionPago`, `Ruta`, `AporteCapital` y `MotivoSalidaSinCobro`, particionados por `empresaId` bajo `config/{empresaId}/<colección>/{código}`. Ningún valor de esta capa se hardcodea en la capa de presentación ni en la capa de módulos de negocio. Esta capa es administrada, en su totalidad, desde el Hub Admin (sección 2), con el patrón Agregar/Editar/Desactivar (nunca eliminación física, Artículo 9) y acceso restringido al rol Administrador/Oliver.
+
+*Nota (2026-07-17):* hasta esta versión, la sección 7 ubicaba los catálogos maestros dentro del Modelo de Datos Maestro, en contradicción con esta sección y con la lista de capas de la sección 1. Se resuelve a favor de esta sección: todo catálogo maestro vive en `config/*` (`DECISIONES-ARQUITECTURALES.md`, decisión "Catálogos de Configuración Dinámica (Hub Admin) y unificación de catálogos maestros bajo `config/*`").
 
 ## 9. Motor de Permisos (Transversal)
 

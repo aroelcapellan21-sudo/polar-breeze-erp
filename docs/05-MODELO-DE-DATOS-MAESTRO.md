@@ -92,15 +92,24 @@ Consumidos por todos los módulos, nunca reimplementados por ninguno (Principio 
 
 ### Cuenta
 
-Representa las Cuentas 1-6 del Módulo 1 — Flujo de Efectivo y Bancos.
+El plan de cuentas de Polar Breeze (Módulo 1 — Flujo de Efectivo y Bancos). Catálogo abierto: Oliver decide cuántas cuentas necesita y cómo se llaman, gestionado desde el Hub Admin (Agregar/Editar/Desactivar).
 
-- Campos conceptuales: código de cuenta (1 a 6), nombre/descripción, `empresaId`.
+- Campos conceptuales: código de cuenta (libre, ya no restringido a "1"-"6" — Principio 1), nombre/descripción, naturaleza (activo/pasivo/resultado), `empresaId`.
 - Relación: toda `CuentaBancaria` y todo evento de capital referencia una `Cuenta`.
+- **Cambio de modelo (2026-07-17):** hasta esta versión, `código` estaba restringido a los valores "1" a "6" (`06-REGLAS-CONTABLES-Y-FINANCIERAS.md`, sección 3 — Borrador). Se elimina esa restricción: Oliver ya pedía poder "Crear Cuenta" en su propia estructura (`docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md`, Módulo 1), y la cardinalidad fija "1"-"6" era una restricción que esta documentación había impuesto, no un límite real del negocio. Los 6 nombres que proponía la sección 3 de `06` pasan a ser datos semilla de ejemplo, no una lista cerrada (`DECISIONES-ARQUITECTURALES.md`, decisión "Catálogos de Configuración Dinámica (Hub Admin) y unificación de catálogos maestros bajo `config/*`").
 
 ### CuentaBancaria
 
-- Campos conceptuales: código, número de cuenta, banco, `Cuenta` asociada, `empresaId`.
-- Se crea desde el Módulo 1 — Flujo de Efectivo y Bancos ("crear cuenta bancaria con número y banco").
+- Campos conceptuales: código, número de cuenta, banco, alias (opcional), `Cuenta` asociada, `empresaId`.
+- Se crea desde el Módulo 1 — Flujo de Efectivo y Bancos ("crear cuenta bancaria con número y banco"), gestionada desde el Hub Admin (Agregar/Editar/Desactivar).
+
+### MotivoSalidaSinCobro
+
+Catálogo abierto de motivos de salida de mercancía del Almacén Principal sin pasar por Despacho y sin generar cobro (Módulo 3 — Inventario y Cuarto Frío).
+
+- Campos conceptuales: código, nombre, `empresaId`.
+- Se crea desde el Módulo 6 — Parámetros de Mantenimiento, gestionado desde el Hub Admin (Agregar/Editar/Desactivar); se consume desde el Módulo 3, donde `BajaInventario.tipo` lo referencia (sección 7).
+- Semilla inicial (no cerrada, ampliable desde el Hub Admin): merma, pérdida, condonación, donación, bonificación, refrigerio — los mismos seis valores que hasta esta versión eran una Enumeración cerrada de `BajaInventario.tipo`.
 
 ### Fondo
 
@@ -138,6 +147,15 @@ Proyección/registro de un evento de flujo de capital.
 
 - Campos conceptuales: `empresaId`, `Fondo` (clasificación), `Cuenta` de origen/destino, monto, tipo (ingreso/egreso), obligación referenciada (opcional, cuando el movimiento es un pago aplicado a una `Obligacion` del Módulo 2), medio de pago (depósito / efectivo / transferencia — obligatorio solo si el movimiento es un pago), número de transacción (opcional), imagen del comprobante de pago (opcional), evento de origen.
 
+### AporteCapital
+
+Registra un aporte de capital a la empresa. Diseñada como catálogo (subcolección de aportes) desde el inicio, no como un campo suelto en `Empresa`, para admitir múltiples aportes sin remodelar el dato más adelante — hoy Polar Breeze no se financia con capital propio inyectado (se abastece de compras a crédito), así que este catálogo inicia vacío o con un único aporte en 0.
+
+- Campos conceptuales: código, monto (default 0), fecha, descripción (opcional), `empresaId`.
+- Contenido nuevo de esta sesión, no atribuido a Oliver; gestionado desde el Hub Admin (Agregar/Editar/Desactivar).
+- **Puramente informativo por ahora**: no genera `MovimientoCapital` ni afecta ningún `Fondo`. Si en el futuro un aporte real necesita reflejarse como flujo de capital, esa conexión se define entonces, como una decisión aparte en `DECISIONES-ARQUITECTURALES.md` — no se asume aquí.
+- Distinto del pendiente **Participación de Capital** (`08-CATALOGO-DE-MODULOS.md`, Módulo 1, "Pendiente de modelar"): ese pendiente describe algo asociado a cada `CuentaBancaria` individual ("Banco / Número de Cuenta -> Participación de Capital"), dejado sin modelar por ambigüedad; `AporteCapital` es el capital total de la empresa, un concepto relacionado pero separado. Ambos quedan documentados de forma independiente.
+
 ## 6. Entidades del Módulo 2 — CXP, Facturación y Reportes
 
 ### Obligacion (Cuenta por Pagar)
@@ -168,8 +186,9 @@ Cubre novedades de inventario: dañados, rotos, en mal estado, sobrantes, faltan
 
 Registra la salida definitiva de mercancía del inventario vendible por merma, pérdida, condonación, donación, bonificación o refrigerio (Artículo 6.3 de la Constitución: todo movimiento patrimonial debe balancear, ninguna mercancía desaparece sin un evento explícito que documente su destino).
 
-- Campos conceptuales: `empresaId`, `sucursalId`, `Producto` referenciado, cantidad, tipo (merma / pérdida / condonación / donación / bonificación / refrigerio), novedad de origen (referencia opcional a `NovedadInventario` o `NovedadDespacho` — no toda baja proviene de una novedad detectada; una condonación, donación, bonificación o refrigerio administrativo puede no tener novedad previa), inventario o consignación de origen (`InventarioChofer`, `InventarioEncargado` o `Consignacion`), motivo, usuario que autoriza, evento de origen.
+- Campos conceptuales: `empresaId`, `sucursalId`, `Producto` referenciado, cantidad, `MotivoSalidaSinCobro` referenciado (sección 4), novedad de origen (referencia opcional a `NovedadInventario` o `NovedadDespacho` — no toda baja proviene de una novedad detectada; una condonación, donación, bonificación o refrigerio administrativo puede no tener novedad previa), inventario o consignación de origen (`InventarioChofer`, `InventarioEncargado` o `Consignacion`), motivo, usuario que autoriza, evento de origen.
 - `condonación` (no cobrar/perdonar una deuda ya existente) es distinta de `donación` (regalar producto activamente, sin deuda previa) y de `bonificación` (producto entregado como incentivo promocional); `refrigerio` cubre la entrega de producto para consumo del personal. Las seis son formas de baja, no condiciones del producto (esas viven en `NovedadInventario.tipo`, sección 7).
+- **Cambio de modelo (2026-07-17):** hasta esta versión, `tipo` era una Enumeración cerrada de seis valores. Pasa a ser una Referencia a `MotivoSalidaSinCobro` (sección 4), catálogo editable desde el Hub Admin, sembrado con los mismos seis valores — Oliver puede agregar motivos nuevos sin que esto requiera una nueva versión de esta documentación (`DECISIONES-ARQUITECTURALES.md`, decisión "Catálogos de Configuración Dinámica (Hub Admin) y unificación de catálogos maestros bajo `config/*`").
 - El tratamiento de capital de una baja (si genera un gasto/pérdida contable y contra qué `Fondo`/`Cuenta`) no está definido en este documento — queda pendiente de validación contable (`docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md`, ítem 7, y `06-REGLAS-CONTABLES-Y-FINANCIERAS.md`). Mientras tanto, `BajaInventario` es únicamente un evento de flujo de mercancía e información; no genera un `MovimientoCapital`.
 
 ## 8. Entidades del Módulo 4 — Consignaciones
@@ -242,7 +261,8 @@ Toda referencia entre entidades de este modelo respeta el Artículo 10 de la Con
 - Una `Obligacion` siempre referencia un `Proveedor` y una `CondicionPago` existentes de la misma `empresaId`.
 - Un `MovimientoCapital` que registra un pago siempre referencia una `Obligacion` existente de la misma `empresaId`.
 - Una `Consignacion` que referencia una `Ruta` lo hace a una `Ruta` existente de la misma `empresaId`.
-- Una `BajaInventario` siempre referencia un inventario o consignación de origen (`InventarioChofer`, `InventarioEncargado` o `Consignacion`) existente de la misma `empresaId`; cuando referencia una novedad de origen, esta debe existir (`NovedadInventario` o `NovedadDespacho`).
+- Una `BajaInventario` siempre referencia un inventario o consignación de origen (`InventarioChofer`, `InventarioEncargado` o `Consignacion`) existente de la misma `empresaId`; cuando referencia una novedad de origen, esta debe existir (`NovedadInventario` o `NovedadDespacho`). Su `tipo` referencia un `MotivoSalidaSinCobro` existente de la misma `empresaId`.
+- Una `CuentaBancaria` siempre referencia una `Cuenta` existente de la misma `empresaId`.
 - Una `ConflictoSincronizacion` siempre referencia un `Evento` existente (el rechazado) de la misma `empresaId`; cuando tiene resolución, el evento de resolución también existe y es de la misma `empresaId`.
 - Ninguna entidad referencia a otra de una `empresaId` distinta a la propia.
 
@@ -264,3 +284,5 @@ Las secciones 5-9 se reagruparon para reconciliarse con los 6 módulos de `docs/
 El campo `moneda` de `Empresa` (sección 2) fija una única moneda funcional por empresa — el alcance mínimo necesario para que el ecosistema multiempresa no asuma una sola moneda global (Artículo 28.1 de la Constitución). Este modelo **no** cubre escenarios de multi-moneda dentro de una misma empresa (por ejemplo, una `CuentaBancaria` en una moneda distinta a la funcional, o conversión automática de tipo de cambio); si el negocio llega a necesitar eso, es una extensión futura que requiere su propia decisión en `DECISIONES-ARQUITECTURALES.md`, no una suposición de este documento.
 
 Se modelaron 6 de los 7 conceptos que `08-CATALOGO-DE-MODULOS.md` marcaba como "Pendiente de modelar" tras la reconciliación con Oliver: NCF, ITBIS y fecha de factura (campos de `Obligacion`), Condición de Pago (entidad `CondicionPago`), Rutas y Vías (entidad `Ruta`), Reportes R1/R2/R3 (documentados como proyecciones, no entidades nuevas) y Refrigerios/Bonificaciones/Donaciones (ampliación del enum `BajaInventario.tipo`). **Participación de Capital** queda deliberadamente sin modelar — el usuario confirmó que la mención de Oliver ("Banco / Número de Cuenta -> Participación de Capital") es demasiado ambigua para diseñarla con confianza en esta pasada; sigue señalada en `08-CATALOGO-DE-MODULOS.md`, Módulo 1.
+
+**Catálogos de Configuración Dinámica (2026-07-17):** se agregan los catálogos administrables desde el Hub Admin — `Cuenta` pasa de una lista fija ("1" a "6") a un catálogo abierto; `CuentaBancaria` gana `alias`; se agregan las entidades `AporteCapital` (capital de la empresa, puramente informativo, sin efecto de `MovimientoCapital` por ahora) y `MotivoSalidaSinCobro` (catálogo que reemplaza el enum cerrado de `BajaInventario.tipo`). Todo catálogo maestro de este documento — existente o nuevo — vive en Firestore bajo `config/{empresaId}/<colección>/{código}` (`03-ARQUITECTURA-GENERAL.md`, sección 8; `DECISIONES-ARQUITECTURALES.md`).
