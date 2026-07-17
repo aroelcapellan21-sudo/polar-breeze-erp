@@ -679,4 +679,32 @@ Sembrar `MotivoSalidaSinCobro` solo con los cuatro valores mencionados en el ped
 - Cualquier módulo futuro que necesite un catálogo administrable por el negocio debe seguir este mismo patrón (Hub Admin, Agregar/Editar/Desactivar, `config/{empresaId}/...`), documentado en `08-CATALOGO-DE-MODULOS.md` ("Gobernanza de Catálogos de Configuración Dinámica"), nunca reinventarlo módulo por módulo (Artículo 4 y 16.1 de la Constitución).
 - El pendiente "Participación de Capital" (Módulo 1) y el pendiente "Crear Novedades" (Módulo 6) siguen abiertos, sin relación de resolución con `AporteCapital` ni `MotivoSalidaSinCobro` respectivamente — quedó documentado explícitamente para que no se confundan en el futuro.
 - `10-PLAN-MAESTRO-DE-IMPLEMENTACION.md` (no listado originalmente en el plan de esta sesión, pero directamente afectado) se actualiza: la Fase 1 incluye ahora `AporteCapital` y `MotivoSalidaSinCobro`; el bloqueante de las Fases 2 y 3 se reformula (ya no es "todo el plan de cuentas", sino específicamente la clasificación de Fondos — ítem 2 — y las reglas de Cuentas por Pagar — ítem 3 — del anexo).
+
+### [2026-07-17] Requisitos no funcionales como criterios de diseño escalable, no cifras de un cliente
+
+**Contexto:**
+El pendiente #7 de `resumenes/2026-07-14-estado-y-pendientes-para-retomar.md` señalaba que ningún documento cubría respaldos/recuperación, retención de datos, privacidad de datos personales, volumetría ni disponibilidad. Antes de redactar contenido, se preguntó al usuario dónde debía vivir (documento nuevo vs. sección de `03-ARQUITECTURA-GENERAL.md`) y cómo tratar cuatro áreas que dependen de información que este repositorio no tiene: jurisdicción legal, cifras de volumetría, y targets de infraestructura (RPO/RTO/SLA). El usuario aclaró un punto de fondo: el ERP Polar Breeze es un **producto multiempresa pensado para extrapolarse a distintos clientes futuros**, no un sistema a medida de la operación actual de Polar Breeze — por lo que la volumetría, en particular, no debía documentarse como cifras fijas de un negocio, sino como un criterio de diseño escalable (rango de operación pequeña a grande), con un checklist de qué medir cuando un cliente real entre en operación.
+
+**Decisión:**
+Se creó `docs/14-REQUISITOS-NO-FUNCIONALES.md`, documento nuevo (no una sección de `03-ARQUITECTURA-GENERAL.md`), siguiendo el patrón granular ya establecido de un documento por área de preocupación. Cubre, a nivel de principio arquitectónico:
+
+- **Respaldos y recuperación:** redundancia obligatoria y restauración verificada como principios; sin RPO/RTO numéricos ni frecuencia de respaldo concretos — decisión de infraestructura futura.
+- **Retención de datos:** reformulada como "cuánto se mantiene en caliente vs. archivado", no "cuándo se borra" (ya resuelto por el Artículo 9 — soft delete); sin período ni jurisdicción específica asumida.
+- **Privacidad de datos personales:** principio de minimización de datos agregado; sin nombrar un régimen legal específico (se descartó asumir Ley 172-13 de República Dominicana pese a que el ecosistema usa DOP/NCF, precisamente porque el producto se extiende a otras jurisdicciones).
+- **Volumetría y escalabilidad:** documentada como rango de diseño (una sucursal hasta múltiples empresas/sucursales), nunca como cifra fija; con checklist de qué medir al entrar en operación un cliente real.
+- **Disponibilidad:** el offline-first ya cubre la continuidad de los roles de campo; la disponibilidad crítica es la del backend/API para Hub Admin y reportes; sin SLA numérico fijado.
+
+Se agregó una sección 7 con un checklist de 5 validaciones pendientes (retención legal, régimen de privacidad, volumetría real, RPO/RTO, SLA), ninguna bloqueante, siguiendo el mismo patrón que `docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md`. Se corrigió `README.md`: el árbol de documentos no incluía `14` ni el anexo `02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md` (creado en v0.36, nunca agregado al árbol).
+
+**Alternativas consideradas:**
+Documentar la volumetría con las cifras reales o estimadas de Polar Breeze. Se descartó explícitamente por el usuario: confundiría la operación de un cliente con la capacidad que el producto debe ofrecer a cualquier cliente futuro.
+Asumir la jurisdicción de República Dominicana (Ley 172-13, reglas de la DGII) para retención y privacidad, dado que el ecosistema ya usa DOP y NCF. Se descartó por el usuario: se prefirió dejarlo a nivel de principio y marcarlo como pendiente de validación legal, mismo tratamiento que recibió el plan de cuentas antes de que un contador lo validara.
+Fijar RPO/RTO/SLA numéricos ahora, aunque fueran estimaciones razonables. Se descartó: no existe todavía infraestructura real elegida, y un número inventado sería una suposición, no una definición de arquitectura.
+Agregar la sección como parte de `03-ARQUITECTURA-GENERAL.md` en lugar de un documento nuevo. Se descartó (opción presentada, el usuario prefirió documento nuevo): mezclaría la descripción de capas/componentes con targets operativos de naturaleza distinta.
+
+**Consecuencias:**
+- `docs/14-REQUISITOS-NO-FUNCIONALES.md` queda Vigente, con 5 ítems pendientes de validación (legal, infraestructura, volumetría real) que no bloquean ninguna fase del `10-PLAN-MAESTRO-DE-IMPLEMENTACION.md`.
+- Cualquier decisión futura sobre retención, privacidad, backups o disponibilidad debe partir de este documento y cerrarse aquí (checklist sección 7) antes de fijarse en el repositorio de código, nunca asumirse directamente en la implementación.
+- Si en el futuro se onboarda un cliente en una jurisdicción distinta a República Dominicana, este documento ya está preparado para eso — no requiere reescritura, solo cerrar el checklist con el régimen legal correspondiente a cada empresa.
+- `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.41, MENOR: agrega contenido nuevo sin alterar ni contradecir lo existente).
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.40, MAYOR: reestructura `Cuenta` — quita su restricción de cardinalidad — y cambia el tipo de campo de `BajaInventario.tipo` de Enumeración a Referencia).

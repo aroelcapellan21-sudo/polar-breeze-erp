@@ -128,6 +128,7 @@ Las integraciones externas (pasarelas de pago, facturación electrónica, bancos
 - `04-MOTOR-DE-FLUJOS-PATRIMONIALES.md` — detalle del componente central descrito en la sección 6.
 - `05-MODELO-DE-DATOS-MAESTRO.md` — detalle del modelo de datos descrito en la sección 7.
 - `08-CATALOGO-DE-MODULOS.md` — el detalle de cada módulo que vive en la capa de la sección 5.
+- `14-REQUISITOS-NO-FUNCIONALES.md` — los principios de continuidad, respaldo y disponibilidad que desarrollan la Capa de Persistencia Local y Sincronización (sección 3) y la Capa de Configuración de Plataforma (sección 8).
 - `docs/diagramas/arquitectura-general.drawio` — representación visual de las capas descritas aquí (pendiente de diagramar).
 
 Observaciones:

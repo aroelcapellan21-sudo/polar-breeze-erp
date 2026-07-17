@@ -39,6 +39,7 @@ polar-breeze-erp/
     ├── 11-DICCIONARIO-DE-DATOS.md
     ├── 12-GLOSARIO.md
     ├── 13-HISTORIAL-DE-VERSIONES.md
+    ├── 14-REQUISITOS-NO-FUNCIONALES.md
     ├── 99-FILOSOFIA-DEL-SISTEMA.md
     ├── diagramas/
     │   ├── README.md
@@ -51,7 +52,8 @@ polar-breeze-erp/
     │   └── eventos.drawio
     └── anexos/
         ├── README.md
-        └── 01-PENDIENTE-VALIDACION-CONTABLE.md
+        ├── 01-PENDIENTE-VALIDACION-CONTABLE.md
+        └── 02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md
 ```
 
 ## Convención
