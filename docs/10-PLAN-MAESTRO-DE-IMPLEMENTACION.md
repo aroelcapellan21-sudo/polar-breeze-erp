@@ -2,7 +2,7 @@
 
 Estado:
 
-> Vigente — pendiente de revisión y aprobación formal
+> Vigente — Aprobado por el Arquitecto/Product Owner del ERP el 2026-07-17 (baseline v0.41; ver Registro de Aprobaciones en `13-HISTORIAL-DE-VERSIONES.md`)
 
 Objetivo:
 

@@ -2,7 +2,7 @@
 
 Estado:
 
-> Vigente — principios de diseño definidos; contiene un checklist de validaciones pendientes (sección 7: legal, infraestructura, volumetría real) que no bloquea ninguna fase del `10-PLAN-MAESTRO-DE-IMPLEMENTACION.md`
+> Vigente — principios de diseño definidos; contiene un checklist de validaciones pendientes (sección 7: legal, infraestructura, volumetría real) que no bloquea ninguna fase del `10-PLAN-MAESTRO-DE-IMPLEMENTACION.md`. Aprobado por el Arquitecto/Product Owner del ERP el 2026-07-17 (baseline v0.41; ver Registro de Aprobaciones en `13-HISTORIAL-DE-VERSIONES.md`).
 
 Objetivo:
 

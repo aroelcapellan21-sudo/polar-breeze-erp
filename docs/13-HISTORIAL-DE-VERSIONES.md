@@ -2,7 +2,7 @@
 
 Estado:
 
-> Vigente — se actualiza con cada cambio sustantivo a la documentación
+> Vigente — se actualiza con cada cambio sustantivo a la documentación. Aprobado por el Arquitecto/Product Owner del ERP el 2026-07-17 (baseline v0.41; ver Registro de Aprobaciones más abajo).
 
 Objetivo:
 
@@ -63,7 +63,8 @@ Cuando exista código de producto, ese repositorio llevará su propio esquema de
 | v0.38 | 2026-07-14 | `50e758e` | Se corrige `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md`: la sección [FLUJO DE EFECTIVO] pasa de "Venta / Costo / Distribución" a "Venta / Costo / Distribución / Mantenimiento", tras confirmar el usuario que la fuente de verdad de Oliver sí incluye Mantenimiento — la omisión era un error de transcripción, no una diferencia real de diseño. Se actualiza `08-CATALOGO-DE-MODULOS.md` (Módulo 1) para reemplazar la nota de "discrepancia" por la confirmación. El Artículo 18.1 de la Constitución no requirió cambios: ya era correcto. |
 | v0.39 | 2026-07-14 | `b588fe3` | Se modelan 6 de los 7 conceptos pendientes de la reconciliación con Oliver: NCF/ITBIS/Fecha de Factura y `CondicionPago` (referenciada por `Obligacion`) en el Módulo 2; `Ruta` en el Módulo 4; Reportes R1/R2/R3 documentados como proyecciones; `BajaInventario.tipo` ampliado con donación/bonificación/refrigerio. Se agregan `medioDePago`/`numeroTransaccion`/`comprobanteImagen` a `MovimientoCapital` y el tipo conceptual Archivo/Imagen. Participación de Capital queda explícitamente pendiente, por decisión del usuario (demasiado ambigua sin más contexto de Oliver). |
 | v0.40 (MAYOR) | 2026-07-17 | `8a0c3ce` | Se agregan 4 catálogos de configuración dinámica administrables desde el **Hub Admin** (rol Administrador/Oliver, patrón Agregar/Editar/Desactivar): Cuentas Bancarias (`CuentaBancaria` +`alias`), Capital de la Empresa (nueva entidad `AporteCapital`, informativa), Cuentas Contables (`Cuenta` deja de estar restringida a "1"-"6", pasa a catálogo abierto) y Motivos de Salida sin Cobro (nueva entidad `MotivoSalidaSinCobro`; `BajaInventario.tipo` cambia de Enumeración a Referencia). Se unifica la ubicación de todos los catálogos maestros — existentes y nuevos — bajo Firestore `config/{empresaId}/<colección>/{código}`, corrigiendo una inconsistencia entre las secciones 7 y 8 de `03-ARQUITECTURA-GENERAL.md`. Se resuelven los ítems 1 y 6 del anexo `01-PENDIENTE-VALIDACION-CONTABLE.md` (pasan a "No aplica"); los ítems 2-5 siguen pendientes y `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` sigue en Borrador. Se actualiza `10-PLAN-MAESTRO-DE-IMPLEMENTACION.md` (Fase 1 incluye los 2 catálogos nuevos; el bloqueante de las Fases 2-3 se reformula a los ítems 2 y 3 del anexo, ya no a "todo el plan de cuentas"). |
-| v0.41 | 2026-07-17 | — (este commit) | Se redacta `14-REQUISITOS-NO-FUNCIONALES.md` (documento nuevo), cerrando el pendiente #7 de `resumenes/2026-07-14-estado-y-pendientes-para-retomar.md`: respaldos y recuperación, retención de datos, privacidad de datos personales, volumetría/escalabilidad y disponibilidad, todos a nivel de principio arquitectónico. Volumetría se documenta como criterio de diseño escalable (rango de operación pequeña a grande), no como cifra fija de Polar Breeze, con checklist de qué medir al entrar en operación. Ningún régimen legal ni número de infraestructura se asume; ambos quedan en un checklist de validaciones pendientes (sección 7) que no bloquea ninguna fase. Se corrige `README.md`: árbol actualizado con `14` y con el anexo `02` (faltaba desde v0.36). |
+| v0.41 | 2026-07-17 | `08bb640` | Se redacta `14-REQUISITOS-NO-FUNCIONALES.md` (documento nuevo), cerrando el pendiente #7 de `resumenes/2026-07-14-estado-y-pendientes-para-retomar.md`: respaldos y recuperación, retención de datos, privacidad de datos personales, volumetría/escalabilidad y disponibilidad, todos a nivel de principio arquitectónico. Volumetría se documenta como criterio de diseño escalable (rango de operación pequeña a grande), no como cifra fija de Polar Breeze, con checklist de qué medir al entrar en operación. Ningún régimen legal ni número de infraestructura se asume; ambos quedan en un checklist de validaciones pendientes (sección 7) que no bloquea ninguna fase. Se corrige `README.md`: árbol actualizado con `14` y con el anexo `02` (faltaba desde v0.36). |
+| v0.42 | 2026-07-17 | — (este commit) | Se define el proceso de aprobación formal de la documentación, cerrando el pendiente #8 de `resumenes/2026-07-14-estado-y-pendientes-para-retomar.md`. Doble autoridad: el Arquitecto/Product Owner del ERP aprueba documentos técnicos/estructurales, Oliver (dueño de Polar Breeze) aprueba documentos de negocio, y ambos aprueban los documentos que mezclan las dos naturalezas. Aprobación de todo el baseline vigente (00 a 14 y 99, salvo `06` y `DECISIONES-ARQUITECTURALES.md`, excluidos) como un solo evento con fecha 2026-07-17 sobre `v0.41`; una re-aprobación individual solo se dispara cuando un documento reciba un cambio de versión MAYOR después de esta fecha, nunca por cambios MENOR. Se agrega la sección "Registro de Aprobaciones" más abajo, y se actualiza el campo Estado de los 16 documentos aprobados. |
 
 ## Estado de Completitud de la Documentación (a la fecha de la última entrada)
 
@@ -91,6 +92,31 @@ Cuando exista código de producto, ese repositorio llevará su propio esquema de
 | `docs/diagramas/*.drawio` (6 archivos) | Creados vacíos; pendientes de contenido visual |
 | `docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md` | Vigente — 5 ítems Pendientes (2, 3, 4, 5, 7; el 7 no bloquea ninguna fase) y 2 en "No aplica" (1 y 6, resueltos por arquitectura en v0.40) |
 | `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md` | Fuente de verdad — transcripción literal, reconciliada contra `08-CATALOGO-DE-MODULOS.md` y la documentación técnica en v0.37 |
+
+## Registro de Aprobaciones
+
+Aprobación del baseline vigente a esta fecha (`v0.41`) como un solo evento (`DECISIONES-ARQUITECTURALES.md`, decisión "Proceso de aprobación formal de la documentación"). Doble autoridad: el **Arquitecto/Product Owner del ERP** aprueba documentos técnicos/estructurales; **Oliver** (dueño de Polar Breeze) aprueba documentos de negocio; ambos aprueban los documentos que mezclan las dos naturalezas. Una re-aprobación individual se agrega aquí como fila nueva únicamente cuando el documento reciba, después de esta fecha, un cambio de versión **MAYOR** — nunca por un cambio MENOR.
+
+| Documento | Autoridad que aprueba | Fecha | Versión aprobada |
+|---|---|---|---|
+| `00-MANIFIESTO-DEL-ERP.md` | Arquitecto/Product Owner | 2026-07-17 | v0.41 (baseline) |
+| `00-PRINCIPIOS-DEL-ERP.md` | Arquitecto/Product Owner | 2026-07-17 | v0.41 (baseline) |
+| `01-VISION-ERP.md` | Arquitecto/Product Owner + Oliver | 2026-07-17 | v0.41 (baseline) |
+| `02-CONSTITUCION-ERP.md` | Arquitecto/Product Owner + Oliver | 2026-07-17 | v0.41 (baseline) |
+| `03-ARQUITECTURA-GENERAL.md` | Arquitecto/Product Owner | 2026-07-17 | v0.41 (baseline) |
+| `04-MOTOR-DE-FLUJOS-PATRIMONIALES.md` | Arquitecto/Product Owner | 2026-07-17 | v0.41 (baseline) |
+| `05-MODELO-DE-DATOS-MAESTRO.md` | Arquitecto/Product Owner | 2026-07-17 | v0.41 (baseline) |
+| `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` | **Excluido** — Borrador, bloqueado por los ítems 2-5 de `docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md`; recibirá aprobación de Oliver aparte, cuando se validen | — | — |
+| `07-FLUJOS-DE-NEGOCIO.md` | Oliver | 2026-07-17 | v0.41 (baseline) |
+| `08-CATALOGO-DE-MODULOS.md` | Arquitecto/Product Owner + Oliver | 2026-07-17 | v0.41 (baseline) |
+| `09-ESTANDARES-DE-DESARROLLO.md` | Arquitecto/Product Owner | 2026-07-17 | v0.41 (baseline) |
+| `10-PLAN-MAESTRO-DE-IMPLEMENTACION.md` | Arquitecto/Product Owner | 2026-07-17 | v0.41 (baseline) |
+| `11-DICCIONARIO-DE-DATOS.md` | Arquitecto/Product Owner | 2026-07-17 | v0.41 (baseline) |
+| `12-GLOSARIO.md` | Arquitecto/Product Owner | 2026-07-17 | v0.41 (baseline) |
+| `13-HISTORIAL-DE-VERSIONES.md` | Arquitecto/Product Owner | 2026-07-17 | v0.41 (baseline) |
+| `14-REQUISITOS-NO-FUNCIONALES.md` | Arquitecto/Product Owner | 2026-07-17 | v0.41 (baseline) |
+| `99-FILOSOFIA-DEL-SISTEMA.md` | Arquitecto/Product Owner + Oliver | 2026-07-17 | v0.41 (baseline) |
+| `DECISIONES-ARQUITECTURALES.md` | **Excluido** — registro vivo por diseño ("En construcción"), nunca alcanza un estado final "aprobado" | — | — |
 
 ## Relación con Otros Documentos
 

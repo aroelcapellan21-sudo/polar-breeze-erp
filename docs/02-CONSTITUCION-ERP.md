@@ -2,7 +2,7 @@
 
 Estado:
 
-> Vigente — sujeta a enmienda formal mediante `DECISIONES-ARQUITECTURALES.md`
+> Vigente — sujeta a enmienda formal mediante `DECISIONES-ARQUITECTURALES.md`. Aprobada por el Arquitecto/Product Owner del ERP y por Oliver (dueño de Polar Breeze) el 2026-07-17 (baseline v0.41; ver Registro de Aprobaciones en `13-HISTORIAL-DE-VERSIONES.md`).
 
 Objetivo:
 

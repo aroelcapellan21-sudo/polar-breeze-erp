@@ -2,7 +2,7 @@
 
 Estado:
 
-> Vigente — primera versión redactada a partir del índice provisto por el usuario y del conocimiento acumulado del proyecto (Constitución, catálogo de módulos, reglas de arquitectura). Pendiente de revisión y aprobación formal por el equipo.
+> Vigente — primera versión redactada a partir del índice provisto por el usuario y del conocimiento acumulado del proyecto (Constitución, catálogo de módulos, reglas de arquitectura). Aprobado por el Arquitecto/Product Owner del ERP y por Oliver (dueño de Polar Breeze) el 2026-07-17 (baseline v0.41; ver Registro de Aprobaciones en `13-HISTORIAL-DE-VERSIONES.md`).
 
 Objetivo:
 

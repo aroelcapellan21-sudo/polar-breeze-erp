@@ -707,4 +707,37 @@ Agregar la sección como parte de `03-ARQUITECTURA-GENERAL.md` en lugar de un do
 - Cualquier decisión futura sobre retención, privacidad, backups o disponibilidad debe partir de este documento y cerrarse aquí (checklist sección 7) antes de fijarse en el repositorio de código, nunca asumirse directamente en la implementación.
 - Si en el futuro se onboarda un cliente en una jurisdicción distinta a República Dominicana, este documento ya está preparado para eso — no requiere reescritura, solo cerrar el checklist con el régimen legal correspondiente a cada empresa.
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.41, MENOR: agrega contenido nuevo sin alterar ni contradecir lo existente).
+
+### [2026-07-17] Proceso de aprobación formal de la documentación
+
+**Contexto:**
+El pendiente #8 de `resumenes/2026-07-14-estado-y-pendientes-para-retomar.md` señalaba que casi todos los documentos decían "Vigente — pendiente de revisión y aprobación formal" (o, en el caso de `01-VISION-ERP.md`, "por el equipo"), sin que ningún documento definiera quién aprueba, cómo, ni dónde se registra esa aprobación — a pesar de que el Artículo 29.1 de la Constitución ya exige "documentación aprobada previamente" antes de desarrollar cualquier módulo. Se preguntó al usuario quién tiene autoridad de aprobación, con qué granularidad, dónde se registra, y qué dispara una re-aprobación.
+
+**Decisión:**
+Se define una autoridad de aprobación dual:
+
+- **Oliver** (dueño de Polar Breeze) aprueba documentos de negocio: `07-FLUJOS-DE-NEGOCIO.md`.
+- **El Arquitecto/Product Owner del ERP** (el usuario que dirige esta biblioteca) aprueba documentos técnicos/estructurales: `00-MANIFIESTO-DEL-ERP.md`, `00-PRINCIPIOS-DEL-ERP.md`, `03-ARQUITECTURA-GENERAL.md`, `04-MOTOR-DE-FLUJOS-PATRIMONIALES.md`, `05-MODELO-DE-DATOS-MAESTRO.md`, `09-ESTANDARES-DE-DESARROLLO.md`, `10-PLAN-MAESTRO-DE-IMPLEMENTACION.md`, `11-DICCIONARIO-DE-DATOS.md`, `12-GLOSARIO.md`, `13-HISTORIAL-DE-VERSIONES.md`, `14-REQUISITOS-NO-FUNCIONALES.md`.
+- **Ambos** aprueban los documentos que mezclan negocio y arquitectura: `01-VISION-ERP.md`, `02-CONSTITUCION-ERP.md`, `08-CATALOGO-DE-MODULOS.md`, `99-FILOSOFIA-DEL-SISTEMA.md`.
+
+Se aprueba **todo el baseline vigente como un solo evento** (2026-07-17, sobre `v0.41`), no documento por documento desde cero — consistente con que ningún módulo ha comenzado su implementación todavía (Fase 0 del `10-PLAN-MAESTRO-DE-IMPLEMENTACION.md` no ha iniciado). Una **re-aprobación individual** solo se dispara cuando un documento reciba, después de esta fecha, un cambio de versión **MAYOR** (reestructura modelo/regla constitucional, según la convención ya existente de `13-HISTORIAL-DE-VERSIONES.md`) — nunca por un cambio MENOR.
+
+Se registra en dos lugares: el campo Estado de cada documento (quién aprobó y cuándo) y una nueva sección "Registro de Aprobaciones" en `13-HISTORIAL-DE-VERSIONES.md` que centraliza los 16 documentos aprobados en una tabla, sin anexo dedicado aparte.
+
+Quedan **excluidos** de este evento:
+- `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` — sigue en Borrador, bloqueado por los ítems 2-5 de `docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md`; recibirá la aprobación de Oliver aparte, cuando esos ítems se validen.
+- `DECISIONES-ARQUITECTURALES.md` — registro vivo por diseño ("En construcción"), nunca alcanza un estado final "aprobado".
+
+**Alternativas consideradas:**
+Una sola autoridad de aprobación (solo Oliver, o solo el arquitecto). Se descartó explícitamente por el usuario: la documentación mezcla contenido de negocio real (reglas contables, flujos operativos de Oliver) con contenido puramente arquitectónico (modelo de datos, estructura documental), y cada uno requiere la validación de quien realmente tiene el criterio para juzgarlo.
+Aprobación independiente de los 17 documentos desde el inicio. Se descartó por el usuario (opción presentada): más pesado sin un consumidor real esperando, dado que ningún módulo ha iniciado implementación todavía.
+Un anexo dedicado para el registro de aprobaciones, en vez de una sección en `13-HISTORIAL-DE-VERSIONES.md`. Se descartó por el usuario (opción presentada): innecesario, dado que `13` ya es el documento que centraliza el estado de toda la biblioteca.
+Exigir re-aprobación ante cualquier cambio, incluso MENOR. Se descartó por el usuario: habría convertido cada adición aditiva (como las de esta misma sesión) en un evento de re-aprobación, sin beneficio real dado que un cambio MENOR por definición no rompe ni contradice lo ya aprobado.
+
+**Consecuencias:**
+- 16 de los 17 documentos numerados quedan formalmente aprobados a partir de esta decisión; sus campos Estado y la nueva sección "Registro de Aprobaciones" de `13-HISTORIAL-DE-VERSIONES.md` son la fuente de verdad de quién aprobó qué y cuándo.
+- Cualquier cambio MAYOR futuro a un documento ya aprobado debe agregar su propia fila de re-aprobación en el Registro, con la autoridad correspondiente según esta misma clasificación (negocio/técnica/ambas) — no se inventa una autoridad nueva por cambio.
+- `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` sigue sin aprobación formal de Oliver hasta que los ítems 2-5 del anexo contable se validen; en ese momento, su aprobación se registra como una decisión aparte, no retroactiva a esta.
+- El Artículo 29.1 de la Constitución ("ningún módulo se desarrolla sin documentación aprobada previamente") queda, por primera vez, con un mecanismo concreto de qué significa "aprobada": este registro.
+- `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.42, MENOR: agrega un proceso de gobernanza nuevo sin alterar ni contradecir ninguna regla, entidad o decisión existente).
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.40, MAYOR: reestructura `Cuenta` — quita su restricción de cardinalidad — y cambia el tipo de campo de `BajaInventario.tipo` de Enumeración a Referencia).
