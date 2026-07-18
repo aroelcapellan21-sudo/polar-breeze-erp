@@ -2,7 +2,7 @@
 
 Estado:
 
-> Vigente — sujeta a enmienda formal mediante `DECISIONES-ARQUITECTURALES.md`. Aprobada por el Arquitecto/Product Owner del ERP y por Oliver (dueño de Polar Breeze) el 2026-07-17 (baseline v0.41; ver Registro de Aprobaciones en `13-HISTORIAL-DE-VERSIONES.md`).
+> Vigente — sujeta a enmienda formal mediante `DECISIONES-ARQUITECTURALES.md`. Re-aprobada por el Arquitecto/Product Owner del ERP y por Oliver (dueño de Polar Breeze) el 2026-07-17 tras el cambio MAYOR del Artículo 31 (v0.43; ver Registro de Aprobaciones en `13-HISTORIAL-DE-VERSIONES.md`).
 
 Objetivo:
 
@@ -269,6 +269,20 @@ Contenido:
 30.4. La huella forma parte del patrimonio informativo del ERP y no podrá eliminarse ni modificarse — únicamente podrán agregarse eventos complementarios o de corrección.
 
 30.5. Toda decisión automática tomada por el sistema o por una inteligencia artificial deberá dejar igualmente su huella permanente indicando la regla, algoritmo o modelo que originó dicha decisión.
+
+## Artículo 31 — Proceso de Aprobación Formal de la Documentación
+
+31.1. Ningún documento de la biblioteca de arquitectura (`docs/00` a `docs/14`, `docs/99`) constituye "documentación aprobada" en el sentido del Artículo 29.1 sin pasar por el proceso de este Artículo — distinto de estar "Vigente": un documento puede estar Vigente, en uso, y aun así pendiente de esta aprobación formal.
+
+31.2. La aprobación formal tiene doble autoridad, según la naturaleza de cada documento: el **Arquitecto/Product Owner del ERP** aprueba documentos técnicos/estructurales; **Oliver**, dueño de Polar Breeze, aprueba documentos de negocio; ambos aprueban los documentos que mezclan las dos naturalezas. Qué autoridad aprueba cada documento, y cuándo, se registra explícitamente en el "Registro de Aprobaciones" de `13-HISTORIAL-DE-VERSIONES.md` — nunca de forma implícita o asumida.
+
+31.3. Varios documentos pueden aprobarse juntos como un solo evento (un "baseline"); no es obligatorio aprobar cada documento de forma aislada la primera vez.
+
+31.4. Una aprobación ya otorgada no se revoca por un cambio de versión MENOR (`13-HISTORIAL-DE-VERSIONES.md`, Convención de Versionado) al documento aprobado. Un cambio de versión MAYOR sí exige una nueva aprobación individual de ese documento, registrada como fila nueva en el Registro de Aprobaciones, antes de volver a constituir "documentación aprobada" (Artículo 29.1).
+
+31.5. Ningún documento bloqueado por una validación externa pendiente (por ejemplo, `docs/anexos/01-PENDIENTE-VALIDACION-CONTABLE.md`) puede recibir esta aprobación formal mientras el bloqueo exista, aunque el resto de la biblioteca ya esté aprobado.
+
+31.6. Esta aprobación formal es distinta de la inmutabilidad de documentos de negocio del Artículo 14: aquella aplica a facturas, notas de crédito y demás documentos operativos que el ERP genera en ejecución; este Artículo aplica a la propia documentación arquitectónica que gobierna el diseño del sistema (Artículo 11.1: todo documento que pueda cambiar en el tiempo, incluidos los documentos aprobados, mantiene versión explícita).
 
 ## Convención de Cambios a esta Constitución
 

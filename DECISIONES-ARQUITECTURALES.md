@@ -740,4 +740,34 @@ Exigir re-aprobación ante cualquier cambio, incluso MENOR. Se descartó por el 
 - `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` sigue sin aprobación formal de Oliver hasta que los ítems 2-5 del anexo contable se validen; en ese momento, su aprobación se registra como una decisión aparte, no retroactiva a esta.
 - El Artículo 29.1 de la Constitución ("ningún módulo se desarrolla sin documentación aprobada previamente") queda, por primera vez, con un mecanismo concreto de qué significa "aprobada": este registro.
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.42, MENOR: agrega un proceso de gobernanza nuevo sin alterar ni contradecir ninguna regla, entidad o decisión existente).
+
+### [2026-07-17] Formalización del Artículo 31 — Proceso de Aprobación Formal de la Documentación
+
+**Contexto:**
+La decisión anterior ("Proceso de aprobación formal de la documentación", v0.42) definió el mecanismo de aprobación dual (Arquitecto/Product Owner vs. Oliver, según negocio o técnica) a nivel de proceso, registrado en el campo Estado de cada documento y en el "Registro de Aprobaciones" de `13-HISTORIAL-DE-VERSIONES.md`, pero explícitamente **sin** elevarlo a regla constitucional — el usuario pidió dejarlo como tarea futura, a su propia decisión, en sesión aparte (pendiente #11 de `resumenes/2026-07-17-estado-y-pendientes-para-retomar.md`). El usuario retomó esta tarea explícitamente en la sesión siguiente.
+
+Siguiendo la "Convención de Cambios a esta Constitución" (`02-CONSTITUCION-ERP.md`, al final del documento): (1) esta decisión se registra antes de tocar la Constitución; (2) se evaluó el impacto sobre `08-CATALOGO-DE-MODULOS.md` — ninguno, esta regla gobierna la documentación arquitectónica en sí, no las declaraciones de alcance/eventos/catálogos que exige el Artículo 29.2 para cada módulo; (3) la Constitución se actualiza recién ahora, después de los dos pasos anteriores.
+
+**Decisión:**
+Se agrega el **Artículo 31 — Proceso de Aprobación Formal de la Documentación** (31.1 a 31.6) a `02-CONSTITUCION-ERP.md`, elevando a regla constitucional exactamente lo ya decidido en v0.42, sin ampliarlo ni reinterpretarlo:
+
+- 31.1 distingue "documentación aprobada" (Artículo 29.1) de simplemente "Vigente".
+- 31.2 fija la doble autoridad y exige que quede registrada en el Registro de Aprobaciones, nunca de forma implícita.
+- 31.3 permite aprobar varios documentos como un solo evento ("baseline").
+- 31.4 fija que solo un cambio de versión MAYOR dispara re-aprobación individual, nunca uno MENOR.
+- 31.5 impide aprobar un documento bloqueado por una validación externa pendiente (ej. el anexo contable).
+- 31.6 distingue explícitamente esta aprobación documental de la inmutabilidad de documentos de negocio del Artículo 14, para que no se confundan dos conceptos que comparten la palabra "aprobado".
+
+Por ser un cambio MAYOR a `02-CONSTITUCION-ERP.md` (agrega una regla constitucional), el propio Artículo 31.4 exige que este documento reciba su propia re-aprobación individual — aplicada de inmediato como caso de prueba del mecanismo recién formalizado: `02-CONSTITUCION-ERP.md` se re-aprueba por ambas autoridades (Arquitecto/Product Owner y Oliver, dado que mezcla artículos de negocio y de arquitectura) el 2026-07-17, con una fila nueva en el Registro de Aprobaciones.
+
+**Alternativas consideradas:**
+Extender el Artículo 29 ("Reglas para Nuevos Módulos") con sub-artículos nuevos (29.5, 29.6) en lugar de crear un Artículo 31 separado. Se descartó: el Artículo 29 está explícitamente acotado a módulos nuevos, mientras que esta regla gobierna la aprobación de **toda** la biblioteca documental, incluidos documentos que no son módulos (Constitución, Visión, Historial, etc.) — mezclarlo en el Artículo 29 habría ensanchado su alcance más allá de su título.
+No formalizarlo nunca en la Constitución, dejándolo solo como proceso descrito en `DECISIONES-ARQUITECTURALES.md` y `13-HISTORIAL-DE-VERSIONES.md`. Fue la decisión explícita del usuario en la sesión anterior (v0.42); se revirtió ahora porque el propio usuario pidió retomar esta tarea en la sesión siguiente, tal como quedó anotado como pendiente.
+
+**Consecuencias:**
+- La Constitución pasa de 30 a 31 artículos.
+- El Artículo 29.1 ("ningún módulo se desarrolla sin documentación aprobada previamente") queda respaldado, por primera vez, por una regla constitucional propia que define qué significa "aprobada" — antes solo estaba desarrollado en `DECISIONES-ARQUITECTURALES.md` y `13-HISTORIAL-DE-VERSIONES.md`, sin rango de ley del proyecto.
+- Cualquier cambio MAYOR futuro a un documento ya aprobado debe, a partir de ahora, citar el Artículo 31.4 como la regla que exige su re-aprobación — no solo la convención de `13-HISTORIAL-DE-VERSIONES.md`.
+- `02-CONSTITUCION-ERP.md` mismo queda como el primer caso real de re-aprobación individual por cambio MAYOR bajo este mecanismo.
+- `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.43, MAYOR: agrega una regla constitucional nueva) y una fila nueva en el Registro de Aprobaciones para `02-CONSTITUCION-ERP.md`.
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.40, MAYOR: reestructura `Cuenta` — quita su restricción de cardinalidad — y cambia el tipo de campo de `BajaInventario.tipo` de Enumeración a Referencia).
