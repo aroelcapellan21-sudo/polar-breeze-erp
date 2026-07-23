@@ -185,9 +185,13 @@ Su relación con el Motor de Flujos Patrimoniales es unidireccional: el motor ca
 - **26.4** — Toda sugerencia es asistiva: no puede aprobar, cerrar ni hacer inmutable ningún documento sin acción humana explícita.
 - **30.5** — Toda respuesta o sugerencia que involucre una decisión automática deja huella de la regla o modelo que la originó.
 
+**Registro de actividad:** las consultas del asistente no se registran en el historial de auditoría patrimonial (Artículo 8 de la Constitución), ya que el asistente no modifica capital, mercancía ni información — auditar ahí generaría ruido en un historial que existe para reconstruir el patrimonio, no el uso de una herramienta de consulta. En su lugar, el asistente mantiene una bitácora de actividad propia y separada (quién consultó, qué preguntó, cuándo), con el único propósito de visibilidad de uso y detección de mal uso — sin naturaleza contable ni patrimonial, y sin las garantías de inmutabilidad que el Artículo 8 exige para la auditoría del patrimonio.
+
+**Canal de interacción:** el asistente se diseña como un servicio central, no atado a un único canal. Distintas interfaces pueden consumirlo: chat de texto dentro del Hub, comando de voz (para uso en campo, con las manos ocupadas), y queda abierta la posibilidad de otros canales adicionales en el futuro (ej. WhatsApp). Todos los canales consultan al mismo Asistente de Consulta central, de la misma forma en que distintos módulos emiten eventos hacia el mismo Motor de Flujos Patrimoniales (`04-MOTOR-DE-FLUJOS-PATRIMONIALES.md`).
+
 **Pendiente de modelar:**
-- Definir si las consultas del asistente quedan registradas en el historial de auditoría (Artículo 8) como evento de solo-lectura, o si se consideran fuera del alcance de auditoría por no modificar estado. Requiere decisión explícita antes de implementación (Artículo 29.1).
-- Definir el canal de interacción (chat dentro del Hub, comando de voz, u otro) — no es una decisión de arquitectura patrimonial, pero debe quedar resuelta antes de aprobar el módulo para desarrollo.
+- Formato técnico y ubicación de almacenamiento de la bitácora de actividad (no es una decisión de arquitectura patrimonial, pero requiere definirse antes de implementación).
+- Prioridad de implementación entre los canales (cuál se construye primero).
 
 ## Relación con Otros Documentos
 

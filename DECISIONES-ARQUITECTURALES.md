@@ -789,3 +789,22 @@ Se eligió la tercera opción.
 
 **Consecuencias:**
 El Artículo 26 de la Constitución ya exige que cualquier funcionalidad de IA sea asistiva y nunca decisoria sin acción humana explícita. Un módulo de solo lectura es la única forma de ofrecer una interfaz conversacional a Oliver sin comprometer la integridad ni la trazabilidad del patrimonio (Artículo 3, Artículo 6). El catálogo de módulos pasa de 6 a 7 módulos; `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse reflejando este cambio como MENOR (agrega un módulo nuevo, de solo lectura, sin alterar ni contradecir lo existente).
+
+### [2026-07-23] Resueltos los dos pendientes del Módulo 7 — Asistente de Consulta
+
+**Contexto:**
+El Módulo 7 — Asistente de Consulta quedó aprobado con dos pendientes abiertos: si sus consultas se auditan, y cuál sería su canal de interacción.
+
+**Decisión:**
+(a) Las consultas del asistente no entran al historial de auditoría patrimonial del Artículo 8; llevan una bitácora de actividad propia, separada, sin naturaleza contable.
+(b) El asistente es un servicio central consumible desde múltiples canales: chat de texto en el Hub, comando de voz, y otros canales futuros no descartados.
+
+**Alternativas consideradas:**
+No se presentaron alternativas de fondo distintas a las resoluciones adoptadas: el contenido fue provisto directamente por el usuario para cerrar ambos pendientes.
+
+**Razón:**
+(a) Mezclar el uso de una herramienta de consulta con el historial que reconstruye el patrimonio real generaría ruido en un mecanismo que la Constitución reserva para eventos que modifican estado (Artículo 8). Una bitácora separada da la visibilidad de uso deseada sin comprometer la naturaleza del historial de auditoría.
+(b) El usuario (Oliver) opera tanto en oficina como en campo; limitar el asistente a un solo canal reduciría su utilidad real. Un diseño de servicio central con múltiples interfaces es consistente con el patrón ya usado por el Motor de Flujos Patrimoniales (módulos como puntos de entrada hacia un núcleo común).
+
+**Consecuencias:**
+El Módulo 7 en `08-CATALOGO-DE-MODULOS.md` queda con dos pendientes nuevos y más acotados (formato/ubicación de la bitácora de actividad, y prioridad de implementación entre canales), en lugar de los dos pendientes de fondo originales. `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse reflejando este cambio como MENOR (resuelve pendientes sin alterar ni contradecir lo existente).
