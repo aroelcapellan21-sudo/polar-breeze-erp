@@ -808,3 +808,21 @@ No se presentaron alternativas de fondo distintas a las resoluciones adoptadas: 
 
 **Consecuencias:**
 El Módulo 7 en `08-CATALOGO-DE-MODULOS.md` queda con dos pendientes nuevos y más acotados (formato/ubicación de la bitácora de actividad, y prioridad de implementación entre canales), en lugar de los dos pendientes de fondo originales. `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse reflejando este cambio como MENOR (resuelve pendientes sin alterar ni contradecir lo existente).
+
+### [2026-07-23] Formalizados los metadatos de eventos compensatorios (sin tipos de evento nuevos)
+
+**Contexto:**
+La sección 8 del motor mencionaba "eventos compensatorios" sin especificar si requieren tipos de evento nuevos y dedicados, o si reutilizan el catálogo existente.
+
+**Alternativas consideradas:**
+- Crear un tipo de evento espejo de corrección por cada evento del catálogo (ej. `PagoCorregido`, `DespachoCorregido`).
+- Reutilizar el mismo tipo de evento original, agregando metadatos comunes de referencia y motivo.
+
+**Decisión:**
+Se reutiliza el tipo de evento original. Se agregan tres campos comunes y opcionales a la estructura de cualquier evento: `eventoCorregidoId`, `motivoCorreccion`, `tipoCompensacion`.
+
+**Razón:**
+Evita duplicar el catálogo de eventos completo con una variante de corrección por cada tipo existente, simplifica su mantenimiento a futuro, y es consistente con la estructura mínima de evento ya definida en la sección 3 del motor, que ya contempla campos comunes a todo evento.
+
+**Consecuencias:**
+`04-MOTOR-DE-FLUJOS-PATRIMONIALES.md` (secciones 3 y 8) y `12-GLOSARIO.md` (sección A, "Evento compensatorio") quedan alineados: cualquier evento del catálogo formal puede actuar como compensatorio sin ampliar ese catálogo. `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse reflejando este cambio como MENOR (agrega metadatos y precisa una definición existente, sin alterar ni contradecir lo ya establecido).

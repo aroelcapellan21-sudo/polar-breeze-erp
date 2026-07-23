@@ -38,6 +38,9 @@ Todo evento que llega al motor tiene una estructura mínima obligatoria (consist
 - **Payload de negocio** — los datos específicos del evento (montos, cantidades, clasificaciones, responsables).
 - **Usuario emisor** — quién generó el evento.
 - **Momento de captura** — el instante real en que ocurrió el hecho, que puede ser anterior al instante de sincronización (Artículo 1.3 de la Constitución y sección 3 de `03-ARQUITECTURA-GENERAL.md`).
+- **`eventoCorregidoId`** (opcional) — referencia al evento original que este evento corrige, cuando este evento actúa como compensatorio.
+- **`motivoCorreccion`** (obligatorio cuando `eventoCorregidoId` está presente) — explicación del motivo de la corrección.
+- **`tipoCompensacion`** (opcional) — clasificación de la naturaleza de la corrección (por ejemplo: error de captura, reversión completa, ajuste parcial), para fines de reporte y análisis, sin efecto sobre la validación del motor.
 
 Un evento, una vez aceptado por el motor, es inmutable. No se edita ni se borra (Artículo 5.4 de la Constitución); toda corrección es un evento nuevo (sección 8 de este documento).
 
@@ -89,6 +92,8 @@ Ningún evento ya persistido se edita ni se elimina. Cuando un evento resultó i
 - Referencia explícitamente al evento original que corrige.
 - Declara el motivo de la corrección.
 - Se persiste como un evento nuevo, con su propio usuario y momento.
+
+No se crean tipos de eventos específicos para correcciones. Todo evento del catálogo formal (`12-GLOSARIO.md`, sección C) puede actuar como evento compensatorio mediante los metadatos comunes descritos en la sección 3 (`eventoCorregidoId`, `motivoCorreccion` y, opcionalmente, `tipoCompensacion`). El catálogo de eventos permanece único y estable: no se duplica por cada tipo de evento para dar soporte a su corrección.
 
 El estado resultante después de la corrección es siempre el resultado de aplicar el evento original **y** su compensatorio, en ese orden — nunca el resultado de "como si el original nunca hubiera ocurrido".
 

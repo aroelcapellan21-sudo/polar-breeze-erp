@@ -26,7 +26,7 @@ Contenido:
 
 **Evento** — Hecho de negocio inmutable, con origen, momento, usuario y payload identificables, que el Motor de Flujos Patrimoniales aplica y persiste (Artículo 5 de la Constitución). Ver catálogo formal en la sección C.
 
-**Evento compensatorio** — Un evento nuevo que corrige el efecto de un evento anterior sin editarlo ni eliminarlo, referenciándolo explícitamente (Artículo 5.4 y 14.2 de la Constitución).
+**Evento compensatorio** — Un evento del catálogo formal (sección C) que corrige el efecto de un evento anterior sin editarlo ni eliminarlo, mediante los metadatos `eventoCorregidoId` y `motivoCorreccion` (Artículo 5.4 y 14.2 de la Constitución; `04-MOTOR-DE-FLUJOS-PATRIMONIALES.md`, secciones 3 y 8). No constituye un tipo de evento nuevo: reutiliza el tipo del evento que corrige.
 
 **Flujo de Capital** — Uno de los tres flujos patrimoniales: el movimiento de efectivo y obligaciones financieras (`01-VISION-ERP.md`, sección 6).
 
