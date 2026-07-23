@@ -156,6 +156,39 @@ Las cuatro clasificaciones de `Fondo` (Costo, Venta, Distribución, Mantenimient
 - **"Crear Consignación" (puntos o lotes nuevos)** — sugiere una plantilla o tipo de consignación configurable, distinta de la `Consignacion` transaccional que ya se crea en el Módulo 4.
 - **`Cliente`** no aparece en ninguna parte de la estructura de Oliver, ni en este módulo de creaciones base ni en ningún otro. Su vínculo con `Factura` (ventas a crédito) sigue sin resolverse (`DECISIONES-ARQUITECTURALES.md`, decisión "Agregadas las entidades Cliente, Proveedor y Obligacion").
 
+### Módulo 7 — Asistente de Consulta
+
+**Funcionalidades:**
+- *Consulta en lenguaje natural*: Oliver (u otro rol autorizado) pregunta sobre el estado patrimonial actual o histórico del negocio (ej. "¿qué tenemos en el banco?", "¿cómo está el saldo del cuarto frío?", "¿cuánto le debemos al proveedor X?") y recibe una respuesta basada exclusivamente en las proyecciones y el historial de eventos ya calculados por el Motor de Flujos Patrimoniales (`04-MOTOR-DE-FLUJOS-PATRIMONIALES.md`).
+- *Explicación de origen*: para cualquier saldo o cifra reportada, el asistente puede mostrar la cadena de eventos que llevó a ese estado (consistente con el Artículo 7.2 de la Constitución).
+- *Sugerencias asistivas*: el asistente puede sugerir clasificaciones, señalar anomalías o proponer acciones, pero nunca las ejecuta por sí mismo.
+
+**Naturaleza del módulo:**
+
+Este módulo es de solo lectura sobre el estado patrimonial. No emite eventos que modifiquen capital, mercancía o información. Es una capa de interpretación y lenguaje natural sobre las proyecciones que ya existen — nunca una fuente de verdad paralela (Artículo 3.2 de la Constitución).
+
+Su relación con el Motor de Flujos Patrimoniales es unidireccional: el motor calcula el estado; el asistente lo lee y lo explica. El asistente no valida eventos, no los aplica, y no tiene autoridad para alterar ninguna proyección ni el historial inmutable.
+
+**Alcance multiempresa:** toda consulta se resuelve exclusivamente dentro de la `empresaId` (y `sucursalId`, cuando aplica) del usuario que pregunta, evaluado por el Motor de Permisos (Artículo 13 de la Constitución). El asistente nunca infiere ni expone datos de una empresa distinta a la del usuario, ni siquiera con fines de análisis (Artículo 26.3).
+
+**Eventos que emite:** ninguno. Este módulo no participa en la escritura de estado patrimonial (Artículo 6, Artículo 26.4).
+
+**Eventos de otros módulos que le afectan:** consume las proyecciones resultantes de todos los eventos de los Módulos 1 al 6, vía el Motor de Flujos Patrimoniales — no accede a ningún módulo directamente ni mantiene copia propia del estado (Artículo 4.1).
+
+**Catálogos maestros que crea:** ninguno.
+
+**Catálogos maestros que consume:** todos los necesarios para resolver una consulta (`Producto`, `Cuenta`, `CuentaBancaria`, `Fondo`, `Vendedor`, `Cliente`, `Proveedor`, etc.), siempre en modo lectura.
+
+**Reglas de gobernanza aplicables (Artículo 26 de la Constitución):**
+- **26.1** — Este módulo, como cualquier funcionalidad de IA del sistema, está sujeto a las mismas reglas de la Constitución que un desarrollador humano.
+- **26.3** — No infiere ni expone datos entre empresas distintas.
+- **26.4** — Toda sugerencia es asistiva: no puede aprobar, cerrar ni hacer inmutable ningún documento sin acción humana explícita.
+- **30.5** — Toda respuesta o sugerencia que involucre una decisión automática deja huella de la regla o modelo que la originó.
+
+**Pendiente de modelar:**
+- Definir si las consultas del asistente quedan registradas en el historial de auditoría (Artículo 8) como evento de solo-lectura, o si se consideran fuera del alcance de auditoría por no modificar estado. Requiere decisión explícita antes de implementación (Artículo 29.1).
+- Definir el canal de interacción (chat dentro del Hub, comando de voz, u otro) — no es una decisión de arquitectura patrimonial, pero debe quedar resuelta antes de aprobar el módulo para desarrollo.
+
 ## Relación con Otros Documentos
 
 - `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md` — la fuente de verdad de la que se deriva esta reconciliación.

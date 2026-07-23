@@ -771,3 +771,21 @@ No formalizarlo nunca en la Constitución, dejándolo solo como proceso descrito
 - `02-CONSTITUCION-ERP.md` mismo queda como el primer caso real de re-aprobación individual por cambio MAYOR bajo este mecanismo.
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.43, MAYOR: agrega una regla constitucional nueva) y una fila nueva en el Registro de Aprobaciones para `02-CONSTITUCION-ERP.md`.
 - `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse con una nueva entrada (v0.40, MAYOR: reestructura `Cuenta` — quita su restricción de cardinalidad — y cambia el tipo de campo de `BajaInventario.tipo` de Enumeración a Referencia).
+
+### [2026-07-23] Agregado el Módulo 7 — Asistente de Consulta al catálogo de módulos
+
+**Contexto:**
+El catálogo de módulos no contemplaba una capa de consulta conversacional de solo lectura sobre el estado patrimonial calculado por el Motor de Flujos Patrimoniales.
+
+**Decisión:**
+Se agrega el Módulo 7 — Asistente de Consulta, estrictamente de solo lectura, sin capacidad de emitir eventos ni alterar el estado patrimonial. Permite consultas en lenguaje natural sobre el estado patrimonial actual o histórico (basadas exclusivamente en las proyecciones y el historial de eventos del Motor de Flujos Patrimoniales), explicación de origen de cualquier saldo o cifra, y sugerencias asistivas que nunca se ejecutan por sí solas. Su alcance multiempresa, gobernanza (Artículo 26) y relación unidireccional con el motor quedan declaradas siguiendo la misma estructura de cinco bloques exigida por el Artículo 29.2 para los seis módulos anteriores. Quedan señalados, sin resolver, dos pendientes: si sus consultas se registran en el historial de auditoría (Artículo 8), y el canal de interacción concreto.
+
+**Alternativas consideradas:**
+- No agregar ningún módulo de consulta conversacional.
+- Agregar un agente que también pueda ejecutar movimientos por su cuenta.
+- Agregar un módulo estrictamente de solo lectura, gobernado por el Artículo 26 ya existente en la Constitución.
+
+Se eligió la tercera opción.
+
+**Consecuencias:**
+El Artículo 26 de la Constitución ya exige que cualquier funcionalidad de IA sea asistiva y nunca decisoria sin acción humana explícita. Un módulo de solo lectura es la única forma de ofrecer una interfaz conversacional a Oliver sin comprometer la integridad ni la trazabilidad del patrimonio (Artículo 3, Artículo 6). El catálogo de módulos pasa de 6 a 7 módulos; `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse reflejando este cambio como MENOR (agrega un módulo nuevo, de solo lectura, sin alterar ni contradecir lo existente).
