@@ -86,7 +86,15 @@ El orden de implementación no es arbitrario: refleja las dependencias reales en
 
 **Criterio de salida:** es posible despachar mercancía, registrar novedades de despacho, procesar solicitudes de retiro con su justificación obligatoria (Artículo 21.3), emitir una factura de venta inmutable que genera su contrapartida de capital e inventario en una sola unidad atómica, corregirla con una nota de crédito sin editar el original, y todo reporte y arqueo se genera desde la fuente de verdad o una proyección declarada, respetando el aislamiento por `empresaId`.
 
-## 9. Fase 7 — Validación Multiempresa Real
+## 9. Fase 7 — Módulo 7: Asistente de Consulta
+
+**Objetivo:** implementar el Módulo 7 — Asistente de Consulta (`08-CATALOGO-DE-MODULOS.md`) como capa de solo lectura sobre las proyecciones ya calculadas por el Motor de Flujos Patrimoniales.
+
+**Dependencia:** Fase 6 completa — el asistente requiere que los módulos de negocio estén operando y generando datos reales que consultar; no tiene sentido construirlo antes.
+
+**Criterio de salida:** es posible hacer una consulta en lenguaje natural sobre el estado patrimonial actual o histórico (por ejemplo, saldo de una cuenta o el origen de una cifra) a través de al menos un canal (chat dentro del Hub), obteniendo una respuesta basada exclusivamente en las proyecciones del Motor de Flujos Patrimoniales, sin que el asistente emita ningún evento ni altere ninguna proyección; la consulta queda registrada en la bitácora de actividad propia del asistente, separada del historial de auditoría patrimonial (Artículo 8 de la Constitución).
+
+## 10. Fase 8 — Validación Multiempresa Real
 
 **Objetivo:** incorporar una **segunda empresa** al ecosistema (no Polar Breeze) operando sobre la misma plataforma, como prueba de que el aislamiento multiempresa (Artículo 2 de la Constitución) funciona en la práctica y no solo en el diseño.
 
@@ -94,31 +102,31 @@ El orden de implementación no es arbitrario: refleja las dependencias reales en
 
 **Criterio de salida:** la segunda empresa opera sin ver, inferir ni afectar datos de Polar Breeze, sin haber requerido cambios estructurales al modelo de datos ni al motor (Artículo 28.1 de la Constitución) — solo parametrización.
 
-## 10. Fase 8 — Crecimiento Continuo
+## 11. Fase 9 — Crecimiento Continuo
 
 **Objetivo:** incorporar módulos nuevos, integraciones externas (Artículo 27 de la Constitución) y funcionalidades de IA asistiva (Artículo 26), siempre siguiendo el mismo ciclo de gobernanza: documentación aprobada antes de desarrollo (Artículo 29).
 
 **Dependencia:** continua, sin fin definido — esta fase no "se completa", se mantiene mientras el ERP exista.
 
-## 11. Gobernanza del Plan
+## 12. Gobernanza del Plan
 
 - Ninguna fase se inicia sin que la documentación de los módulos que involucra esté aprobada (Artículo 29.1 de la Constitución).
 - Todo cambio al orden de fases aquí descrito, o a sus criterios de salida, se registra como decisión en `DECISIONES-ARQUITECTURALES.md` antes de aplicarse.
 - El estado de avance de cada fase (no las fechas) puede reflejarse en `13-HISTORIAL-DE-VERSIONES.md` a medida que se completen.
 
-## 12. Riesgos Conocidos
+## 13. Riesgos Conocidos
 
 - **Reglas contables no validadas** (bloqueante de las Fases 2 y 3): si se implementan el Módulo 1 (clasificación de Fondos) o el Módulo 2 (reglas de Cuentas por Pagar) sin validación financiera formal, el trabajo puede requerir rehacerse. La cardinalidad del plan de cuentas ya no es parte de este riesgo desde v0.40 (`Cuenta` es un catálogo abierto).
 - **Omisión de offline-first en fases tempranas**: si la Fase 0 no prueba de extremo a extremo la sincronización offline, los módulos posteriores heredarán esa deuda técnica de forma silenciosa.
-- **Introducción prematura de una segunda empresa real** antes de la Fase 7: usar el ecosistema multiempresa como prueba de concepto antes de que los módulos base estén estables incrementa el riesgo de detectar tarde una fuga de aislamiento entre empresas.
+- **Introducción prematura de una segunda empresa real** antes de la Fase 8: usar el ecosistema multiempresa como prueba de concepto antes de que los módulos base estén estables incrementa el riesgo de detectar tarde una fuga de aislamiento entre empresas.
 
-## 13. Relación con Otros Documentos
+## 14. Relación con Otros Documentos
 
 - `02-CONSTITUCION-ERP.md` — las reglas que cada fase debe cumplir para considerarse completa.
 - `04-MOTOR-DE-FLUJOS-PATRIMONIALES.md` y `05-MODELO-DE-DATOS-MAESTRO.md` — lo que se construye en la Fase 0 y Fase 1.
 - `06-REGLAS-CONTABLES-Y-FINANCIERAS.md` — el bloqueante de las Fases 2 y 3.
 - `07-FLUJOS-DE-NEGOCIO.md` — los flujos F1-F13 que cada fase de módulo implementa.
-- `08-CATALOGO-DE-MODULOS.md` — el catálogo de 6 módulos que las Fases 2 a 6 construyen (el Módulo 6 se cubre en la Fase 1, ver sección 3).
+- `08-CATALOGO-DE-MODULOS.md` — el catálogo de 7 módulos que las Fases 2 a 7 construyen (el Módulo 6 se cubre en la Fase 1, ver sección 3; el Módulo 7 — Asistente de Consulta se construye en la Fase 7, ver sección 9).
 - `docs/anexos/02-ESTRUCTURA-OLIVER-FLUJOS-REALES.md` — la fuente de verdad de módulos con la que se reconciliaron estas fases.
 - `13-HISTORIAL-DE-VERSIONES.md` — donde se registra el avance real de estas fases.
 

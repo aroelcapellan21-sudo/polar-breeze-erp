@@ -826,3 +826,17 @@ Evita duplicar el catálogo de eventos completo con una variante de corrección 
 
 **Consecuencias:**
 `04-MOTOR-DE-FLUJOS-PATRIMONIALES.md` (secciones 3 y 8) y `12-GLOSARIO.md` (sección A, "Evento compensatorio") quedan alineados: cualquier evento del catálogo formal puede actuar como compensatorio sin ampliar ese catálogo. `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse reflejando este cambio como MENOR (agrega metadatos y precisa una definición existente, sin alterar ni contradecir lo ya establecido).
+
+### [2026-07-23] Agregada la Fase 7 del Plan Maestro para el Módulo 7 — Asistente de Consulta
+
+**Contexto:**
+El Módulo 7 — Asistente de Consulta se aprobó después del baseline v0.41 del plan maestro de implementación, por lo que quedó sin fase de implementación asignada.
+
+**Decisión:**
+Se agrega la Fase 7 — Módulo 7: Asistente de Consulta, dependiente de que la Fase 6 esté completa, y se renumeran las fases posteriores (Validación Multiempresa Real pasa a Fase 8, Crecimiento Continuo a Fase 9). Se ajusta en consecuencia la numeración secuencial de todos los encabezados de sección del documento (Gobernanza del Plan, Riesgos Conocidos, Relación con Otros Documentos), y se corrige la referencia "antes de la Fase 7" de la sección Riesgos Conocidos a "antes de la Fase 8", para que siga apuntando a Validación Multiempresa Real y no al nuevo Módulo 7. Se actualiza también, en Relación con Otros Documentos, la referencia al catálogo de módulos: de 6 a 7 módulos, señalando que el Módulo 7 se construye en la nueva Fase 7.
+
+**Razón:**
+El asistente es una capa de consulta sobre datos ya generados por los módulos de negocio; construirlo antes de que existan esos datos no tendría objeto. Ubicarlo después de la Fase 6 y antes de la validación multiempresa asegura que se pruebe con datos reales de la primera empresa antes de extenderse a un ecosistema multiempresa. La corrección de la referencia a "Fase 7" en Riesgos Conocidos no fue parte del pedido original, pero se detectó como una inconsistencia directa de la renumeración solicitada y se confirmó con el usuario antes de aplicarla.
+
+**Consecuencias:**
+`10-PLAN-MAESTRO-DE-IMPLEMENTACION.md` pasa de 8 a 9 fases, con el catálogo de módulos (`08-CATALOGO-DE-MODULOS.md`) ahora completamente cubierto por fases de implementación (Módulos 1-5 y 7 en fases dedicadas, Módulo 6 en la Fase 1). `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse reflejando este cambio como MENOR (agrega una fase y renumera las siguientes, sin alterar dependencias ni criterios de salida ya existentes).
