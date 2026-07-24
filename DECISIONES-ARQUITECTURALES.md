@@ -840,3 +840,17 @@ El asistente es una capa de consulta sobre datos ya generados por los módulos d
 
 **Consecuencias:**
 `10-PLAN-MAESTRO-DE-IMPLEMENTACION.md` pasa de 8 a 9 fases, con el catálogo de módulos (`08-CATALOGO-DE-MODULOS.md`) ahora completamente cubierto por fases de implementación (Módulos 1-5 y 7 en fases dedicadas, Módulo 6 en la Fase 1). `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse reflejando este cambio como MENOR (agrega una fase y renumera las siguientes, sin alterar dependencias ni criterios de salida ya existentes).
+
+### [2026-07-23] Agregado el anexo 03 — Ejemplos Completos del Motor de Flujos Patrimoniales
+
+**Contexto:**
+El Motor de Flujos Patrimoniales carecía de ejemplos completos de principio a fin que ilustraran la aplicación práctica de su catálogo de eventos.
+
+**Decisión:**
+Se agrega el anexo `03-EJEMPLOS-MOTOR-DE-FLUJOS.md` con tres casos completos (compra a proveedor, consignación con liquidación, corrección de evento), usando exclusivamente eventos ya existentes en el catálogo formal. Se enlaza el nuevo anexo desde `docs/anexos/README.md`, siguiendo el mismo patrón de los anexos 01 y 02.
+
+**Razón:**
+Escribir ejemplos concretos permitió detectar y confirmar el uso correcto de `ObligacionRegistrada` (exclusivo de Cuentas por Pagar, nunca crédito a clientes) y validar en la práctica el mecanismo de eventos compensatorios formalizado en v0.47, sin necesitar ninguna regla nueva.
+
+**Consecuencias:**
+Los 22 eventos usados en los tres ejemplos se verificaron uno por uno contra el catálogo formal de `12-GLOSARIO.md`, sección C, sin encontrarse ningún nombre inventado; el único evento mencionado sin existir todavía en el catálogo (`CreditoEmpleadoRegistrado`) queda marcado explícitamente como propuesto y no incorporado. `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse reflejando este cambio como MENOR (agrega contenido ilustrativo nuevo sin alterar ninguna regla existente).
