@@ -2,7 +2,7 @@
 
 Estado:
 
-> Listo para revisión final — usa exclusivamente eventos del catálogo formal vigente (`12-GLOSARIO.md`, sección C, 22 eventos)
+> Listo para revisión final — usa exclusivamente eventos del catálogo formal vigente definido en `12-GLOSARIO.md`, sección C.
 
 Objetivo:
 
@@ -65,7 +65,7 @@ Contenido:
 ## Relación con Otros Documentos
 
 - `04-MOTOR-DE-FLUJOS-PATRIMONIALES.md` — las reglas que estos ejemplos ilustran.
-- `12-GLOSARIO.md`, sección C — el catálogo formal de 22 eventos usado aquí, sin ninguno inventado.
+- `12-GLOSARIO.md`, sección C — el catálogo formal de eventos usado aquí, sin ninguno inventado.
 - `07-FLUJOS-DE-NEGOCIO.md` — F2, F5, F7, F9 y F10, los flujos de origen de cada evento usado.
 
 Observaciones:
