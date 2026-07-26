@@ -854,3 +854,14 @@ Escribir ejemplos concretos permitió detectar y confirmar el uso correcto de `O
 
 **Consecuencias:**
 Los 22 eventos usados en los tres ejemplos se verificaron uno por uno contra el catálogo formal de `12-GLOSARIO.md`, sección C, sin encontrarse ningún nombre inventado; el único evento mencionado sin existir todavía en el catálogo (`CreditoEmpleadoRegistrado`) queda marcado explícitamente como propuesto y no incorporado. `13-HISTORIAL-DE-VERSIONES.md` debe actualizarse reflejando este cambio como MENOR (agrega contenido ilustrativo nuevo sin alterar ninguna regla existente).
+
+### [2026-07-25] Agregado el estándar transversal de presentación resumen/detalle con snapshots trazables
+
+**Contexto:**
+El ERP carecía de un estándar transversal sobre cómo presentar información al usuario de forma consistente entre todos los módulos.
+
+**Decisión:**
+Se adopta el patrón "resumen por defecto con expansión opcional" para toda presentación de información en el sistema, con snapshots trazables permitidos como optimización de lectura para historiales largos.
+
+**Razón:**
+Da consistencia visual y de experiencia en todos los módulos, evita pantallas sobrecargadas de información por defecto, y mantiene la integridad del historial de eventos como fuente de verdad incluso cuando se usan cálculos pre-guardados por rendimiento.
